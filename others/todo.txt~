@@ -1,0 +1,63 @@
+o restrict number of roads/city/...
+o count longest road
+
+o harbor/internal trade 
+o cards
+
+
+x first placement -> forbid next far from second colony
+  -> pass a constraint class for placement (with decorator)
+
+
+
+
+-- model
+o currently, the ressources and tokens are fixed by DelaunayBoard 
+but it should be done by the model 
+
+-- view
+o clean viewer (create new class with basic geometric method and 
+another with advanced one such as drawColony)
+
+
+-- tests --
+
+x test -delaunay-
+x test -delaunay board tiles-
+x test -model- is build possible, make building, harvest
+
+-- bugs --- 
+o bug polygons ressources
+x register DelTriangle mets les points sur les DelVertices
+
+
+-- ressources
+x choose between datastructure and object
+
+
+
+
+-- grid --
+x 1 do a normalised grid
+
+
+-- UI --
+
+x first placement -> forbid next far from second colony
+x first placement -> do first harvest with second colony
+
+=== BIG STEPS ===
+
+x add UI
+
+x ask first choice 
+
+x do main loop
+  . ask choices
+  . check conditions
+
+
+  
+  
+=== Remarks ===
+x  select vertex/edge/triangle seems to work

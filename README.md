@@ -1,4 +1,6 @@
 voronoiSettlers
 ===============
 
-Implementation of the settlers board game
+Implementation of the settlers board game.
+
+

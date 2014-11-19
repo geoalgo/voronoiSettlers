@@ -1,0 +1,59 @@
+o sea tiles
+
+o cards :
+- free road
+- random cards
+
+o restrict number of roads/city/...
+
+o count longest road
+
+o view : size of building colony, city does not change when resize
+-> fixed size
+
+x bug when play knight and click elsewhere, windows does not close and knight can then be played at another time
+
+x cards
+-> finish buy cards
+-> do ui do spend card with choice
+-> test cards
+
+
+x bug polygons ressources
+
+x first placement -> forbid next far from second colony
+  -> pass a constraint class for placement (with decorator)
+
+x harbor/internal trade 
+x harbor done
+x do exchange when click button
+x add button internal/external trade and according states
+
+x steal -> auto select if only 0 or 1 player
+-> bug for looseRessources
+
+
+
+-- model
+o currently, the ressources and tokens are fixed by DelaunayBoard 
+but it should be done by the model 
+
+-- view
+o clean viewer (create new class with basic geometric method and 
+another with advanced one such as drawColony)
+
+
+x test -delaunay-
+x test -delaunay board tiles-
+x test -model- is build possible, make building, harvest
+
+x register DelTriangle mets les points sur les DelVertices
+x choose between datastructure and object
+
+x 1 do a normalised grid
+x first placement -> forbid next far from second colony
+x first placement -> do first harvest with second colony
+x add UI
+x ask first choice 
+x do main loop
+x  select vertex/edge/triangle seems to work
