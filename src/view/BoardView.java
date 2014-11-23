@@ -124,8 +124,8 @@ public class BoardView extends JPanel{
 	 */
 	private void draw (Pnt point) {
 		int r = pointRadius;
-		int x = (int) point.coord(0);
-		int y = (int) point.coord(1);
+		int x = (int) point.getX();
+		int y = (int) point.getY();
 		g.fillOval(x-r, y-r, r+r, r+r);
 	}
 
@@ -136,8 +136,8 @@ public class BoardView extends JPanel{
 	 * @param fillColor null implies no fill
 	 */
 	private void draw (Pnt center, double radius, Color fillColor) {
-		int x = (int) center.coord(0);
-		int y = (int) center.coord(1);
+		int x = (int) center.getX();
+		int y = (int) center.getY();
 		int r = (int) radius;
 		if (fillColor != null) {
 			Color temp = g.getColor();
@@ -166,7 +166,7 @@ public class BoardView extends JPanel{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(fillColor);
 		g2.setStroke(new BasicStroke((int)radius));
-		g2.draw(new Line2D.Float((int)edge1.coord(0),(int)edge1.coord(1),(int)edge2.coord(0),(int)edge2.coord(1)));
+		g2.draw(new Line2D.Float((int)edge1.getX(),(int)edge1.getY(),(int)edge2.getX(),(int)edge2.getY()));
 	}
 
 
@@ -179,8 +179,8 @@ public class BoardView extends JPanel{
 		int[] x = new int[polygon.length];
 		int[] y = new int[polygon.length];
 		for (int i = 0; i < polygon.length; i++) {
-			x[i] = (int) polygon[i].coord(0);
-			y[i] = (int) polygon[i].coord(1);
+			x[i] = (int) polygon[i].getX();
+			y[i] = (int) polygon[i].getY();
 		}
 		if (fillColor != null) {
 			Color temp = g.getColor();
@@ -245,15 +245,15 @@ public class BoardView extends JPanel{
 
 			g.drawString(
 					res,
-					(int)centerTile.coord(0)-5,
-					(int)centerTile.coord(1)+5
+					(int)centerTile.getX()-5,
+					(int)centerTile.getY()+5
 					);
 		}
 	}
 
 	private void drawColony(Pnt pnt,double size,Color color){
-		double x = pnt.coord(0);
-		double y = pnt.coord(1);
+		double x = pnt.getX();
+		double y = pnt.getY();
 		double roofElevation=1.85;
 		Pnt[] ar = {
 				new Pnt(x+size,y+size),
@@ -266,8 +266,8 @@ public class BoardView extends JPanel{
 	}
 
 	private void drawThief(Pnt pnt,double size){
-		double x = pnt.coord(0);
-		double y = pnt.coord(1);
+		double x = pnt.getX();
+		double y = pnt.getY();
 		Pnt[] ar = {
 				new Pnt(x-size/3,y+size/2),
 				new Pnt(x+size/3,y+size/2),
@@ -283,8 +283,8 @@ public class BoardView extends JPanel{
 
 
 	private void drawCity(Pnt pnt,double size,Color color){
-		double x = pnt.coord(0);
-		double y = pnt.coord(1);
+		double x = pnt.getX();
+		double y = pnt.getY();
 		double roofElevation=1.8;
 		double buildingTowerHeight = 1.5 ;
 		Pnt[] ar = {
@@ -331,13 +331,13 @@ public class BoardView extends JPanel{
 			int offset = 15;
 			
 			g.setColor(Color.white);
-			g.drawRect((int)(middle.coord(0)-offset),
-					(int)(middle.coord(1)-offset/2),
+			g.drawRect((int)(middle.getX()-offset),
+					(int)(middle.getY()-offset/2),
 					40, 10);
 			g.setColor(Color.black);
 			g.drawString(edge.harbor().toString(),
-					(int)middle.coord(0)-15,
-					(int)middle.coord(1)
+					(int)middle.getX()-15,
+					(int)middle.getY()
 					);
 		}
 	}

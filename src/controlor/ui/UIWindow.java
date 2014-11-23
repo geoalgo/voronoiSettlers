@@ -169,7 +169,6 @@ public class UIWindow implements UIControlor {
 	@Override
 	public void selectCard(Card c){
 		appendParentWindowMsg(gc.currentPlayer().getName()+" plays a "+c);
-		CardState cardState = CardState.makeCardState(gc, gc.getSet(), c);
 		gc.currentPlayer().removeCard(0);
 		gc.reputCard(c);
 	}

@@ -37,9 +37,9 @@ public class Vect implements Comparable<Vect>{
 	public double angle(){
 		if(vect.norm()==0) 
 			return -1;
-		double dot = vect.coord(0) / vect.norm();
+		double dot = vect.getX() / vect.norm();
 		double theta  = Math.acos(dot);
-		if(vect.coord(1)<0)
+		if(vect.getY()<0)
 			theta*=-1;
 		return theta;
 	}

@@ -59,7 +59,7 @@ public class Pnt  implements Comparable<Pnt> {
 		// constructor with double[] as its argument.
 		coordinates = new double[other.dimension()];
 		for(int i = 0 ; i< other.dimension(); ++i){
-			coordinates[i] = other.coord(i);
+			coordinates[i] = other.coordinates[i];
 		}
 	}
 
@@ -88,7 +88,7 @@ public class Pnt  implements Comparable<Pnt> {
 	public Pnt middle(Pnt other) {
 		Pnt res = new Pnt(this);
 		for(int i = 0 ; i< other.dimension(); ++i){
-			res.coordinates[i] += other.coord(i);
+			res.coordinates[i] += other.coordinates[i];
 			res.coordinates[i]/=2;
 		}
 		return res;
@@ -106,12 +106,12 @@ public class Pnt  implements Comparable<Pnt> {
 
 	/* Pnts as vectors */
 
-	/**
-	 * @return the specified coordinate of this Pnt
-	 * @throws ArrayIndexOutOfBoundsException for bad coordinate
-	 */
-	public double coord (int i) {
-		return this.coordinates[i];
+	public double getX(){
+		return this.coordinates[0];
+	}
+	
+	public double getY(){
+		return this.coordinates[1];
 	}
 	
 	/**
@@ -225,12 +225,12 @@ public class Pnt  implements Comparable<Pnt> {
 	public Pnt cross(Pnt p) {
 		int len = dimCheck(p);
 		if (len!=3) return new Pnt(-1,-1,-1);
-		double u1 = this.coord(0);
-		double u2 = this.coord(1);
-		double u3 = this.coord(2);
-		double v1 = p.coord(0);
-		double v2 = p.coord(1);
-		double v3 = p.coord(2);
+		double u1 = this.coordinates[0];
+		double u2 = this.coordinates[1];
+		double u3 = this.coordinates[2];
+		double v1 = p.coordinates[0];
+		double v2 = p.coordinates[1];
+		double v3 = p.coordinates[2];
 		return new Pnt( u2*v3 - u3*v2   ,
 				u3*v1 - u1*v3,
 				u1*v2 - u2*v1
@@ -247,7 +247,7 @@ public class Pnt  implements Comparable<Pnt> {
 	public boolean clockwise(Pnt a,Pnt b){
 		Pnt u = a.subtract(this);
 		Pnt v = b.subtract(this);
-		return u.cross(v).coord(2) >=0;
+		return u.cross(v).coordinates[2] >=0;
 	}
 	
 	/**
@@ -287,12 +287,12 @@ public class Pnt  implements Comparable<Pnt> {
 	public Pnt scale(double lambda){
 		double[] coords = new double[this.dimension()];
 		for (int i = 0; i < this.dimension(); i++)
-			coords[i]= this.coord(i)*lambda;
+			coords[i]= this.coordinates[i]*lambda;
 		return new Pnt(coords);
 	}
 
 	public void scale(int index,double lambda){
-		setCoord(index, coord(index) * lambda);
+		setCoord(index, coordinates[index] * lambda);
 	}
 
 	
@@ -425,133 +425,12 @@ public class Pnt  implements Comparable<Pnt> {
 	}
 
 	/**
-	 * Relation between this Pnt and a simplex (represented as an array of
-	 * Pnts). Result is an array of signs, one for each vertex of the simplex,
-	 * indicating the relation between the vertex, the vertex's opposite facet,
-	 * and this Pnt.
-	 *
-	 * <pre>
-	 *   -1 means Pnt is on same side of facet
-	 *    0 means Pnt is on the facet
-	 *   +1 means Pnt is on opposite side of facet
-	 * </pre>
-	 *
-	 * @param simplex an array of Pnts representing a simplex
-	 * @return an array of signs showing relation between this Pnt and simplex
-	 * @throws IllegalArgumentExcpetion if the simplex is degenerate
-	 */
-	public int[] relation (Pnt[] simplex) {
-		/* In 2D, we compute the cross of this matrix:
-		 *    1   1   1   1
-		 *    p0  a0  b0  c0
-		 *    p1  a1  b1  c1
-		 * where (a, b, c) is the simplex and p is this Pnt. The result is a
-		 * vector in which the first coordinate is the signed area (all signed
-		 * areas are off by the same constant factor) of the simplex and the
-		 * remaining coordinates are the *negated* signed areas for the
-		 * simplices in which p is substituted for each of the vertices.
-		 * Analogous results occur in higher dimensions.
-		 */
-		int dim = simplex.length - 1;
-		if (this.dimension() != dim)
-			throw new IllegalArgumentException("Dimension mismatch");
-
-		/* Create and load the matrix */
-		Pnt[] matrix = new Pnt[dim+1];
-		/* First row */
-		double[] coords = new double[dim+2];
-		for (int j = 0; j < coords.length; j++) coords[j] = 1;
-		matrix[0] = new Pnt(coords);
-		/* Other rows */
-		for (int i = 0; i < dim; i++) {
-			coords[0] = this.coordinates[i];
-			for (int j = 0; j < simplex.length; j++)
-				coords[j+1] = simplex[j].coordinates[i];
-			matrix[i+1] = new Pnt(coords);
-		}
-
-		/* Compute and analyze the vector of areas/volumes/contents */
-		Pnt vector = cross(matrix);
-		double content = vector.coordinates[0];
-		int[] result = new int[dim+1];
-		for (int i = 0; i < result.length; i++) {
-			double value = vector.coordinates[i+1];
-			if (Math.abs(value) <= 1.0e-6 * Math.abs(content)) result[i] = 0;
-			else if (value < 0) result[i] = -1;
-			else result[i] = 1;
-		}
-		if (content < 0) {
-			for (int i = 0; i < result.length; i++)
-				result[i] = -result[i];
-		}
-		if (content == 0) {
-			for (int i = 0; i < result.length; i++)
-				result[i] = Math.abs(result[i]);
-		}
-		return result;
-	}
-
-	/**
-	 * Test if this Pnt is outside of simplex.
-	 * @param simplex the simplex (an array of Pnts)
-	 * @return simplex Pnt that "witnesses" outsideness (or null if not outside)
-	 */
-	public Pnt isOutside (Pnt[] simplex) {
-		int[] result = this.relation(simplex);
-		for (int i = 0; i < result.length; i++) {
-			if (result[i] > 0) return simplex[i];
-		}
-		return null;
-	}
-
-	/**
-	 * Test if this Pnt is on a simplex.
-	 * @param simplex the simplex (an array of Pnts)
-	 * @return the simplex Pnt that "witnesses" on-ness (or null if not on)
-	 */
-	public Pnt isOn (Pnt[] simplex) {
-		int[] result = this.relation(simplex);
-		Pnt witness = null;
-		for (int i = 0; i < result.length; i++) {
-			if (result[i] == 0) witness = simplex[i];
-			else if (result[i] > 0) return null;
-		}
-		return witness;
-	}
-
-	/**
-	 * Test if this Pnt is inside a simplex.
-	 * @param simplex the simplex (an arary of Pnts)
-	 * @return true iff this Pnt is inside simplex.
-	 */
-	public boolean isInside (Pnt[] simplex) {
-		int[] result = this.relation(simplex);
-		for (int r: result) if (r >= 0) return false;
-		return true;
-	}
-
-	/**
-	 * Test relation between this Pnt and circumcircle of a simplex.
-	 * @param simplex the simplex (as an array of Pnts)
-	 * @return -1, 0, or +1 for inside, on, or outside of circumcircle
-	 */
-	public int vsCircumcircle (Pnt[] simplex) {
-		Pnt[] matrix = new Pnt[simplex.length + 1];
-		for (int i = 0; i < simplex.length; i++)
-			matrix[i] = simplex[i].extend(1, simplex[i].dot(simplex[i]));
-		matrix[simplex.length] = this.extend(1, this.dot(this));
-		double d = determinant(matrix);
-		int result = (d < 0)? -1 : ((d > 0)? +1 : 0);
-		if (content(simplex) < 0) result = - result;
-		return result;
-	}
-
-	/**
 	 * Circumcenter of a simplex.
 	 * @param simplex the simplex (as an array of Pnts)
 	 * @return the circumcenter (a Pnt) of simplex
 	 */
 	public static Pnt circumcenter (Pnt[] simplex) {
+		//todo rewrite
 		int dim = simplex[0].dimension();
 		if (simplex.length - 1 != dim)
 			throw new IllegalArgumentException("Dimension mismatch");
@@ -578,55 +457,6 @@ public class Pnt  implements Comparable<Pnt> {
 		return res.scale(1/(double)points.size());
 	}
 
-	/**
-	 * Main program (used for testing).
-	 */
-	public static void main (String[] args) {
-		Pnt p = new Pnt(1, 2, 3);
-		System.out.println("Pnt created: " + p);
-		Pnt[] matrix1 = {new Pnt(1,2), new Pnt(3,4)};
-		Pnt[] matrix2 = {new Pnt(7,0,5), new Pnt(2,4,6), new Pnt(3,8,1)};
-		System.out.print("Results should be -2 and -288: ");
-		System.out.println(determinant(matrix1) + " " + determinant(matrix2));
-		Pnt p1 = new Pnt(1,1); Pnt p2 = new Pnt(-1,1);
-		System.out.println("Angle between " + p1 + " and " +
-				p2 + ": " + p1.angle(p2));
-		System.out.println(p1 + " subtract " + p2 + ": " + p1.subtract(p2));
-		Pnt v0 = new Pnt(0,0), v1 = new Pnt(1,1), v2 = new Pnt(2,2);
-		Pnt[] vs = {v0, new Pnt(0,1), new Pnt(1,0)};
-		Pnt vp = new Pnt(.1, .1);
-		System.out.println(vp + " isInside " + toString(vs) +
-				": " + vp.isInside(vs));
-		System.out.println(v1 + " isInside " + toString(vs) +
-				": " + v1.isInside(vs));
-		System.out.println(vp + " vsCircumcircle " + toString(vs) + ": " +
-				vp.vsCircumcircle(vs));
-		System.out.println(v1 + " vsCircumcircle " + toString(vs) + ": " +
-				v1.vsCircumcircle(vs));
-		System.out.println(v2 + " vsCircumcircle " + toString(vs) + ": " +
-				v2.vsCircumcircle(vs));
-		System.out.println("Circumcenter of " + toString(vs) + " is " +
-				circumcenter(vs));
-
-		Pnt request = new Pnt(1.5,0);
-		Pnt a = new Pnt(0,0);
-		Pnt b = new Pnt(2,1);
-		System.out.println("request.dist(a,b):"+request.dist(a,b));
-
-
-		Pnt request2 = new Pnt(0,0);
-		Pnt a2 = new Pnt(1,0);
-		Pnt b2 = new Pnt(0,1);
-		System.out.println("request2.dist(a2,b2):"+request2.dist(a2,b2));
-	
-	
-		List<Pnt> points= new LinkedList<>();
-		a = new Pnt(2.0,4.0);
-		b = new Pnt(1.0,0.0);
-		points.add(a);
-		points.add(b);
-		System.out.println("bary:"+Pnt.barycenter(points));
-	}
 
 
 	/**
@@ -635,10 +465,10 @@ public class Pnt  implements Comparable<Pnt> {
 	@Override
 	public int compareTo(Pnt o) {
 		if(o.dimension() != 2) return -1;
-		if(this.coord(0)!= o.coord(0)) 
-			return (int)(this.coord(0) - o.coord(0));
+		if(this.getX()!= o.getX()) 
+			return (int)(this.getX() - o.getX());
 		else{
-			return (int)(this.coord(1)- o.coord(1));
+			return (int)(this.getY()- o.getY());
 		}
 	}
 }

@@ -21,8 +21,6 @@
 
 package model.card;
 
-import org.hamcrest.core.IsInstanceOf;
-
 import controlor.GameControlor;
 import controlor.gamestate.GameState;
 import delaunay.Pnt;

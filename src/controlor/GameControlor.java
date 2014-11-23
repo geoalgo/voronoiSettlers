@@ -25,8 +25,6 @@ package controlor;
 
 import java.util.Iterator;
 
-import org.hamcrest.core.IsInstanceOf;
-
 import model.InitialRules;
 import model.Model;
 import model.Construction.City;

@@ -47,16 +47,13 @@ import delaunay.Pnt;
 @SuppressWarnings("serial")
 public class WindowControlor extends javax.swing.JApplet 
 implements IWindowControlor{
-	
 	Model model;
 	UIControlor uicontrolor;
 	GameControlor gameControlor;
-
 	
 	private int width = 1300;
 	private int heigth = 1000;
 
-	private boolean debug = true; // Used for debugging
 	private Component currentSwitch = null; // Entry-switch that mouse is in
 
 	private static String windowTitle = "Settlers";
@@ -70,37 +67,6 @@ implements IWindowControlor{
 	private PlayerPanel[] playerPanel;
 	
 	private ControlPanel buildPanel;
-
-	/**
-	 * Main program (used when run as application instead of applet).
-	 */
-	public static void main(String[] args) {
-		initApplication(new WindowControlor());
-	}
-
-	public static void initApplication(WindowControlor windowControlor){
-//		System.out.println("Create the window controlor");
-//		System.out.println("Init the window controlor");
-		windowControlor.init(); // Applet initialization
-//		System.out.println("Done init the window controlor");
-//
-//		System.out.println("Init the window UI");
-		JFrame dWindow = new JFrame(); // Create window
-//		dWindow.setSize(windowControlor.width(), windowControlor.heigth()); // Set
-																			// size
-		dWindow.setTitle(windowTitle); // Set window title
-		dWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		System.out.println("Added window controlor");
-
-		dWindow.add(windowControlor); // Place applet into window
-		dWindow.setVisible(true); // Show the window
-//		dWindow.setSize(800, 1000);
-//		dWindow.setResizable(false);
-		dWindow.pack();
-		windowControlor.run();
-		
-		windowControlor.repaint();
-	}
 	
 	public int width() {
 		return width;
@@ -145,7 +111,6 @@ implements IWindowControlor{
 
 	void setView() {
 		setLayout(new BorderLayout());
-//		setPreferredSize(new Dimension(1000,1000));
 		setSize(600, 1000);
 		this.add(infoPanel, "North");
 		this.add(boardView, "Center");
