@@ -1,4 +1,5 @@
-o sea tiles
+o separate window controlor et applet main
+-> fix window ratio
 
 o cards :
 - free road

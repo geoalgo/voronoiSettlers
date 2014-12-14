@@ -53,6 +53,7 @@ public class Cards {
 			cards.add(new VictoryPoint());
 		for(int i = 0; i < numFreeRoads; ++i)
 			cards.add(new FreeRoad());
+		randomShuffle();
 	}
 	
 	private void randomShuffle(){

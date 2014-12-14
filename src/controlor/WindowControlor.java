@@ -75,6 +75,7 @@ implements IWindowControlor{
 	public int heigth() {
 		return heigth;
 	}
+	
 
 	/**
 	 * Initialize the applet. As recommended, the actual use of Swing components
@@ -238,4 +239,5 @@ implements IWindowControlor{
 		infoPanel.appendMessage(txt);
 	}
 
+	
 }
