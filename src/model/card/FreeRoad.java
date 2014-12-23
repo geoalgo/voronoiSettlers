@@ -21,6 +21,7 @@
 
 package model.card;
 
+import controlor.DB;
 import controlor.GameControlor;
 import controlor.gamestate.GameState;
 import player.Player;
@@ -35,7 +36,7 @@ public class FreeRoad extends Card {
 	void apply(GameControlor gc,GameState gs) {
 		//1- ask position for one or two roads
 		//2- restore gamestate
-		
+		DB.msg("not implemented");
 	}
 
 }

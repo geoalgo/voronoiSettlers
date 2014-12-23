@@ -37,7 +37,7 @@ public class PlayTurn extends GameState{
 	public PlayTurn(GameControlor gc,int currentPlayer){
 		super(gc);
 		this.currentPlayer = currentPlayer;
-
+		gc.getUIControlor().setActivePlayer(currentPlayer);		
 	}
 	
 	@Override

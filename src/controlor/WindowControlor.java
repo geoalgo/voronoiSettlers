@@ -54,9 +54,6 @@ implements IWindowControlor{
 	private int width = 1300;
 	private int heigth = 1000;
 
-	private Component currentSwitch = null; // Entry-switch that mouse is in
-
-	private static String windowTitle = "Settlers";
 	private BoardView boardView;
 
 	private InfoPanel infoPanel = new InfoPanel();
@@ -75,11 +72,9 @@ implements IWindowControlor{
 	public int heigth() {
 		return heigth;
 	}
-	
 
 	/**
-	 * Initialize the applet. As recommended, the actual use of Swing components
-	 * takes place in the event-dispatching thread.
+	 * Initialize the applet. 
 	 */
 	public void init() {
 		try {
@@ -92,8 +87,6 @@ implements IWindowControlor{
 
 	/**
 	 * Set up the applet's GUI. 
-	 * As recommended, the init method executes this in
-	 * the event-dispatching thread.
 	 */
 	public void run() {
 		setModel();
@@ -102,7 +95,7 @@ implements IWindowControlor{
 	}
 
 	void setModel() {
-		gameControlor = new GameControlor(new InitialRules(3, 10));
+		gameControlor = new GameControlor(new InitialRules(2, 10));
 		uicontrolor = new UIWindow(this,gameControlor);
 		gameControlor.setUIControlor(uicontrolor);
 		this.model = gameControlor.getModel();
@@ -151,26 +144,6 @@ implements IWindowControlor{
 		boardView.repaint();
 	}
 
-	/**
-	 * If entering a mouse-entry switch then redraw the picture.
-	 */
-	public void mouseEntered(MouseEvent e) {
-		currentSwitch = e.getComponent();
-		if (currentSwitch instanceof JLabel)
-			boardView.repaint();
-		else
-			currentSwitch = null;
-	}
-
-	/**
-	 * If exiting a mouse-entry switch then redraw the picture.
-	 */
-	public void mouseExited(MouseEvent e) {
-		currentSwitch = null;
-		if (e.getComponent() instanceof JLabel)
-			boardView.repaint();
-	}
-
 	private Pnt convertToCatanCoord(Pnt o){
 		Pnt res = new Pnt(o); 
 		res.scale(0,1./boardView.getWidth());
@@ -216,9 +189,11 @@ implements IWindowControlor{
 	/**
 	 * Not used, but needed for MouseListener.
 	 */
+	@Override
 	public void mouseReleased(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
 
@@ -229,6 +204,26 @@ implements IWindowControlor{
 			playerPanel[i].update();
 	}
 	
+	/**
+	 * update the view when a player becomes inactive
+	 * @param player
+	 */
+	@Override
+	public void setEndTurn(int player){
+		playerPanel[player].endTurn();
+	}
+	
+	/*
+	 * update the view when a player becomes inactive
+	 * @param player
+	 */
+	@Override
+	public void setTurn(int player){
+		playerPanel[player].setTurn();
+	}
+	
+
+	
 	@Override
 	public void setMessage(String txt) {
 		infoPanel.setMessage(txt);
@@ -237,6 +232,14 @@ implements IWindowControlor{
 	@Override
 	public void appendMessage(String txt) {
 		infoPanel.appendMessage(txt);
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
 	}
 
 	

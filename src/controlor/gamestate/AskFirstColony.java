@@ -29,6 +29,7 @@ public class AskFirstColony extends GameState {
 	
 	public AskFirstColony(GameControlor gc,int currentPlayer){
 		super(gc);
+		gc.getUIControlor().setActivePlayer(currentPlayer);		
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
 				", please specify your placement for your first colony";
 		gc.getUIControlor().setParentWindowMsg(msg);

@@ -52,6 +52,9 @@ public interface UIControlor {
 	void playCardPressed();
 	void updateView();
 	
+	void setActivePlayer(int player);
+	void setInactivePlayer(int player);
+	
 	//launch UI to choose ressources to loose
 	void selectRessourcesToLoose(Player p, LooseRessource currentState);
 	

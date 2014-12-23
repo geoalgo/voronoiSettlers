@@ -41,14 +41,15 @@ public class AskFirstRoad extends GameState {
 	@Override
 	public void click(Pnt click) {
 		try {
-			Player current = gc.getPlayer(currentPlayer);
-			Building firstColony = current.getBuilding(0);
 			gc.addFirstRoad(click, gc.getPlayer(currentPlayer));
 			int nextPlayer = currentPlayer+1;
-			if( nextPlayer < gc.numPlayer() )
+			if( nextPlayer < gc.numPlayer() ){
+				gc.getUIControlor().setInactivePlayer(gc.currentPlayerNum());		
 				gc.setSet(new AskFirstColony(gc, nextPlayer));
-			else
+			}
+			else{
 				gc.setSet(new AskSecondColony(gc,currentPlayer));
+			}
 		} catch (Exception e) {
 			System.out.println("Invalid first road placement");
 		}

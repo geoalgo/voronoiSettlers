@@ -21,6 +21,8 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -35,20 +37,46 @@ import player.Player;
 @SuppressWarnings("serial")
 
 public class PlayerPanel extends JPanel {
+	JTextArea textNamePlayer;
 	JTextArea text;
 	Player p;
 
+	final static Color colorSelected = new Color(200,200,220);
+	
 	/**
 	 * Create the panel.
 	 */
 	public PlayerPanel(Player p) {
 		this.p = p;
 		setLayout(new BorderLayout());
-		this.add(new JLabel("Player "+p.getName()),"North");      // Spacing
+		textNamePlayer = new JTextArea(p.getName());
+		
+		this.add(textNamePlayer,"North");      // Spacing
+		
 		text = new JTextArea();
 		text.setEditable(false);
 		this.add(text,"Center");
+
+		endTurn();
 		update();
+	}
+	
+	/**
+	 * put in bold to show whose turn it is
+	 */
+	public void setTurn(){
+		DB.msg("set turn");
+		Font font = textNamePlayer.getFont();
+		textNamePlayer.setFont(new Font(font.getFontName(),1,font.getSize()));
+		textNamePlayer.setBackground(colorSelected);
+	}
+	
+	public void endTurn(){
+		DB.msg("end turn");
+		Font font = textNamePlayer.getFont();
+		textNamePlayer.setFont(new Font(font.getFontName(),0,font.getSize()));
+		textNamePlayer.setBackground(Color.white);
+//		this.repaint();
 	}
 
 	public void update(){
@@ -57,6 +85,7 @@ public class PlayerPanel extends JPanel {
 	
 	public String playerDescr(){
 		String res="";
+//		res+=p.getName()+"\n\n";
 		res+="\nPoints:"+ p.getScore()+"\n\n";
 		res+="Ressources:\n";		
 		res += p.getRessource().numWood()+" woods\n";

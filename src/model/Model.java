@@ -115,7 +115,7 @@ public class Model {
 	public Iterator<Player> getPlayerIterator(){
 		return players.iterator();
 	}
-
+	
 	/** 
 	 * @return next player in a cyclic way
 	 */

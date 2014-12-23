@@ -40,6 +40,8 @@ public class AskSecondRoad extends GameState {
 	public void click(Pnt click) {
 		try {
 			gc.addSecondRoad(click, gc.getPlayer(currentPlayer));
+			gc.getUIControlor().setInactivePlayer(currentPlayer);		
+
 			int nextPlayer = currentPlayer-1;
 			if( nextPlayer >= 0 )
 				gc.setSet(new AskSecondColony(gc, nextPlayer));

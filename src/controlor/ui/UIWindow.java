@@ -86,7 +86,9 @@ public class UIWindow implements UIControlor {
 	public void nextTurnPressed() {
 		DB.msg("next turn pressed");
 		closePlayerWindows();
+		setInactivePlayer(gc.currentPlayerNum());
 		gc.endTurn();
+		setActivePlayer(gc.currentPlayerNum());
 	}
 
 	private void closePlayerWindows(){
@@ -171,6 +173,16 @@ public class UIWindow implements UIControlor {
 		appendParentWindowMsg(gc.currentPlayer().getName()+" plays a "+c);
 		gc.currentPlayer().removeCard(0);
 		gc.reputCard(c);
+	}
+
+	@Override
+	public void setActivePlayer(int player) {
+		parentWindow.setTurn(player);
+	}
+
+	@Override
+	public void setInactivePlayer(int player) {
+		parentWindow.setEndTurn(player);
 	}
 
 }

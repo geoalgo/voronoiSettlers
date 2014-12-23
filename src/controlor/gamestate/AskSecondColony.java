@@ -29,6 +29,7 @@ public class AskSecondColony extends GameState{
 
 	AskSecondColony(GameControlor gc,int currentPlayer){
 		super(gc);
+		gc.getUIControlor().setActivePlayer(currentPlayer);		
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
 				", please specify your placement for your second colony";
 		gc.getUIControlor().setParentWindowMsg(msg);

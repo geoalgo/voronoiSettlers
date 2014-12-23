@@ -31,4 +31,7 @@ ActionListener, MouseListener {
 	void setMessage(String txt);
 	void appendMessage(String txt);
 	void updateView();
+	void setEndTurn(int player);
+	void setTurn(int player);
 }
+
