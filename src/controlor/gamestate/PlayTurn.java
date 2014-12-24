@@ -64,15 +64,9 @@ public class PlayTurn extends GameState{
 			DB.msg("set loose ressource");
 			gc.setSet(new LooseRessource(gc,this));
 			gc.getSet().run();
-			//			new LooseRessource(gc,this);
-//			gc.setSet(new ThiefSelect(gc,this,currentPlayer));
 			DB.msg("gc set:"+gc.getSet());
 		}
 	}
-
-//	public void selectRessourcesToLoose(){
-//
-//	}
 
 
 	@Override

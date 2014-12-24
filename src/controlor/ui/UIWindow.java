@@ -30,6 +30,12 @@ import com.sun.corba.se.spi.ior.MakeImmutable;
 
 import model.card.Card;
 import model.card.CardState;
+import model.card.Knight;
+import model.card.KnightState;
+import model.card.Monopole;
+import model.card.MonopoleState;
+import model.card.VictoryPoint;
+import model.card.VictoryPointState;
 import model.ressources.Ressources;
 
 import player.Player;
@@ -171,10 +177,30 @@ public class UIWindow implements UIControlor {
 	@Override
 	public void selectCard(Card c){
 		appendParentWindowMsg(gc.currentPlayer().getName()+" plays a "+c);
-		gc.currentPlayer().removeCard(0);
+		GameState stateToRestore = gc.getSet();
+		DB.msg("state to restore:"+stateToRestore);
+		applyCard(c);
+//		gc.setSet(CardState.makeCardState(gc, stateToRestore, c));
+		gc.currentPlayer().removeCard(c);
 		gc.reputCard(c);
+		appendParentWindowMsg(gc.currentPlayer().getName()+" releases the card "+c);
 	}
 
+	private void applyCard(Card card){
+		GameState stateToRestore = gc.getSet();
+		if(card instanceof Monopole){
+			//aaa do static cleaner
+			new MonopoleState(gc, stateToRestore, (Monopole)card);
+		}
+		if(card instanceof Knight){
+			//aaa do static cleaner
+			new KnightState(gc, stateToRestore, (Knight)card);
+		}
+		if(card instanceof VictoryPoint){
+			card.apply(gc,null);
+		}
+	}
+	
 	@Override
 	public void setActivePlayer(int player) {
 		parentWindow.setTurn(player);

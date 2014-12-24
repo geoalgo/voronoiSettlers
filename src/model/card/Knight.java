@@ -33,7 +33,7 @@ public class Knight extends Card {
 	}
 
 	@Override
-	void apply(GameControlor gc,GameState gs) {
+	public void apply(GameControlor gc,GameState gs) {
 		//1- UI ask stealer position
 		//2- increase knight number
 		//3- update biggest army holder

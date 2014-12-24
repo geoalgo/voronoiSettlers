@@ -38,6 +38,7 @@ public class KnightState extends CardState {
 
 	@Override
 	public void click(Pnt click) {
+		DB.msg("knight click");
 	}
 
 	@Override

@@ -242,5 +242,17 @@ implements IWindowControlor{
 	public void mouseExited(MouseEvent arg0) {
 	}
 
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
 	
 }

@@ -60,7 +60,6 @@ public class UISelectCard extends JFrame implements ActionListener {
 		cards = new JComboBox<Card>();
 		for(int i = 0 ; i < p.numCards(); ++i){
 			cards.addItem(p.getCard(i)); 
-			//todo dont add a ressource several times
 		}
 		add(cards);
 		

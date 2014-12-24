@@ -21,6 +21,7 @@
 
 package model.card;
 
+import controlor.DB;
 import controlor.GameControlor;
 import controlor.gamestate.GameState;
 import delaunay.Pnt;
@@ -30,18 +31,18 @@ public class VictoryPointState extends CardState {
 	public VictoryPointState(GameControlor gc, GameState stateToRestore,
 			Card card) {
 		super(gc, stateToRestore, card);
-		// TODO Auto-generated constructor stub
+		DB.msg("add point");
+		gc.currentPlayer().addPoint();
 	}
 
 	@Override
 	public void click(Pnt click) {
-		// TODO Auto-generated method stub
-
+		//todo xxx ugh ugly
+		gc.getUIControlor().updateView();
+		done();
 	}
 
 	@Override
-	public void apply(Object o) {
-		gc.currentPlayer().addPoint();
-	}
+	public void apply(Object o) {}
 
 }

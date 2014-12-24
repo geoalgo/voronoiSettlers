@@ -32,6 +32,7 @@ public class VictoryPoint extends Card {
 	}
 
 	@Override
+	public
 	void apply(GameControlor gc,GameState gs) {
 		p.addPoint();
 	}

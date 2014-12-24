@@ -1,16 +1,12 @@
 o separate window controlor et applet main
--> fix window ratio
 
-o cards :
-- free road
-- random cards
+o free road card
 
 o restrict number of roads/city/...
 
 o count longest road
 
-o view : size of building colony, city does not change when resize
--> fixed size
+o reject configs where 6/8 are adjacent
 
 x bug when play knight and click elsewhere, windows does not close and knight can then be played at another time
 

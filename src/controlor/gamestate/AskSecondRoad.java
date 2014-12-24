@@ -51,7 +51,6 @@ public class AskSecondRoad extends GameState {
 				} catch (Exception e) {
 					DB.msg("pb with harvest");
 				}
-//				gc.initialHarvest(); //xxx pkoi ne marche pas??
 				gc.setSet(new PlayTurn(gc,currentPlayer));
 				gc.getSet().run();
 			}
@@ -62,8 +61,6 @@ public class AskSecondRoad extends GameState {
 
 	@Override
 	public void apply(Object o) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

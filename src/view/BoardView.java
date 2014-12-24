@@ -1,28 +1,29 @@
 /**
-* Voronoi settlers- An implementation of the board game Settlers of 
-* Catan.
-* This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 3
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*
-* The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
-**/
+ * Voronoi settlers- An implementation of the board game Settlers of 
+ * Catan.
+ * This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
+ **/
 package view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
@@ -242,12 +243,26 @@ public class BoardView extends JPanel{
 
 			Pnt centerTile = convertPntToFrameCoord(model.board().getPosition(tile)); 
 			draw(centerTile,20,Color.white);
-
-			g.drawString(
-					res,
+			setFont(tile);
+			g.drawString(res,
 					(int)centerTile.getX()-5,
 					(int)centerTile.getY()+5
 					);
+			g.setColor(Color.black);
+		}
+	}
+
+	private void setFont(SettlersTile tile){
+		if(tile.diceNumber()<4 || tile.diceNumber()>10){
+			g.setFont(new Font(g.getFont().getFontName(),0,g.getFont().getSize()));
+		}
+		else{
+			if(tile.diceNumber()==6 || tile.diceNumber()==8 ){
+				g.setColor(Color.red);
+				g.setFont(new Font(g.getFont().getFontName(),1,g.getFont().getSize()));
+			}
+			else
+				g.setFont(new Font(g.getFont().getFontName(),1,g.getFont().getSize()));
 		}
 	}
 
@@ -329,7 +344,7 @@ public class BoardView extends JPanel{
 
 			Pnt middle = convertPntToFrameCoord(edge.p1().middle(edge.p2()));
 			int offset = 15;
-			
+
 			g.setColor(Color.white);
 			g.drawRect((int)(middle.getX()-offset),
 					(int)(middle.getY()-offset/2),

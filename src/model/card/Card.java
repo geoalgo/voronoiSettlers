@@ -35,7 +35,7 @@ public abstract class Card {
 		this.descr = descr;
 	}
 	
-	abstract void apply(GameControlor gc,GameState gs);
+	public abstract void apply(GameControlor gc,GameState gs);
 
 	void setPlayer(Player p){
 		this.p = p;

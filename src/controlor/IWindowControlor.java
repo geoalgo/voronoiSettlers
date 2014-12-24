@@ -23,10 +23,11 @@
 package controlor;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
 public interface IWindowControlor extends Runnable,
-ActionListener, MouseListener {
+ActionListener, MouseListener, KeyListener {
 
 	void setMessage(String txt);
 	void appendMessage(String txt);

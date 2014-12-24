@@ -21,6 +21,7 @@
 
 package model.card;
 
+import controlor.DB;
 import controlor.GameControlor;
 import controlor.gamestate.GameState;
 import delaunay.Pnt;
@@ -28,10 +29,10 @@ import delaunay.Pnt;
 public abstract class CardState extends GameState {
 	GameState stateToRestore;
 	Card card;
+
 	public CardState(GameControlor gc,GameState stateToRestore,Card card) {
 		super(gc);
 		this.stateToRestore = stateToRestore;
-		gc.setSet(this);
 		this.card = card;
 	}
 
@@ -41,7 +42,11 @@ public abstract class CardState extends GameState {
 	@Override
 	public abstract void apply(Object o);
 
+	/**
+	 * to be called when done to restore previous state
+	 */
 	public void done(){
+		DB.msg("card done");
 		gc.setSet(stateToRestore);
 	}
 	
@@ -50,7 +55,8 @@ public abstract class CardState extends GameState {
 			return new MonopoleState(gc, stateToRestore, (Monopole)card);
 		if(card instanceof Knight)
 			return new KnightState(gc, stateToRestore, (Knight)card);
-		
+		if(card instanceof VictoryPoint)
+			return new VictoryPointState(gc, stateToRestore, (VictoryPoint)card);
 		return null;
 	}
 	

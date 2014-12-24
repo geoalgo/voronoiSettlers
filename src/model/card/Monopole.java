@@ -32,7 +32,7 @@ public class Monopole extends Card {
 	}
 
 	@Override
-	void apply(GameControlor gc,GameState gs) {
+	public void apply(GameControlor gc,GameState gs) {
 		//1- ask ressource to steal
 		//2- steal this ressource to other players
 	}

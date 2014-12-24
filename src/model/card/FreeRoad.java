@@ -33,7 +33,7 @@ public class FreeRoad extends Card {
 	}
 
 	@Override
-	void apply(GameControlor gc,GameState gs) {
+	public void apply(GameControlor gc,GameState gs) {
 		//1- ask position for one or two roads
 		//2- restore gamestate
 		DB.msg("not implemented");
