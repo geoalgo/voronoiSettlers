@@ -160,11 +160,12 @@ public class Model {
 		p.decrementColony();
 	}
 
-	public void addFreeColony(Colony building,SettlersVertex position)
+	public void addFreeColony(Player p,Colony building,SettlersVertex position)
 			throws BuildException{
 		if(!building.isColony()) return;
 		(ConstrainVertexBuilding.makeFirstColonyConstrains(this)).isValid(building, position);
 		registerFreeBuilding(building, position);
+		p.decrementColony();
 	}
 
 	public void addCity(Player p,City building,SettlersVertex position)
@@ -205,6 +206,7 @@ public class Model {
 		(ConstrainEdgeBuilding.makeFirstRoadConstrains(this,colony)).isValid(road, position);
 		checkFreeRoadPossible(road, position);
 		registerFreeBuilding(road, position);
+		p.decrementRoad();
 	}
 
 

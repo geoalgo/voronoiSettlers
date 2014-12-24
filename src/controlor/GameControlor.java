@@ -162,7 +162,7 @@ public class GameControlor {
 	}
 
 	void addFreeColony(SettlersVertex v,Player p) throws Exception{
-		model.addFreeColony(new Colony(v,p),v);
+		model.addFreeColony(p,new Colony(v,p),v);
 		uicontrolor.updateView();
 	}
 
