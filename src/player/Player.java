@@ -21,6 +21,7 @@
 package player;
 
 import java.awt.Color;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -36,7 +37,7 @@ import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersVertex;
 import model.hexagonalTiling.harbor.Harbor;
 import model.ressources.Ressources;
-
+import model.Construction.Road;
 
 public class Player implements Comparable<Player>  {
 	Color color;
@@ -44,8 +45,9 @@ public class Player implements Comparable<Player>  {
 	private int num;
 	private int score;
 	boolean alive; // to allow leavers like CrokNain
-	int numKnight = 0;
+	int numKnight;
 	Ressources ressources;
+	int numRoads;
 	
 	List<VertexBuilding> buildings;
 	Vector<Harbor> harbors;
@@ -63,10 +65,18 @@ public class Player implements Comparable<Player>  {
 		buildings = new LinkedList<VertexBuilding>();
 		harbors = new Vector<Harbor>();
 		cards = new Vector<Card>();
+		numRoads=12;
+		numKnight = 0;
 	}
 	
 	public int getNum(){
 		return num;
+	}
+	public int getRoads(){
+		return numRoads;
+	}
+	public void decrementRoad(){
+		numRoads--;
 	}
 	
 	public Ressources getRessource(){
