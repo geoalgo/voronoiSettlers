@@ -157,7 +157,7 @@ public class GameControlor {
 	 * @throws Exception if building not allowed
 	 */
 	void addColony(SettlersVertex v,Player p) throws Exception{
-		model.addColony(new Colony(v,p),v);
+		model.addColony(p,new Colony(v,p),v);
 		uicontrolor.updateView();
 	}
 
@@ -177,7 +177,7 @@ public class GameControlor {
 	}
 
 	void addCity(SettlersVertex v,Player p) throws Exception{
-		model.addCity(new City(v,p),v);
+		model.addCity(p,new City(v,p),v);
 		uicontrolor.updateView();
 	}
 
