@@ -247,7 +247,7 @@ public class TestModel {
 		SettlersEdge edge = eIt.next();
 
 		Player p1 = model.nextPlayer();
-		Road road = new Road(p1);
+		Road road = new Road(p1,false);
 
 		boolean add1 = addRoad(model, p1, edge);
 		if(add1) fail("allowed to build an invalid road (not enough ressource!");

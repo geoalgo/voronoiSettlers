@@ -149,28 +149,28 @@ public class Model {
 	/**
 	 * @return true if the building was allowed.
 	 */
-	public void addColony(Player p,Colony building,SettlersVertex position)
+	public void addColony(Colony building,SettlersVertex position)
 			throws BuildException{
-		if(p.getColony() < 1)
+		if(building.getPlayer().getColony() < 1)
 			throw new NotEnoughRessourceException();
 		(ConstrainVertexBuilding.makeColonyConstrains(this)).isValid(building, position);
 		if(!vertexHasPlayerRoad(position,building.getPlayer()))
 			throw new BoardPlacementException("no road nearby");
 		registerBuilding(building, position);
-		p.decrementColony();
+		building.getPlayer().decrementColony();
 	}
 
-	public void addFreeColony(Player p,Colony building,SettlersVertex position)
+	public void addFreeColony(Colony building,SettlersVertex position)
 			throws BuildException{
 		if(!building.isColony()) return;
 		(ConstrainVertexBuilding.makeFirstColonyConstrains(this)).isValid(building, position);
 		registerFreeBuilding(building, position);
-		p.decrementColony();
+		building.getPlayer().decrementColony();
 	}
 
-	public void addCity(Player p,City building,SettlersVertex position)
+	public void addCity(City building,SettlersVertex position)
 			throws BuildException{
-		if(p.getCity()<1)
+		if(building.getPlayer().getCity()<1)
 			throw new NotEnoughRessourceException();
 		(ConstrainVertexBuilding.makeCityConstrains(this)).isValid(building, position);
 		if(building.isColony() &&
@@ -178,8 +178,8 @@ public class Model {
 			throw new BoardPlacementException("no road nearby");
 		}
 		registerBuilding(building, position);
-		p.decrementCity();
-		p.incrementColony();
+		building.getPlayer().decrementCity();
+		building.getPlayer().incrementColony();
 	}
 
 	/**

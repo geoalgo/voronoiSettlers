@@ -112,7 +112,7 @@ public class Ressources {
 	 * @param ressource
 	 * @return the current number of ressource
 	 */
-	private int num(Ressource ressource){
+	public int num(Ressource ressource){
 		return 	ressourceNumber.get(ressource);
 	}
 	
