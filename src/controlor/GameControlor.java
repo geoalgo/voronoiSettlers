@@ -34,6 +34,7 @@ import model.card.Card;
 import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersVertex;
 import model.ressources.Ressource;
+import model.ressources.Ressources;
 import player.Player;
 import controlor.gamestate.AskFirstColony;
 import controlor.gamestate.GameState;
@@ -132,8 +133,15 @@ public class GameControlor {
 	}
 	
 	public void steal(Player stealer,Player screwed){
-		if(screwed.getRessource().num()>0){
-			Ressource stealedRessource = screwed.getRessource().getRandomRessource();
+		Ressources screwedRessources=screwed.getRessource();
+		Ressource stealedRessource;
+		if(screwedRessources.num()>0){
+			int numberOfRessource=0;
+			do{
+				
+				stealedRessource = screwedRessources.getRandomRessource();
+				numberOfRessource=screwedRessources.num(stealedRessource);
+			}while(numberOfRessource<1);
 			screwed.getRessource().add(stealedRessource,-1);
 			stealer.getRessource().add(stealedRessource,1);
 			uicontrolor.updateView();
