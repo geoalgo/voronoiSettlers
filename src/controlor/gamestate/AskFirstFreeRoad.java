@@ -27,31 +27,26 @@ import model.Construction.Colony;
 import controlor.GameControlor;
 import delaunay.Pnt;
 
-public class AskFirstRoad extends GameState {
+public class AskFirstFreeRoad extends GameState {
 	int currentPlayer;
 	
-	public AskFirstRoad(GameControlor gc,int currentPlayer){
+	public AskFirstFreeRoad(GameControlor gc,int currentPlayer){
 		super(gc);
 		this.currentPlayer = currentPlayer;
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
-				", please specify your placement for your first road";
+				", please specify your placement for your first free road";
 		gc.getUIControlor().setParentWindowMsg(msg);
 	}
 	
 	@Override
 	public void click(Pnt click) {
 		try {
-			gc.addFirstRoad(click, gc.getPlayer(currentPlayer));
-			int nextPlayer = currentPlayer+1;
-			if( nextPlayer < gc.numPlayer() ){
-				gc.getUIControlor().setInactivePlayer(gc.currentPlayerNum());		
-				gc.setSet(new AskFirstColony(gc, nextPlayer));
-			}
-			else{
-				gc.setSet(new AskSecondColony(gc,currentPlayer));
-			}
+			gc.addFreeRoad(click, gc.getPlayer(currentPlayer));
+			
+				gc.setSet(new AskSecondFreeRoad(gc,currentPlayer));
+			
 		} catch (Exception e) {
-			System.out.println("Invalid first road placement");
+			System.out.println("Invalid first free road placement");
 		}
 		
 	}

@@ -25,10 +25,12 @@ import player.Player;
 
 public class Road extends Building {
 
-	public Road(Player player) {
+	public Road(Player player,boolean free) {
 		super(player);
+		if(!free){
 		cost.addWood(1);
 		cost.addBrick(1);
+		}
 	}
 
 	@Override

@@ -21,6 +21,7 @@
 package player;
 
 import java.awt.Color;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -36,7 +37,7 @@ import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersVertex;
 import model.hexagonalTiling.harbor.Harbor;
 import model.ressources.Ressources;
-
+import model.Construction.Road;
 
 public class Player implements Comparable<Player>  {
 	Color color;
@@ -44,9 +45,11 @@ public class Player implements Comparable<Player>  {
 	private int num;
 	private int score;
 	boolean alive; // to allow leavers like CrokNain
-	int numKnight = 0;
+	int numKnight;
 	Ressources ressources;
-	
+	int numRoads;
+	int numCity;
+	int numColony;
 	List<VertexBuilding> buildings;
 	Vector<Harbor> harbors;
 	Vector<Card> cards;
@@ -63,10 +66,42 @@ public class Player implements Comparable<Player>  {
 		buildings = new LinkedList<VertexBuilding>();
 		harbors = new Vector<Harbor>();
 		cards = new Vector<Card>();
+		numRoads=15;
+		numCity=4;
+		numColony=5;
+		numKnight = 0;
 	}
 	
 	public int getNum(){
 		return num;
+	}
+	
+	public int getRoads(){
+		return numRoads;
+	}
+	
+	public void decrementRoad(){
+		numRoads--;
+	}
+	
+	public int getColony(){
+		return numColony;
+	}
+	
+	public void decrementColony(){
+		numColony--;
+	}
+	
+	public void incrementColony(){
+		numColony++;
+	}
+	
+	public int getCity(){
+		return numCity;
+	}
+	
+	public void decrementCity(){
+		numCity++;
 	}
 	
 	public Ressources getRessource(){

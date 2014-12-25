@@ -34,6 +34,7 @@ import model.card.Card;
 import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersVertex;
 import model.ressources.Ressource;
+import model.ressources.Ressources;
 import player.Player;
 import controlor.gamestate.AskFirstColony;
 import controlor.gamestate.GameState;
@@ -132,8 +133,15 @@ public class GameControlor {
 	}
 	
 	public void steal(Player stealer,Player screwed){
-		if(screwed.getRessource().num()>0){
-			Ressource stealedRessource = screwed.getRessource().getRandomRessource();
+		Ressources screwedRessources=screwed.getRessource();
+		Ressource stealedRessource;
+		if(screwedRessources.num()>0){
+			int numberOfRessource=0;
+			do{
+				
+				stealedRessource = screwedRessources.getRandomRessource();
+				numberOfRessource=screwedRessources.num(stealedRessource);
+			}while(numberOfRessource<1);
 			screwed.getRessource().add(stealedRessource,-1);
 			stealer.getRessource().add(stealedRessource,1);
 			uicontrolor.updateView();
@@ -155,12 +163,12 @@ public class GameControlor {
 	 * @throws Exception if building not allowed
 	 */
 	void addColony(SettlersVertex v,Player p) throws Exception{
-		model.addColony(new Colony(v,p),v);
+		model.addColony(p,new Colony(v,p),v);
 		uicontrolor.updateView();
 	}
 
 	void addFreeColony(SettlersVertex v,Player p) throws Exception{
-		model.addFreeColony(new Colony(v,p),v);
+		model.addFreeColony(p,new Colony(v,p),v);
 		uicontrolor.updateView();
 	}
 
@@ -175,7 +183,7 @@ public class GameControlor {
 	}
 
 	void addCity(SettlersVertex v,Player p) throws Exception{
-		model.addCity(new City(v,p),v);
+		model.addCity(p,new City(v,p),v);
 		uicontrolor.updateView();
 	}
 
@@ -191,6 +199,16 @@ public class GameControlor {
 
 	public void addRoad(SettlersEdge e,Player p) throws Exception{
 		model.addRoad(p,e);
+		uicontrolor.updateView();
+	}
+	
+	public void addFreeRoad(Pnt pnt,Player p) throws Exception{
+		SettlersEdge e = model.board().locateClosestEdge(pnt);
+		addFreeRoad(e, p);
+	}	
+
+	public void addFreeRoad(SettlersEdge e,Player p) throws Exception{
+		model.addFreeRoad(p,e);
 		uicontrolor.updateView();
 	}
 

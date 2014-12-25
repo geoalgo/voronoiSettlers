@@ -30,6 +30,7 @@ import com.sun.corba.se.spi.ior.MakeImmutable;
 
 import model.card.Card;
 import model.card.CardState;
+import model.card.FreeRoad;
 import model.card.Knight;
 import model.card.KnightState;
 import model.card.Monopole;
@@ -37,9 +38,7 @@ import model.card.MonopoleState;
 import model.card.VictoryPoint;
 import model.card.VictoryPointState;
 import model.ressources.Ressources;
-
 import player.Player;
-
 import controlor.DB;
 import controlor.GameControlor;
 import controlor.WindowControlor;
@@ -199,6 +198,9 @@ public class UIWindow implements UIControlor {
 		if(card instanceof VictoryPoint){
 			new VictoryPointState(gc, stateToRestore, card);
 //			card.apply(gc,null);
+		}
+		if(card instanceof FreeRoad){
+			card.apply(gc,null);
 		}
 	}
 	
