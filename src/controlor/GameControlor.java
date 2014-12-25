@@ -34,6 +34,7 @@ import model.card.Card;
 import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersVertex;
 import model.ressources.Ressource;
+import model.ressources.Ressources;
 import player.Player;
 import controlor.gamestate.AskFirstColony;
 import controlor.gamestate.GameState;
@@ -77,6 +78,9 @@ public class GameControlor {
 		return gs;
 	}
 
+	/**
+	 * method to be called to start the game.
+	 */
 	void playLevel(){
 		DB.msg("set gs to AskFirstColony");
 		gs = new AskFirstColony(this,0);
@@ -109,9 +113,6 @@ public class GameControlor {
 	public int drawRandomDices(){
 		int firstDice = (int)(Math.random()*6+1);
 		int secondDice = (int)(Math.random()*6+1);
-//		int firstDice = 6;
-//		int secondDice = (int)(Math.random()*2);
-//		if(firstDice+secondDice==7) return drawRandomDices();
 		return firstDice + secondDice;
 	}
 
@@ -132,8 +133,15 @@ public class GameControlor {
 	}
 	
 	public void steal(Player stealer,Player screwed){
-		if(screwed.getRessource().num()>0){
-			Ressource stealedRessource = screwed.getRessource().getRandomRessource();
+		Ressources screwedRessources=screwed.getRessource();
+		Ressource stealedRessource;
+		if(screwedRessources.num()>0){
+			int numberOfRessource=0;
+			do{
+				
+				stealedRessource = screwedRessources.getRandomRessource();
+				numberOfRessource=screwedRessources.num(stealedRessource);
+			}while(numberOfRessource<1);
 			screwed.getRessource().add(stealedRessource,-1);
 			stealer.getRessource().add(stealedRessource,1);
 			uicontrolor.updateView();
@@ -147,13 +155,11 @@ public class GameControlor {
 		return model.giveRandomCard(currentPlayer());
 	}
 	
-	public void reputCard(Card c){
-		model.reputCard(c);
+	public void releaseCard(Card c){
+		model.releaseCard(c);
 	}
 
 	/**
-	 * @param v
-	 * @param p
 	 * @throws Exception if building not allowed
 	 */
 	void addColony(SettlersVertex v,Player p) throws Exception{
@@ -195,6 +201,16 @@ public class GameControlor {
 		model.addRoad(p,e);
 		uicontrolor.updateView();
 	}
+	
+	public void addFreeRoad(Pnt pnt,Player p) throws Exception{
+		SettlersEdge e = model.board().locateClosestEdge(pnt);
+		addFreeRoad(e, p);
+	}	
+
+	public void addFreeRoad(SettlersEdge e,Player p) throws Exception{
+		model.addFreeRoad(p,e);
+		uicontrolor.updateView();
+	}
 
 	public void addFirstRoad(Pnt pnt,Player p) throws Exception{
 		SettlersEdge e = model.board().locateClosestEdge(pnt);
@@ -218,7 +234,5 @@ public class GameControlor {
 		model.addFreeRoadNearColony(p,e,c);
 		uicontrolor.updateView();
 	}
-
-
 
 }

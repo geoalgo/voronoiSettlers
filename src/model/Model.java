@@ -1,5 +1,5 @@
 /**
- * Voronoi settlers- An implementation of the board game Settlers of 
+  * Voronoi settlers- An implementation of the board game Settlers of 
  * Catan.
  * This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
  *
@@ -151,10 +151,13 @@ public class Model {
 	 */
 	public void addColony(Colony building,SettlersVertex position)
 			throws BuildException{
+		if(building.getPlayer().getColony() < 1)
+			throw new NotEnoughRessourceException();
 		(ConstrainVertexBuilding.makeColonyConstrains(this)).isValid(building, position);
 		if(!vertexHasPlayerRoad(position,building.getPlayer()))
 			throw new BoardPlacementException("no road nearby");
 		registerBuilding(building, position);
+		building.getPlayer().decrementColony();
 	}
 
 	public void addFreeColony(Colony building,SettlersVertex position)
@@ -162,16 +165,21 @@ public class Model {
 		if(!building.isColony()) return;
 		(ConstrainVertexBuilding.makeFirstColonyConstrains(this)).isValid(building, position);
 		registerFreeBuilding(building, position);
+		building.getPlayer().decrementColony();
 	}
 
 	public void addCity(City building,SettlersVertex position)
 			throws BuildException{
+		if(building.getPlayer().getCity()<1)
+			throw new NotEnoughRessourceException();
 		(ConstrainVertexBuilding.makeCityConstrains(this)).isValid(building, position);
 		if(building.isColony() &&
 				!vertexHasPlayerRoad(position,building.getPlayer())){
 			throw new BoardPlacementException("no road nearby");
 		}
 		registerBuilding(building, position);
+		building.getPlayer().decrementCity();
+		building.getPlayer().incrementColony();
 	}
 
 	/**
@@ -181,19 +189,33 @@ public class Model {
 	 */
 	public void addRoad(Player p,SettlersEdge position) throws BuildException{
 		// todo later do exception to explain the callee if not money or map problem
-		Road road = new Road(p);
+		if(p.getRoads()<1)
+			throw new NotEnoughRessourceException();
+		Road road = new Road(p,false);
+
 		(ConstrainEdgeBuilding.makeRoadConstrains(this)).isValid(road, position);
 		registerBuilding(road, position);
+		
+	}
+	public void addFreeRoad(Player p,SettlersEdge position) throws BuildException{
+		// todo later do exception to explain the callee if not money or map problem
+		
+		Road road = new Road(p,true);
+
+		(ConstrainEdgeBuilding.makeRoadConstrains(this)).isValid(road, position);
+		registerBuilding(road, position);
+		
 	}
 
 	public void addFreeRoadNearColony(
 			Player p,SettlersEdge position,Colony colony) 
 					throws Exception{
 		// todo later do exception to explain the callee if not money or map problem
-		Road road = new Road(p);
+		Road road = new Road(p,true);
 		(ConstrainEdgeBuilding.makeFirstRoadConstrains(this,colony)).isValid(road, position);
 		checkFreeRoadPossible(road, position);
 		registerFreeBuilding(road, position);
+		p.decrementRoad();
 	}
 
 
@@ -339,7 +361,7 @@ public class Model {
 		return cards.getRandomCard(p);
 	}
 
-	public void reputCard(Card c){
+	public void releaseCard(Card c){
 		cards.releaseCard(c);
 	}
 

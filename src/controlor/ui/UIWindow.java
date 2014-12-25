@@ -30,6 +30,7 @@ import com.sun.corba.se.spi.ior.MakeImmutable;
 
 import model.card.Card;
 import model.card.CardState;
+import model.card.FreeRoad;
 import model.card.Knight;
 import model.card.KnightState;
 import model.card.Monopole;
@@ -37,9 +38,7 @@ import model.card.MonopoleState;
 import model.card.VictoryPoint;
 import model.card.VictoryPointState;
 import model.ressources.Ressources;
-
 import player.Player;
-
 import controlor.DB;
 import controlor.GameControlor;
 import controlor.WindowControlor;
@@ -182,7 +181,7 @@ public class UIWindow implements UIControlor {
 		applyCard(c);
 //		gc.setSet(CardState.makeCardState(gc, stateToRestore, c));
 		gc.currentPlayer().removeCard(c);
-		gc.reputCard(c);
+		gc.releaseCard(c);
 		appendParentWindowMsg(gc.currentPlayer().getName()+" releases the card "+c);
 	}
 
@@ -197,18 +196,22 @@ public class UIWindow implements UIControlor {
 			new KnightState(gc, stateToRestore, (Knight)card);
 		}
 		if(card instanceof VictoryPoint){
+			new VictoryPointState(gc, stateToRestore, card);
+//			card.apply(gc,null);
+		}
+		if(card instanceof FreeRoad){
 			card.apply(gc,null);
 		}
 	}
 	
 	@Override
 	public void setActivePlayer(int player) {
-		parentWindow.setTurn(player);
+		parentWindow.setActive(player);
 	}
 
 	@Override
 	public void setInactivePlayer(int player) {
-		parentWindow.setEndTurn(player);
+		parentWindow.setInactive(player);
 	}
 
 }

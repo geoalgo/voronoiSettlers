@@ -24,6 +24,13 @@ package controlor.gamestate;
 import controlor.GameControlor;
 import delaunay.Pnt;
 
+/**
+ * A game state that corresponds to various UI interaction (choosing road or stealer
+ * placement) for instance.
+ * 
+ * @author david
+ *
+ */
 public abstract class GameState {
 
 	protected GameControlor gc;

@@ -19,26 +19,42 @@
 * The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
 **/
 
+package controlor.gamestate;
 
-package controlor;
+import player.Player;
+import model.Construction.Building;
+import model.Construction.Colony;
+import controlor.GameControlor;
+import delaunay.Pnt;
 
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
+public class AskFirstFreeRoad extends GameState {
+	int currentPlayer;
+	
+	public AskFirstFreeRoad(GameControlor gc,int currentPlayer){
+		super(gc);
+		this.currentPlayer = currentPlayer;
+		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
+				", please specify your placement for your first free road";
+		gc.getUIControlor().setParentWindowMsg(msg);
+	}
+	
+	@Override
+	public void click(Pnt click) {
+		try {
+			gc.addFreeRoad(click, gc.getPlayer(currentPlayer));
+			
+				gc.setSet(new AskSecondFreeRoad(gc,currentPlayer));
+			
+		} catch (Exception e) {
+			System.out.println("Invalid first free road placement");
+		}
+		
+	}
 
+	@Override
+	public void apply(Object o) {
+		// TODO Auto-generated method stub
+		
+	}
 
-/**
- * Interface for a Window Controlor of the game.
- * @author david
- *
- */
-public interface IWindowControlor extends Runnable,
-ActionListener, MouseListener, KeyListener {
-
-	void setMessage(String txt);
-	void appendMessage(String txt);
-	void updateView();
-	void setInactive(int player);
-	void setActive(int player);
 }
-

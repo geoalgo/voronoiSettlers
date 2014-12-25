@@ -30,7 +30,7 @@ import delaunay.Pnt;
 public class AskFirstRoad extends GameState {
 	int currentPlayer;
 	
-	AskFirstRoad(GameControlor gc,int currentPlayer){
+	public AskFirstRoad(GameControlor gc,int currentPlayer){
 		super(gc);
 		this.currentPlayer = currentPlayer;
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
