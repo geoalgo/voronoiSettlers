@@ -26,13 +26,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
+
+/**
+ * Interface for a Window Controlor of the game.
+ * @author david
+ *
+ */
 public interface IWindowControlor extends Runnable,
 ActionListener, MouseListener, KeyListener {
 
 	void setMessage(String txt);
 	void appendMessage(String txt);
 	void updateView();
-	void setEndTurn(int player);
-	void setTurn(int player);
+	void setInactive(int player);
+	void setActive(int player);
 }
 

@@ -182,7 +182,7 @@ public class UIWindow implements UIControlor {
 		applyCard(c);
 //		gc.setSet(CardState.makeCardState(gc, stateToRestore, c));
 		gc.currentPlayer().removeCard(c);
-		gc.reputCard(c);
+		gc.releaseCard(c);
 		appendParentWindowMsg(gc.currentPlayer().getName()+" releases the card "+c);
 	}
 
@@ -197,18 +197,19 @@ public class UIWindow implements UIControlor {
 			new KnightState(gc, stateToRestore, (Knight)card);
 		}
 		if(card instanceof VictoryPoint){
-			card.apply(gc,null);
+			new VictoryPointState(gc, stateToRestore, card);
+//			card.apply(gc,null);
 		}
 	}
 	
 	@Override
 	public void setActivePlayer(int player) {
-		parentWindow.setTurn(player);
+		parentWindow.setActive(player);
 	}
 
 	@Override
 	public void setInactivePlayer(int player) {
-		parentWindow.setEndTurn(player);
+		parentWindow.setInactive(player);
 	}
 
 }

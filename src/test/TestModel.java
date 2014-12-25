@@ -149,14 +149,6 @@ public class TestModel {
 		
 	}
 	
-	
-
-
-	@Test(timeout=100)
-	public void testIsOver() {
-		fail("Not yet implemented");
-	}
-
 	@Test(timeout=1000)
 	public void testAddBuilding1() {
 		Model model = makeModel();

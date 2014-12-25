@@ -39,7 +39,7 @@ import view.PlayerPanel;
 import delaunay.Pnt;
 
 /**
- * Show the game.
+ * Main class.
  * 
  * @author David Salinas
  * 
@@ -209,7 +209,7 @@ implements IWindowControlor{
 	 * @param player
 	 */
 	@Override
-	public void setEndTurn(int player){
+	public void setInactive(int player){
 		playerPanel[player].endTurn();
 	}
 	
@@ -218,7 +218,7 @@ implements IWindowControlor{
 	 * @param player
 	 */
 	@Override
-	public void setTurn(int player){
+	public void setActive(int player){
 		playerPanel[player].setTurn();
 	}
 	

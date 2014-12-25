@@ -77,6 +77,9 @@ public class GameControlor {
 		return gs;
 	}
 
+	/**
+	 * method to be called to start the game.
+	 */
 	void playLevel(){
 		DB.msg("set gs to AskFirstColony");
 		gs = new AskFirstColony(this,0);
@@ -109,9 +112,6 @@ public class GameControlor {
 	public int drawRandomDices(){
 		int firstDice = (int)(Math.random()*6+1);
 		int secondDice = (int)(Math.random()*6+1);
-//		int firstDice = 6;
-//		int secondDice = (int)(Math.random()*2);
-//		if(firstDice+secondDice==7) return drawRandomDices();
 		return firstDice + secondDice;
 	}
 
@@ -147,13 +147,11 @@ public class GameControlor {
 		return model.giveRandomCard(currentPlayer());
 	}
 	
-	public void reputCard(Card c){
-		model.reputCard(c);
+	public void releaseCard(Card c){
+		model.releaseCard(c);
 	}
 
 	/**
-	 * @param v
-	 * @param p
 	 * @throws Exception if building not allowed
 	 */
 	void addColony(SettlersVertex v,Player p) throws Exception{
@@ -218,7 +216,5 @@ public class GameControlor {
 		model.addFreeRoadNearColony(p,e,c);
 		uicontrolor.updateView();
 	}
-
-
 
 }

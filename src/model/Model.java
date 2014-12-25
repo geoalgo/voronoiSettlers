@@ -339,7 +339,7 @@ public class Model {
 		return cards.getRandomCard(p);
 	}
 
-	public void reputCard(Card c){
+	public void releaseCard(Card c){
 		cards.releaseCard(c);
 	}
 
