@@ -189,7 +189,8 @@ public class Model {
 	 */
 	public void addRoad(Player p,SettlersEdge position) throws BuildException{
 		// todo later do exception to explain the callee if not money or map problem
-		
+		if(p.getRoads()<1)
+			throw new NotEnoughRessourceException();
 		Road road = new Road(p,false);
 
 		(ConstrainEdgeBuilding.makeRoadConstrains(this)).isValid(road, position);
