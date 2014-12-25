@@ -1,5 +1,5 @@
 /**
- * Voronoi settlers- An implementation of the board game Settlers of 
+  * Voronoi settlers- An implementation of the board game Settlers of 
  * Catan.
  * This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
  *
@@ -189,20 +189,28 @@ public class Model {
 	 */
 	public void addRoad(Player p,SettlersEdge position) throws BuildException{
 		// todo later do exception to explain the callee if not money or map problem
-		if(p.getRoads()<1)
-			throw new NotEnoughRessourceException();
-		Road road = new Road(p);
+		
+		Road road = new Road(p,false);
 
 		(ConstrainEdgeBuilding.makeRoadConstrains(this)).isValid(road, position);
 		registerBuilding(road, position);
-		p.decrementRoad();
+		
+	}
+	public void addFreeRoad(Player p,SettlersEdge position) throws BuildException{
+		// todo later do exception to explain the callee if not money or map problem
+		
+		Road road = new Road(p,true);
+
+		(ConstrainEdgeBuilding.makeRoadConstrains(this)).isValid(road, position);
+		registerBuilding(road, position);
+		
 	}
 
 	public void addFreeRoadNearColony(
 			Player p,SettlersEdge position,Colony colony) 
 					throws Exception{
 		// todo later do exception to explain the callee if not money or map problem
-		Road road = new Road(p);
+		Road road = new Road(p,true);
 		(ConstrainEdgeBuilding.makeFirstRoadConstrains(this,colony)).isValid(road, position);
 		checkFreeRoadPossible(road, position);
 		registerFreeBuilding(road, position);

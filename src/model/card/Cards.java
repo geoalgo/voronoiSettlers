@@ -52,9 +52,10 @@ public class Cards {
 			cards.add(new Knight());
 		for(int i = 0; i < numPoints; ++i)
 			cards.add(new VictoryPoint());
-		//		todo free road
-		//		for(int i = 0; i < numFreeRoads; ++i)
-		//			cards.add(new FreeRoad());
+			
+		
+		for(int i = 0; i < numFreeRoads; ++i)
+			cards.add(new FreeRoad());
 		randomShuffle();
 	}
 

@@ -195,6 +195,16 @@ public class GameControlor {
 		model.addRoad(p,e);
 		uicontrolor.updateView();
 	}
+	
+	public void addFreeRoad(Pnt pnt,Player p) throws Exception{
+		SettlersEdge e = model.board().locateClosestEdge(pnt);
+		addFreeRoad(e, p);
+	}	
+
+	public void addFreeRoad(SettlersEdge e,Player p) throws Exception{
+		model.addFreeRoad(p,e);
+		uicontrolor.updateView();
+	}
 
 	public void addFirstRoad(Pnt pnt,Player p) throws Exception{
 		SettlersEdge e = model.board().locateClosestEdge(pnt);

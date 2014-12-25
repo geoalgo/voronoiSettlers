@@ -23,20 +23,30 @@ package model.card;
 
 import controlor.DB;
 import controlor.GameControlor;
+import controlor.gamestate.AskFirstColony;
+import controlor.gamestate.AskFirstFreeRoad;
 import controlor.gamestate.GameState;
+import controlor.gamestate.AskFirstRoad;
 import player.Player;
-
+import view.BoardView;
 public class FreeRoad extends Card {
 
 	FreeRoad() {
-		super("Free road");
+		super("2 Free road");
+		
 	}
 
 	@Override
 	public void apply(GameControlor gc,GameState gs) {
-		//1- ask position for one or two roads
+		//1- ask position two roads
 		//2- restore gamestate
-		DB.msg("not implemented");
+		DB.msg("set gs to AskFirstRoad");
+		gs = new AskFirstFreeRoad(gc,p.getNum());
+		//BoardView v = new BoardView();
+		gc.setSet(gs);
+		gc.getUIControlor().updateView();
 	}
+	
+	
 
 }
