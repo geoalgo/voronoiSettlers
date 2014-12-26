@@ -1,0 +1,7 @@
+o Main interface: 2/5
+-New,Load options
+-choose game options (number of tiles, players, special rules, ...)  
+- menu bar while playing with save
+
+o Add images for tiles (several resolution or resize images when scaling the window) (2/5)
+-> I have tiles for that but they may not be free we will need free tiles 

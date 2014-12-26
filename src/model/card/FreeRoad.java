@@ -23,17 +23,13 @@ package model.card;
 
 import controlor.DB;
 import controlor.GameControlor;
-import controlor.gamestate.AskFirstColony;
 import controlor.gamestate.AskFirstFreeRoad;
 import controlor.gamestate.GameState;
-import controlor.gamestate.AskFirstRoad;
-import player.Player;
-import view.BoardView;
+
 public class FreeRoad extends Card {
 
 	FreeRoad() {
-		super("2 Free road");
-		
+		super("Two free roads");
 	}
 
 	@Override
@@ -46,7 +42,5 @@ public class FreeRoad extends Card {
 		gc.setSet(gs);
 		gc.getUIControlor().updateView();
 	}
-	
-	
 
 }

@@ -1,0 +1,7 @@
+o network multiplayer with sockets (4/5)
+
+o extension seafearer (2/5)
+o extension knight and city (3/5)
+
+o various tile size (2/5)
+This one may not be so hard but one has to compute delaunay efficiently.

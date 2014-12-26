@@ -93,9 +93,6 @@ public class PlayerPanel extends JPanel {
 		res += p.getRessource().numCrop()+" crop\n";
 		res += p.getRessource().numSheep()+" sheep\n";
 		res += p.getRessource().numStone()+" stone\n";
-		res += p.getRoads()+" Roads\n";
-		res += p.getColony()+" Colonies\n";
-		res += p.getCity()+" Cities\n";
 		res += "\n"+ p.numCards()+ " cards\n";
 		
 		return res;

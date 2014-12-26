@@ -46,16 +46,14 @@ public class Cards {
 		int numFreeRoads = 3;
 		int numMonopole = 3;
 
+		for(int i = 0; i < numFreeRoads; ++i)
+			cards.add(new FreeRoad());
 		for(int i = 0; i < numMonopole; ++i)
 			cards.add(new Monopole());
 		for(int i = 0; i < numKnights; ++i)
 			cards.add(new Knight());
 		for(int i = 0; i < numPoints; ++i)
 			cards.add(new VictoryPoint());
-			
-		
-		for(int i = 0; i < numFreeRoads; ++i)
-			cards.add(new FreeRoad());
 		randomShuffle();
 	}
 

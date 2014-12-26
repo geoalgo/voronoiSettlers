@@ -1,52 +1,33 @@
-o separate window controlor et applet main
+o cheat code to add ressource for first player (1/5)
+o separate window controlor et applet main (2/5)
 
-o free road card
+o count longest road (2/5) need a test
 
-o restrict number of roads/city/...
+o reject configs where 6/8 are adjacent (1/5)
 
-o count longest road
+o currently, the ressources and tokens are fixed by DelaunayBoard but it should be done by the model (1/5)
 
-o reject configs where 6/8 are adjacent
-
+x restrict number of roads/city/...
+x free road card
 x bug when play knight and click elsewhere, windows does not close and knight can then be played at another time
-
 x cards
 -> finish buy cards
 -> do ui do spend card with choice
 -> test cards
-
-
 x bug polygons ressources
-
 x first placement -> forbid next far from second colony
   -> pass a constraint class for placement (with decorator)
-
 x harbor/internal trade 
 x harbor done
 x do exchange when click button
 x add button internal/external trade and according states
-
 x steal -> auto select if only 0 or 1 player
 -> bug for looseRessources
-
-
-
--- model
-o currently, the ressources and tokens are fixed by DelaunayBoard 
-but it should be done by the model 
-
--- view
-o clean viewer (create new class with basic geometric method and 
-another with advanced one such as drawColony)
-
-
 x test -delaunay-
 x test -delaunay board tiles-
 x test -model- is build possible, make building, harvest
-
 x register DelTriangle mets les points sur les DelVertices
 x choose between datastructure and object
-
 x 1 do a normalised grid
 x first placement -> forbid next far from second colony
 x first placement -> do first harvest with second colony
