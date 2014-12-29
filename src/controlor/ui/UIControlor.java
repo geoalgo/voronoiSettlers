@@ -35,6 +35,7 @@ import model.card.Card;
 import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersTile;
 import model.hexagonalTiling.SettlersVertex;
+import model.ressources.Ressource;
 import model.ressources.Ressources;
 import player.Player;
 //xxx server part
@@ -62,5 +63,14 @@ public interface UIControlor {
 	void looseRessources(Ressources ress);
 	void stealEnnemy(int playerToSteal);
 	void selectCard(Card c);
+	
+	/**
+	 * 
+	 * @param player id of the player making the trade
+	 * @param tradedRessource Ressource that is given by the player
+	 * @param numTradedRessource Number of elements of this ressource
+	 * @param obtainedRessource Ressource that is exchanged
+	 */
+	void internalTrade(int player,Ressource tradedRessource,int numTradedRessource,Ressource obtainedRessource);
 	///////////////////////
 }

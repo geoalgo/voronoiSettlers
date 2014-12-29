@@ -43,10 +43,11 @@ import model.ressources.Ressource;
 import player.Player;
 import controlor.DB;
 import controlor.GameControlor;
+import controlor.SettlersServer;
 
 public class UITrade extends JFrame implements ActionListener {
 	Player p;
-	GameControlor gc;
+	SettlersServer gc;
 	UIControlor uicontrolor; // for the call back
 
 	JPanel panel0;
@@ -60,10 +61,10 @@ public class UITrade extends JFrame implements ActionListener {
 	JButton done;
 
 
-	UITrade(Player p,GameControlor gc){
+	public UITrade(SettlersServer server,Player p){
 		super("Trade");
 		this.p = p;
-		this.gc = gc;
+		this.gc = server;
 		initGui();
 	}
 
@@ -120,7 +121,7 @@ public class UITrade extends JFrame implements ActionListener {
 		
 		setRessourcesToPay();
 		if(gc!=null)
-		gc.getUIControlor().updateView();
+		gc.updateView();
 	}
 
 	class PossibleTrade{
@@ -197,9 +198,9 @@ public class UITrade extends JFrame implements ActionListener {
 			//do exchange
 			PossibleTrade paidRess = ((PossibleTrade)ressourceToPay.getSelectedItem());
 			Ressource aquiredRess = ((Ressource)ressourceToGet.getSelectedItem());
-			
-			p.getRessource().add(paidRess.ress, -paidRess.cost);
-			p.getRessource().add(aquiredRess,1);
+			gc.internalTrade(p.getNum(),paidRess.ress, -paidRess.cost,aquiredRess);
+//			p.getRessource().add(paidRess.ress, -paidRess.cost);
+//			p.getRessource().add(aquiredRess,1);
 
 			update();
 		}
@@ -217,7 +218,7 @@ public class UITrade extends JFrame implements ActionListener {
 		p.getRessource().addBrick(3);
 		p.getRessource().addCrop(4);
 		p.getRessource().addWood(1);
-		UITrade uiTrade = new UITrade(p, null);
+		UITrade uiTrade = new UITrade(null,p);
 	}
 
 }

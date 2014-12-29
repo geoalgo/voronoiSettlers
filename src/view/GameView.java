@@ -21,8 +21,8 @@ import controlor.ui.UITrade;
 import delaunay.Pnt;
 
 public class GameView extends JFrame implements IWindowControlor{
-	SettlersServer uicontrolor;
-	
+	SettlersServer settlersServer;
+	UIViewControlor uiViewControlor;
 	private Model model;
 	private BoardView boardView;
 	private InfoPanel infoPanel = new InfoPanel();
@@ -31,9 +31,11 @@ public class GameView extends JFrame implements IWindowControlor{
 	private PlayerPanel[] playerPanel;
 	private ControlPanel buildPanel;
 
-	public GameView(SettlersServer uicontrolor,Model model,int width,int height){
-		this.uicontrolor = uicontrolor;
+	public GameView(SettlersServer sserver,Model model,int width,int height){
+		this.settlersServer = sserver;
 		this.model = model;
+		
+		uiViewControlor = new UIViewControlor(sserver);
 		
 		this.boardView = new BoardView(model);
 		boardView.addMouseListener(this);
@@ -118,6 +120,7 @@ public class GameView extends JFrame implements IWindowControlor{
 	@Override
 	public void setInactive(int player) {
 		playerPanel[player].endTurn();
+		uiViewControlor.closePlayerWindows();
 	}
 
 	@Override
@@ -150,7 +153,7 @@ public class GameView extends JFrame implements IWindowControlor{
 		Pnt pnt = convertToCatanCoord(new Pnt(e.getX(), e.getY()));
 
 		if(!buildPanel.isButton(e.getSource()))
-			uicontrolor.mouseClicked(pnt,0);
+			settlersServer.mouseClicked(pnt,0);
 		else{
 			handleButton(e.getSource());
 		}
@@ -160,15 +163,15 @@ public class GameView extends JFrame implements IWindowControlor{
 	private void handleButton(Object button){
 		DB.msg("button pressed");
 		if(buildPanel.isNextTurnButton(button)){
-			uicontrolor.nextTurnPressed();		
+			settlersServer.nextTurnPressed();		
 			return;
 		}
 		if(buildPanel.isTradeButton(button)){
-//			uicontrolor.tradePressed();		
+			uiViewControlor.tradePressed();
 			return;
 		}
 		if(buildPanel.isBuyCardButton(button)){
-			uicontrolor.buyCard();		
+			settlersServer.buyCard();		
 			return;
 		}
 		if(buildPanel.isPlayCardButton(button)){
@@ -176,6 +179,9 @@ public class GameView extends JFrame implements IWindowControlor{
 			return;
 		}
 	}
+	
+	
+
 	
 	
 	

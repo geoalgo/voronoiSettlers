@@ -37,6 +37,7 @@ import model.card.Monopole;
 import model.card.MonopoleState;
 import model.card.VictoryPoint;
 import model.card.VictoryPointState;
+import model.ressources.Ressource;
 import model.ressources.Ressources;
 import player.Player;
 import controlor.DB;
@@ -90,7 +91,7 @@ public class UIWindow implements UIControlor {
 	@Override
 	public void nextTurnPressed() {
 		DB.msg("next turn pressed");
-		closePlayerWindows();
+//		closePlayerWindows();
 		setInactivePlayer(gc.currentPlayerNum());
 		gc.endTurn();
 		setActivePlayer(gc.currentPlayerNum());
@@ -109,7 +110,7 @@ public class UIWindow implements UIControlor {
 
 	@Override
 	public void	tradePressed(){
-		uiTrade = new UITrade(gc.currentPlayer(),gc);
+//		uiTrade = new UITrade(gc.currentPlayer(),gc);
 	}
 
 	@Override
@@ -212,6 +213,14 @@ public class UIWindow implements UIControlor {
 	@Override
 	public void setInactivePlayer(int player) {
 //		parentWindow.setInactive(player);
+	}
+
+	@Override
+	public void internalTrade(int player, Ressource tradedRessource,
+			int numTradedRessource, Ressource obtainedRessource) {
+		Player p = gc.getPlayer(player);
+		p.getRessource().add(tradedRessource,numTradedRessource);
+		p.getRessource().add(obtainedRessource,1);
 	}
 
 }

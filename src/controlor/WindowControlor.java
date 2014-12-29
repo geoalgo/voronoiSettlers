@@ -32,6 +32,7 @@ import controlor.ui.UIWindow;
 import model.Model;
 import model.InitialRules;
 import model.card.Card;
+import model.ressources.Ressource;
 import model.ressources.Ressources;
 import player.Player;
 import view.BoardView;
@@ -52,12 +53,12 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 	Model model;
 	GameView view;
 	UIControlor uicontrolor;
-	GameControlor gameControlor;
+	GameControlor gc;
 
 	public WindowControlor(){
 		setModel();
 		setView();
-		gameControlor.playLevel();
+		run();
 	}
 	
 	@Override
@@ -72,16 +73,14 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 
 	@Override
 	public void run() {
-//		setModel();
-//		setView();
-//		gameControlor.playLevel();
+		gc.playLevel();
 	}
 
 	void setModel() {
-		gameControlor = new GameControlor(new InitialRules(2, 10));
-		uicontrolor = new UIWindow(this,gameControlor);
-		gameControlor.setUIControlor(uicontrolor);
-		this.model = gameControlor.getModel();
+		gc = new GameControlor(new InitialRules(2, 10));
+		uicontrolor = new UIWindow(this,gc);
+		gc.setUIControlor(uicontrolor);
+		this.model = gc.getModel();
 	}
 
 	void setView(){
@@ -114,10 +113,10 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 	public void keyPressed(KeyEvent e, int playerId) {
 	}
 
-
 	@Override
 	public void nextTurnPressed() {
 		uicontrolor.nextTurnPressed();
+		view.setInactive(gc.currentPlayer().getNum());
 	}
 
 	@Override
@@ -133,6 +132,14 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 	@Override
 	public void selectCard(Card c) {
 		uicontrolor.selectCard(c);
+	}
+
+	@Override
+	public void internalTrade(int player,Ressource tradedRessource,
+			int numTradedRessource,Ressource obtainedRessource){
+		Player p = gc.getPlayer(player);
+		p.getRessource().add(tradedRessource,numTradedRessource);
+		p.getRessource().add(obtainedRessource,1);
 	}
 
 	@Override
@@ -152,5 +159,20 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 		});
 	}
 
-	
+	@Override
+	public int getCurrentPlayerNum() {
+		return gc.currentPlayer().getNum();
+	}
+
+	@Override
+	public Player getPlayer(int num) {
+		return gc.getPlayer(num);
+	}
+
+	@Override
+	public Player getCurrentPlayer() {
+		return getPlayer(getCurrentPlayerNum());
+	}
+
+		
 }
