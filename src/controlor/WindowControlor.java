@@ -72,9 +72,9 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 
 	@Override
 	public void run() {
-		setModel();
-		setView();
-		gameControlor.playLevel();
+//		setModel();
+//		setView();
+//		gameControlor.playLevel();
 	}
 
 	void setModel() {
