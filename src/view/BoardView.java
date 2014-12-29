@@ -65,7 +65,6 @@ public class BoardView extends JPanel{
 	public static Color delaunayColor = Color.green;
 	public static int pointRadius = 2;
 
-	private WindowControlor controller;              // Controller for DT
 	private Model model;
 
 	private Map<Object, Color> colorTable;      // Remembers colors for display
@@ -80,8 +79,8 @@ public class BoardView extends JPanel{
 	/**
 	 * Create and initialize the DT.
 	 */
-	public BoardView(WindowControlor controller,Model model) {
-		this.controller = controller;
+	//todo should take a server instead
+	public BoardView(Model model) {
 		this.model = model;
 		selectedPoint = null ;
 	}

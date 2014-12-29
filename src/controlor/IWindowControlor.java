@@ -32,8 +32,8 @@ import java.awt.event.MouseListener;
  * @author david
  *
  */
-public interface IWindowControlor extends Runnable,
-ActionListener, MouseListener, KeyListener {
+public interface IWindowControlor 
+extends ActionListener, MouseListener, KeyListener {
 
 	void setMessage(String txt);
 	void appendMessage(String txt);

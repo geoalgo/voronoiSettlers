@@ -37,31 +37,30 @@ import model.hexagonalTiling.SettlersTile;
 import model.hexagonalTiling.SettlersVertex;
 import model.ressources.Ressources;
 import player.Player;
-
+//xxx server part
 public interface UIControlor {
 	
+	//server->client view
 	void setParentWindowMsg(String s);
 	void appendParentWindowMsg(String s);
-	
-	// called by parent window
-	void mousePressed(Pnt pnt);
-	
-	void nextTurnPressed();
-	void tradePressed();
-	void buyCardPressed();
-	void playCardPressed();
 	void updateView();
-	
 	void setActivePlayer(int player);
 	void setInactivePlayer(int player);
-	
+
+	//client -> client
+	void playCardPressed();
 	//launch UI to choose ressources to loose
 	void selectRessourcesToLoose(Player p, LooseRessource currentState);
+	void chooseEnnemyToSteal(ThiefSelect stealState,Collection<Player> ennemies);
+	void tradePressed();
 	
+	//client view -> server
+	void buyCardPressed();
+	void mousePressed(Pnt pnt);
+	void nextTurnPressed();
 	//call back by the UI after choosing
 	void looseRessources(Ressources ress);
-	
-	void chooseEnnemyToSteal(ThiefSelect stealState,Collection<Player> ennemies);
 	void stealEnnemy(int playerToSteal);
 	void selectCard(Card c);
+	///////////////////////
 }

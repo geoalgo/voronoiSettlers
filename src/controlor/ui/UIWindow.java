@@ -130,7 +130,7 @@ public class UIWindow implements UIControlor {
 				gc.currentPlayer().addCard(card);
 				gc.getUIControlor().updateView();
 			} catch (Exception e) {
-				gc.getUIControlor().appendParentWindowMsg("No more cards...");
+				gc.getUIControlor().appendParentWindowMsg("No more available cards...");
 			}
 		}
 	}
@@ -206,12 +206,12 @@ public class UIWindow implements UIControlor {
 	
 	@Override
 	public void setActivePlayer(int player) {
-		parentWindow.setActive(player);
+//		parentWindow.setActive(player);
 	}
 
 	@Override
 	public void setInactivePlayer(int player) {
-		parentWindow.setInactive(player);
+//		parentWindow.setInactive(player);
 	}
 
 }
