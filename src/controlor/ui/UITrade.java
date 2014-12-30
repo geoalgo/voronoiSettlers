@@ -43,11 +43,11 @@ import model.ressources.Ressource;
 import player.Player;
 import controlor.DB;
 import controlor.GameControlor;
-import controlor.SettlersServer;
+import controlor.ISettlersServer;
 
 public class UITrade extends JFrame implements ActionListener {
 	Player p;
-	SettlersServer server;
+	ISettlersServer server;
 	UIControlor uicontrolor; // for the call back
 
 	JPanel panel0;
@@ -61,7 +61,7 @@ public class UITrade extends JFrame implements ActionListener {
 	JButton done;
 
 
-	public UITrade(SettlersServer server,Player p){
+	public UITrade(ISettlersServer server,Player p){
 		super("Trade");
 		this.p = p;
 		this.server = server;

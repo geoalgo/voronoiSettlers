@@ -15,13 +15,13 @@ import model.Model;
 
 import controlor.DB;
 import controlor.IWindowControlor;
-import controlor.SettlersServer;
+import controlor.ISettlersServer;
 import controlor.ui.UIControlor;
 import controlor.ui.UITrade;
 import delaunay.Pnt;
 
 public class GameView extends JFrame implements IWindowControlor{
-	SettlersServer settlersServer;
+	ISettlersServer settlersServer;
 	UIViewControlor uiViewControlor;
 	private Model model;
 	private BoardView boardView;
@@ -31,9 +31,9 @@ public class GameView extends JFrame implements IWindowControlor{
 	private PlayerPanel[] playerPanel;
 	private ControlPanel buildPanel;
 
-	public GameView(SettlersServer sserver,Model model,int width,int height){
+	public GameView(ISettlersServer sserver,int width,int height){
 		this.settlersServer = sserver;
-		this.model = model;
+		this.model = sserver.getModel();
 		
 		uiViewControlor = new UIViewControlor(sserver,this);
 		
@@ -180,7 +180,6 @@ public class GameView extends JFrame implements IWindowControlor{
 			return;
 		}
 		if(buildPanel.isPlayCardButton(button)){
-//			uicontrolor.playCardPressed();		
 			uiViewControlor.playCardPressed();
 			return;
 		}

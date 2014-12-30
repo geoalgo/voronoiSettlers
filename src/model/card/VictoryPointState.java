@@ -38,7 +38,7 @@ public class VictoryPointState extends CardState {
 	@Override
 	public void click(Pnt click) {
 		//todo xxx ugh ugly
-		gc.getUIControlor().updateView();
+		gc.getServerControlor().updateView();
 		done();
 	}
 

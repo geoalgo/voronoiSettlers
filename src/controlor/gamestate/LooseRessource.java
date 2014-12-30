@@ -52,14 +52,14 @@ public class LooseRessource extends GameState{
 	@Override
 	public void click(Pnt click) {
 		DB.msg("click "+this);
-		gc.getUIControlor().appendParentWindowMsg("Please select ressource to throw before.");
+		gc.getServerControlor().appendMessage("Please select ressource to throw before.");
 	}
 	
 	private void looseRessourceIfFull(){
 		Player p = gc.getPlayer(currentPlayerLoosingRessource);
 		if(p.numRessources()>7){
 			String msg = "Player "+p.getName()+" loose half his ressources";
-			gc.getUIControlor().appendParentWindowMsg(msg);
+			gc.getServerControlor().appendMessage(msg);
 			DB.msg(msg);
 			gc.getUIControlor().selectRessourcesToLoose(
 					gc.getPlayer(currentPlayerLoosingRessource),
@@ -84,7 +84,7 @@ public class LooseRessource extends GameState{
 		Ressources ress = (Ressources)o;
 		DB.msg("num pl:"+currentPlayerLoosingRessource);
 		gc.getPlayer(currentPlayerLoosingRessource).getRessource().remove(ress);
-		gc.getUIControlor().updateView();
+		gc.getServerControlor().updateView();
 		nextPlayer();
 	}
 	

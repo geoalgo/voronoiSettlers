@@ -52,7 +52,7 @@ public class ThiefSelect extends GameState {
 		selectedTile = null;
 		this.stateToRestore = stateToRestore;
 		this.currentPlayer = currentPlayer;
-		gc.getUIControlor().appendParentWindowMsg(gc.getPlayer(currentPlayer).getName()+" please select a new place for the thief");
+		gc.getServerControlor().appendMessage(gc.getPlayer(currentPlayer).getName()+" please select a new place for the thief");
 		gc.setSet(this);
 	}
 
@@ -66,13 +66,13 @@ public class ThiefSelect extends GameState {
 
 	private void click(SettlersTile selectedTile,Pnt click){
 		if(selectedTile == thiefOldPosition){
-			gc.getUIControlor().appendParentWindowMsg("Cannot place the thief to the same place!");
+			gc.getServerControlor().appendMessage("Cannot place the thief to the same place!");
 		}
 		else{
 			this.selectedTile = selectedTile;
 			gc.getModel().setThiefPosition(selectedTile);
 			stealEnnemies(selectedTile);
-			gc.getUIControlor().updateView();
+			gc.getServerControlor().updateView();
 		}
 	}
 
@@ -99,7 +99,7 @@ public class ThiefSelect extends GameState {
 		Player stealer = gc.getPlayer(currentPlayer);
 		Player screwed = gc.getPlayer(playerToSteal);
 		gc.steal(stealer, screwed);
-		gc.getUIControlor().appendParentWindowMsg(
+		gc.getServerControlor().appendMessage(
 				stealer.getName()+" stole "+gc.getPlayer(playerToSteal).getName());
 		gc.setSet(stateToRestore);
 	}

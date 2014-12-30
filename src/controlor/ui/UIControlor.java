@@ -40,11 +40,7 @@ import model.ressources.Ressources;
 import player.Player;
 //xxx server part
 public interface UIControlor {
-	
 	//server->client view
-	void setParentWindowMsg(String s);
-	void appendParentWindowMsg(String s);
-	void updateView();
 	void setActivePlayer(int player);
 	void setInactivePlayer(int player);
 

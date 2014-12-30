@@ -58,6 +58,6 @@ public class MonopoleState extends CardState {
 		DB.msg(numRess+ " ressources of "+r);
 		screwed.getRessource().add(r, -numRess);
 		stealer.getRessource().add(r, numRess);
-		gc.getUIControlor().updateView();
+		gc.getServerControlor().updateView();
 	}
 }

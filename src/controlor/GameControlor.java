@@ -60,7 +60,7 @@ public class GameControlor {
 	int currentPlayer;
 	GameState gs;
 	UIControlor uicontrolor; //todo remove
-	SettlersServer server;
+	ISettlersServer server;
 
 	public GameControlor(InitialRules rules) {
 		model = new Model(rules);	
@@ -78,11 +78,11 @@ public class GameControlor {
 		return uicontrolor;
 	}
 
-	public void setServerControlor(SettlersServer server){
+	public void setServerControlor(ISettlersServer server){
 		this.server = server;
 	}
 
-	public SettlersServer getServerControlor(){
+	public ISettlersServer getServerControlor(){
 		return server;
 	}
 	
@@ -253,15 +253,15 @@ public class GameControlor {
 	
 	
 	public void selectCard(Card c){
-//		appendParentWindowMsg(currentPlayer().getName()+" plays a "+c);
+		server.appendMessage(currentPlayer().getName()+" plays a "+c,currentPlayerNum());
 		GameState stateToRestore = getSet();
 		DB.msg("state to restore:"+stateToRestore);
 		applyCard(c);
 		currentPlayer().removeCard(c);
 		releaseCard(c);
-//		appendParentWindowMsg(gc.currentPlayer().getName()+" releases the card "+c);
 	}
 
+	//xxx should be on the view
 	public void applyCard(Card card){
 		GameState stateToRestore = getSet();
 		if(card instanceof Monopole){
@@ -274,7 +274,6 @@ public class GameControlor {
 		}
 		if(card instanceof VictoryPoint){
 			new VictoryPointState(this, stateToRestore, card);
-//			card.apply(gc,null);
 		}
 		if(card instanceof FreeRoad){
 			card.apply(this,null);

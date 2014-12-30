@@ -41,9 +41,8 @@ public class Knight extends Card {
 		p.addKnight();
 		boolean armyChanged = gc.getModel().updateBiggestArmy();
 		if(armyChanged)
-			gc.getUIControlor().appendParentWindowMsg(
-					gc.currentPlayer().getName()+ " now has the biggest army.");
-		gc.getUIControlor().updateView();
+			gc.getServerControlor().appendMessage(gc.currentPlayer().getName()+ " now has the biggest army.");
+		gc.getServerControlor().updateView();
 	}
 
 }

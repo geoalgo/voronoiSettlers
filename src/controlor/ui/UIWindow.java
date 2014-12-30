@@ -42,7 +42,7 @@ import model.ressources.Ressources;
 import player.Player;
 import controlor.DB;
 import controlor.GameControlor;
-import controlor.WindowControlor;
+import controlor.SettlersServer;
 import controlor.gamestate.GameState;
 import controlor.gamestate.LooseRessource;
 import controlor.gamestate.PlayTurn;
@@ -52,7 +52,7 @@ import delaunay.Pnt;
 
 public class UIWindow implements UIControlor {
 
-	WindowControlor parentWindow;
+	SettlersServer parentWindow;
 	GameControlor gc;
 
 	// state that is waiting a callback with done()
@@ -60,30 +60,13 @@ public class UIWindow implements UIControlor {
 	UITrade uiTrade;
 	UISelectCard uiSelectCard = null;
 
-	public UIWindow(WindowControlor parentWindow,
+	public UIWindow(SettlersServer parentWindow,
 			GameControlor gc ){
 		this.parentWindow = parentWindow;
 		this.gc = gc;
 		callBackState = null;
 		uiTrade = null;
 	}
-
-
-	@Override
-	public void setParentWindowMsg(String s) {
-		parentWindow.setMessage(s+"\n");
-	}
-
-	@Override
-	public void appendParentWindowMsg(String s) {
-		parentWindow.appendMessage(s+"\n");
-	}
-
-	@Override
-	public void updateView() {
-		parentWindow.updateView();
-	}
-
 
 	@Override
 	public void selectRessourcesToLoose(

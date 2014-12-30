@@ -37,7 +37,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
-import controlor.SettlersServer;
+import controlor.ISettlersServer;
 import controlor.ui.UIChoosePlayerToSteal.PlayerNumber;
 
 import model.card.Card;
@@ -45,14 +45,15 @@ import model.card.MonopoleState;
 import model.ressources.Ressource;
 import model.ressources.Ressources;
 import player.Player;
+import view.UIViewControlor;
 
 public class UISelectCard extends JFrame implements ActionListener {
+	UIViewControlor callBack;
 	MonopoleState uicontrolor;
 	JButton ok;
 	JComboBox<Card> cards;
-	SettlersServer callBack;
 	
-	public UISelectCard(SettlersServer callBack,Player p){
+	public UISelectCard(UIViewControlor callBack,Player p){
 		super(p.getName()+" choose your card to play");
 		this.callBack = callBack;
 		

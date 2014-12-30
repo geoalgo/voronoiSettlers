@@ -40,7 +40,7 @@ public class FreeRoad extends Card {
 		gs = new AskFirstFreeRoad(gc,p.getNum());
 		//BoardView v = new BoardView();
 		gc.setSet(gs);
-		gc.getUIControlor().updateView();
+		gc.getServerControlor().updateView();
 	}
 
 }
