@@ -14,7 +14,7 @@ import model.ressources.Ressource;
 import model.ressources.Ressources;
 
 public interface SettlersServer  {
-	Model getModel();
+	Model getModel(); //xxx remove
 
 	public void mouseClicked(Pnt p,int playerId);
 
@@ -25,8 +25,14 @@ public interface SettlersServer  {
 	//call back by the UI after choosing
 	public void looseRessources(Ressources ress);
 	public void stealEnnemy(int playerToSteal);
-	void selectCard(Card c);
-	void buyCard();
+	void playCard(Card c);
+	
+	/**
+	 * @return
+	 * @throws Exception if the player has not enough ressources or if their
+	 * is no card left.
+	 */
+	Card buyCard() throws Exception;
 	void internalTrade(int num, Ressource ress, int i, Ressource aquiredRess);
 	//call back by the UI after choosing
 	

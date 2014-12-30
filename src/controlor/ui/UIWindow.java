@@ -91,7 +91,6 @@ public class UIWindow implements UIControlor {
 	@Override
 	public void nextTurnPressed() {
 		DB.msg("next turn pressed");
-//		closePlayerWindows();
 		setInactivePlayer(gc.currentPlayerNum());
 		gc.endTurn();
 		setActivePlayer(gc.currentPlayerNum());
@@ -108,44 +107,6 @@ public class UIWindow implements UIControlor {
 		}
 	}
 
-	@Override
-	public void	tradePressed(){
-//		uiTrade = new UITrade(gc.currentPlayer(),gc);
-	}
-
-	@Override
-	public void buyCardPressed(){
-		Ressources cardCost = new Ressources();
-		cardCost.addCrop(1);
-		cardCost.addStone(1);
-		cardCost.addSheep(1);
-		boolean enoughRessource = gc.currentPlayer().getRessource().greaterThan(cardCost);
-		if(!enoughRessource)
-			appendParentWindowMsg("Not enough ressource to build a card. You need at least one sheep, one stone and one crop");
-		else{
-			try {
-				Card card = gc.giveRandomCard();
-				gc.getUIControlor().appendParentWindowMsg(gc.currentPlayer().getName()+" bough a card");
-				gc.getUIControlor().appendParentWindowMsg(gc.currentPlayer().getName()+" got a "+card);
-				gc.currentPlayer().getRessource().remove(cardCost);
-				gc.currentPlayer().addCard(card);
-				gc.getUIControlor().updateView();
-			} catch (Exception e) {
-				gc.getUIControlor().appendParentWindowMsg("No more available cards...");
-			}
-		}
-	}
-
-	@Override
-	public void playCardPressed(){
-		Player p = gc.currentPlayer();
-		if(p.numCards() != 0){
-			uiSelectCard = new UISelectCard(this, p);
-		}
-		else{
-			appendParentWindowMsg("No card");
-		}
-	}
 
 	@Override
 	public void selectRessourcesToLoose(
@@ -173,38 +134,6 @@ public class UIWindow implements UIControlor {
 		callBackState.apply(playerToSteal);
 	}
 
-	//call back when choosing a card
-	@Override
-	public void selectCard(Card c){
-		appendParentWindowMsg(gc.currentPlayer().getName()+" plays a "+c);
-		GameState stateToRestore = gc.getSet();
-		DB.msg("state to restore:"+stateToRestore);
-		applyCard(c);
-//		gc.setSet(CardState.makeCardState(gc, stateToRestore, c));
-		gc.currentPlayer().removeCard(c);
-		gc.releaseCard(c);
-		appendParentWindowMsg(gc.currentPlayer().getName()+" releases the card "+c);
-	}
-
-	private void applyCard(Card card){
-		GameState stateToRestore = gc.getSet();
-		if(card instanceof Monopole){
-			//aaa do static cleaner
-			new MonopoleState(gc, stateToRestore, (Monopole)card);
-		}
-		if(card instanceof Knight){
-			//aaa do static cleaner
-			new KnightState(gc, stateToRestore, (Knight)card);
-		}
-		if(card instanceof VictoryPoint){
-			new VictoryPointState(gc, stateToRestore, card);
-//			card.apply(gc,null);
-		}
-		if(card instanceof FreeRoad){
-			card.apply(gc,null);
-		}
-	}
-	
 	@Override
 	public void setActivePlayer(int player) {
 //		parentWindow.setActive(player);
@@ -215,12 +144,5 @@ public class UIWindow implements UIControlor {
 //		parentWindow.setInactive(player);
 	}
 
-	@Override
-	public void internalTrade(int player, Ressource tradedRessource,
-			int numTradedRessource, Ressource obtainedRessource) {
-		Player p = gc.getPlayer(player);
-		p.getRessource().add(tradedRessource,numTradedRessource);
-		p.getRessource().add(obtainedRessource,1);
-	}
-
+	
 }

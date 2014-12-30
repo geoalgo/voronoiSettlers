@@ -35,7 +35,7 @@ public class GameView extends JFrame implements IWindowControlor{
 		this.settlersServer = sserver;
 		this.model = model;
 		
-		uiViewControlor = new UIViewControlor(sserver);
+		uiViewControlor = new UIViewControlor(sserver,this);
 		
 		this.boardView = new BoardView(model);
 		boardView.addMouseListener(this);
@@ -171,11 +171,17 @@ public class GameView extends JFrame implements IWindowControlor{
 			return;
 		}
 		if(buildPanel.isBuyCardButton(button)){
-			settlersServer.buyCard();		
+			try {
+				settlersServer.buyCard();
+				updateView();
+			} catch (Exception e) {
+				appendMessage("Not enough ressources to buy a card.");
+			}		
 			return;
 		}
 		if(buildPanel.isPlayCardButton(button)){
 //			uicontrolor.playCardPressed();		
+			uiViewControlor.playCardPressed();
 			return;
 		}
 	}

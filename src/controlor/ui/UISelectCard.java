@@ -37,6 +37,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
+import controlor.SettlersServer;
 import controlor.ui.UIChoosePlayerToSteal.PlayerNumber;
 
 import model.card.Card;
@@ -49,9 +50,9 @@ public class UISelectCard extends JFrame implements ActionListener {
 	MonopoleState uicontrolor;
 	JButton ok;
 	JComboBox<Card> cards;
-	UIControlor callBack;
+	SettlersServer callBack;
 	
-	public UISelectCard(UIControlor callBack,Player p){
+	public UISelectCard(SettlersServer callBack,Player p){
 		super(p.getName()+" choose your card to play");
 		this.callBack = callBack;
 		
@@ -78,7 +79,7 @@ public class UISelectCard extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == ok){
 			Card selected = ((Card)cards.getSelectedItem());
-			callBack.selectCard(selected);
+			callBack.playCard(selected);
 			done();
 		}
 	}

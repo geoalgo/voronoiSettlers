@@ -1,23 +1,23 @@
 /**
-* Voronoi settlers- An implementation of the board game Settlers of 
-* Catan.
-* This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 3
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*
-* The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
-**/
+ * Voronoi settlers- An implementation of the board game Settlers of 
+ * Catan.
+ * This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
+ **/
 
 package controlor;
 
@@ -26,11 +26,13 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import controlor.gamestate.GameState;
 import controlor.ui.UIControlor;
 import controlor.ui.UIWindow;
 
 import model.Model;
 import model.InitialRules;
+import model.NotEnoughRessourceException;
 import model.card.Card;
 import model.ressources.Ressource;
 import model.ressources.Ressources;
@@ -60,7 +62,7 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 		setView();
 		run();
 	}
-	
+
 	@Override
 	public void init() {
 		try {
@@ -86,15 +88,15 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 	void setView(){
 		this.view = new GameView(this,model, 600, 1000);
 	}
-	
+
 	public void updateView(){
 		view.updateView();
 	}
-	
+
 	public void setMessage(String txt) {
 		view.setMessage(txt);
 	}
-	
+
 	public void appendMessage(String txt) {
 		view.appendMessage(txt);
 	}
@@ -130,8 +132,12 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 	}
 
 	@Override
-	public void selectCard(Card c) {
-		uicontrolor.selectCard(c);
+	public void playCard(Card c) {
+		view.appendMessage(gc.currentPlayer().getName()+" plays a "+c);
+		GameState stateToRestore = gc.getSet();
+		DB.msg("state to restore:"+stateToRestore);
+		gc.applyCard(c);
+		view.appendMessage(gc.currentPlayer().getName()+" releases the card "+c);
 	}
 
 	@Override
@@ -143,10 +149,24 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 	}
 
 	@Override
-	public void buyCard() {
-		uicontrolor.buyCardPressed();
+	public Card buyCard() throws Exception {
+		Ressources cardCost = new Ressources();
+		cardCost.addCrop(1);
+		cardCost.addStone(1);
+		cardCost.addSheep(1);
+
+		boolean enoughRessource = gc.currentPlayer().getRessource().greaterThan(cardCost);
+		if(!enoughRessource)
+			throw new NotEnoughRessourceException();
+		else{
+			Card res = gc.giveRandomCard();
+			gc.currentPlayer().getRessource().remove(cardCost);
+			gc.currentPlayer().addCard(res);
+			return res;
+		}
 	}
-	
+
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -174,5 +194,5 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 		return getPlayer(getCurrentPlayerNum());
 	}
 
-		
+
 }
