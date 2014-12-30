@@ -37,14 +37,14 @@ public class PlayTurn extends GameState{
 	public PlayTurn(GameControlor gc,int currentPlayer){
 		super(gc);
 		this.currentPlayer = currentPlayer;
-		gc.getUIControlor().setActivePlayer(currentPlayer);		
+		gc.getServerControlor().setActivePlayer(currentPlayer);
 	}
 	
 	@Override
 	public void run(){
 		int randomDices = drawDices();
 		dealDices(randomDices);
-		gc.getUIControlor().updateView();
+		gc.getServerControlor().updateView();
 	}
 
 	int drawDices(){
@@ -52,7 +52,7 @@ public class PlayTurn extends GameState{
 		String msg1 = "Draw "+randomDices;
 		String msg2 = "Player "+gc.getPlayer(currentPlayer).getName()+
 				", it's your turn do your move and quick";
-		gc.getUIControlor().setParentWindowMsg(msg1+"\n"+msg2);
+		gc.getServerControlor().setMessage(msg1+"\n"+msg2,currentPlayer);
 		return randomDices;
 	}
 
@@ -110,10 +110,10 @@ public class PlayTurn extends GameState{
 			gc.addColony(click, gc.getPlayer(currentPlayer));
 			String msg = 
 					gc.getPlayer(currentPlayer).getName()+" build a colony ";
-			gc.getUIControlor().appendParentWindowMsg(msg);
+			gc.getServerControlor().appendMessage(msg,gc.currentPlayerNum());
 		} 
 		catch (BuildException e){
-			gc.getUIControlor().appendParentWindowMsg(e.getMsg());
+			gc.getServerControlor().appendMessage(e.getMsg(),gc.currentPlayerNum());
 		}
 		catch (Exception e) {
 			System.out.println("Invalid colony placement");
@@ -125,10 +125,11 @@ public class PlayTurn extends GameState{
 			gc.addCity(click, gc.getPlayer(currentPlayer));
 			String msg = 
 					gc.getPlayer(currentPlayer).getName()+" build a city";
-			gc.getUIControlor().appendParentWindowMsg(msg);
+			gc.getServerControlor().appendMessage(msg,gc.currentPlayerNum());
+
 		} 
 		catch (BuildException e){
-			gc.getUIControlor().appendParentWindowMsg(e.getMsg());
+			gc.getServerControlor().appendMessage(e.getMsg(),gc.currentPlayerNum());
 		}
 		catch (Exception e) {
 			System.out.println("Invalid city placement");
@@ -140,10 +141,10 @@ public class PlayTurn extends GameState{
 			gc.addRoad(e, gc.getPlayer(currentPlayer));
 			String msg = 
 					gc.getPlayer(currentPlayer).getName()+" build a road ";
-			gc.getUIControlor().appendParentWindowMsg(msg);
+			gc.getServerControlor().appendMessage(msg,gc.currentPlayerNum());
 		}
 		catch (BuildException ex){
-			gc.getUIControlor().appendParentWindowMsg(ex.getMsg());
+			gc.getServerControlor().appendMessage(ex.getMessage(),gc.currentPlayerNum());
 		}
 		catch (Exception ex) {
 			System.out.println("Invalid road placement");
@@ -151,13 +152,10 @@ public class PlayTurn extends GameState{
 	}
 
 	private void click(SettlersTile t,Pnt click){
-
 	}
 
 	@Override
 	public void apply(Object o) {
-		// todo do next turn here
-		
 	}
 	
 	@Override

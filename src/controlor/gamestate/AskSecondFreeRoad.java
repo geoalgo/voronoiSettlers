@@ -32,7 +32,7 @@ public class AskSecondFreeRoad extends GameState {
 		super(gc);
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
 				", please specify your placement for your second free road";
-		gc.getUIControlor().setParentWindowMsg(msg);
+		gc.getServerControlor().appendMessage(msg, currentPlayer);
 		this.currentPlayer = currentPlayer;
 	}
 	
@@ -40,11 +40,8 @@ public class AskSecondFreeRoad extends GameState {
 	public void click(Pnt click) {
 		try {
 			gc.addFreeRoad(click, gc.getPlayer(currentPlayer));
-			gc.getUIControlor().setInactivePlayer(currentPlayer);
-				
 			gc.setSet(new PlayTurn(gc,currentPlayer));
 			gc.getSet().run();
-			
 		} catch (Exception e) {
 			System.out.println("Invalid Second free road placement");
 		}

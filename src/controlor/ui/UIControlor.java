@@ -54,8 +54,6 @@ public interface UIControlor {
 	void chooseEnnemyToSteal(ThiefSelect stealState,Collection<Player> ennemies);
 	
 	//client view -> server
-	void mousePressed(Pnt pnt);
-	void nextTurnPressed();
 	//call back by the UI after choosing
 	void looseRessources(Ressources ress);
 	void stealEnnemy(int playerToSteal);

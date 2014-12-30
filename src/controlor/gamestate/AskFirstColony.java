@@ -29,10 +29,10 @@ public class AskFirstColony extends GameState {
 	
 	public AskFirstColony(GameControlor gc,int currentPlayer){
 		super(gc);
-		gc.getUIControlor().setActivePlayer(currentPlayer);		
+		gc.getServerControlor().setActivePlayer(currentPlayer);
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
 				", please specify your placement for your first colony";
-		gc.getUIControlor().setParentWindowMsg(msg);
+		gc.getServerControlor().setMessage(msg,currentPlayer);
 		this.currentPlayer = currentPlayer;
 	}
 
@@ -49,8 +49,6 @@ public class AskFirstColony extends GameState {
 
 	@Override
 	public void apply(Object o) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

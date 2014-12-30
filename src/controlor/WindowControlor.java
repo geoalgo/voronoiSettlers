@@ -82,6 +82,7 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 		gc = new GameControlor(new InitialRules(2, 10));
 		uicontrolor = new UIWindow(this,gc);
 		gc.setUIControlor(uicontrolor);
+		gc.setServerControlor(this);
 		this.model = gc.getModel();
 	}
 
@@ -108,7 +109,8 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 
 	@Override
 	public void mouseClicked(Pnt p,int playerId) {
-		uicontrolor.mousePressed(p);
+		if(playerId == gc.currentPlayerNum())
+			gc.getSet().click(p);
 	}
 
 	@Override
@@ -117,10 +119,14 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 
 	@Override
 	public void nextTurnPressed() {
-		uicontrolor.nextTurnPressed();
-		view.setInactive(gc.currentPlayer().getNum());
+		DB.msg("next turn pressed");
+		view.setInactive(gc.currentPlayerNum());
+		gc.endTurn();
+		view.setActive(gc.currentPlayerNum());
 	}
 
+
+	
 	@Override
 	public void looseRessources(Ressources ress) {
 		uicontrolor.looseRessources(ress);		
@@ -193,6 +199,23 @@ public class WindowControlor extends javax.swing.JApplet implements Runnable,Set
 	public Player getCurrentPlayer() {
 		return getPlayer(getCurrentPlayerNum());
 	}
+
+	@Override
+	public void setMessage(String txt, int player) {
+		view.setMessage(txt);
+	}
+
+	@Override
+	public void appendMessage(String txt, int player) {
+		view.appendMessage(txt);		
+	}
+
+	@Override
+	public void setActivePlayer(int player){
+		for(int i = 0 ; i < gc.numPlayer(); ++i)
+			if(i==player) view.setActive(i);
+			else view.setInactive(i);
+	}	
 
 
 }

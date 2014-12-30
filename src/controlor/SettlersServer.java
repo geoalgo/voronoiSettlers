@@ -17,9 +17,7 @@ public interface SettlersServer  {
 	Model getModel(); //xxx remove
 
 	public void mouseClicked(Pnt p,int playerId);
-
 	public void keyPressed(KeyEvent e,int playerId);
-
 	public void nextTurnPressed();		
 
 	//call back by the UI after choosing
@@ -42,4 +40,10 @@ public interface SettlersServer  {
 	Player getCurrentPlayer();
 	Player getPlayer(int num);
 
+	void setMessage(String txt,int player);
+	void appendMessage(String txt,int player);
+	
+	void setActivePlayer(int player);
 }
+
+

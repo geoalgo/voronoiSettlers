@@ -59,7 +59,8 @@ public class GameControlor {
 	Model model;
 	int currentPlayer;
 	GameState gs;
-	UIControlor uicontrolor;
+	UIControlor uicontrolor; //todo remove
+	SettlersServer server;
 
 	public GameControlor(InitialRules rules) {
 		model = new Model(rules);	
@@ -77,6 +78,14 @@ public class GameControlor {
 		return uicontrolor;
 	}
 
+	public void setServerControlor(SettlersServer server){
+		this.server = server;
+	}
+
+	public SettlersServer getServerControlor(){
+		return server;
+	}
+	
 	public void setSet(GameState newState){
 		this.gs = newState;
 	}
@@ -151,7 +160,7 @@ public class GameControlor {
 			}while(numberOfRessource<1);
 			screwed.getRessource().add(stealedRessource,-1);
 			stealer.getRessource().add(stealedRessource,1);
-			uicontrolor.updateView();
+			server.updateView();
 		}
 	}
 	
@@ -171,12 +180,12 @@ public class GameControlor {
 	 */
 	void addColony(SettlersVertex v,Player p) throws Exception{
 		model.addColony(new Colony(v,p),v);
-		uicontrolor.updateView();
+		server.updateView();
 	}
 
 	void addFreeColony(SettlersVertex v,Player p) throws Exception{
 		model.addFreeColony(new Colony(v,p),v);
-		uicontrolor.updateView();
+		server.updateView();
 	}
 
 	public void addColony(Pnt pnt,Player p) throws Exception{
@@ -191,7 +200,7 @@ public class GameControlor {
 
 	void addCity(SettlersVertex v,Player p) throws Exception{
 		model.addCity(new City(v,p),v);
-		uicontrolor.updateView();
+		server.updateView();
 	}
 
 	public void addCity(Pnt click,Player p) throws Exception{
@@ -206,7 +215,7 @@ public class GameControlor {
 
 	public void addRoad(SettlersEdge e,Player p) throws Exception{
 		model.addRoad(p,e);
-		uicontrolor.updateView();
+		server.updateView();
 	}
 	
 	public void addFreeRoad(Pnt pnt,Player p) throws Exception{
@@ -216,7 +225,7 @@ public class GameControlor {
 
 	public void addFreeRoad(SettlersEdge e,Player p) throws Exception{
 		model.addFreeRoad(p,e);
-		uicontrolor.updateView();
+		server.updateView();
 	}
 
 	public void addFirstRoad(Pnt pnt,Player p) throws Exception{
@@ -233,13 +242,13 @@ public class GameControlor {
 	void addFirstRoad(SettlersEdge e,Player p) throws Exception{
 		Colony c = (Colony) p.getBuilding(0);
 		model.addFreeRoadNearColony(p,e,c);
-		uicontrolor.updateView();
+		server.updateView();
 	}
 
 	void addSecondRoad(SettlersEdge e,Player p) throws Exception{
 		Colony c = (Colony) p.getBuilding(1);
 		model.addFreeRoadNearColony(p,e,c);
-		uicontrolor.updateView();
+		server.updateView();
 	}
 	
 	

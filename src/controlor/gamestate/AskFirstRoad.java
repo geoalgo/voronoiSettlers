@@ -35,7 +35,7 @@ public class AskFirstRoad extends GameState {
 		this.currentPlayer = currentPlayer;
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
 				", please specify your placement for your first road";
-		gc.getUIControlor().setParentWindowMsg(msg);
+		gc.getServerControlor().appendMessage(msg,currentPlayer);
 	}
 	
 	@Override
@@ -44,7 +44,6 @@ public class AskFirstRoad extends GameState {
 			gc.addFirstRoad(click, gc.getPlayer(currentPlayer));
 			int nextPlayer = currentPlayer+1;
 			if( nextPlayer < gc.numPlayer() ){
-				gc.getUIControlor().setInactivePlayer(gc.currentPlayerNum());		
 				gc.setSet(new AskFirstColony(gc, nextPlayer));
 			}
 			else{

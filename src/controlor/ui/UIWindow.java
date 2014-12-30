@@ -68,10 +68,6 @@ public class UIWindow implements UIControlor {
 		uiTrade = null;
 	}
 
-	@Override
-	public void mousePressed(Pnt pnt) {
-		gc.getSet().click(pnt);
-	}
 
 	@Override
 	public void setParentWindowMsg(String s) {
@@ -86,25 +82,6 @@ public class UIWindow implements UIControlor {
 	@Override
 	public void updateView() {
 		parentWindow.updateView();
-	}
-
-	@Override
-	public void nextTurnPressed() {
-		DB.msg("next turn pressed");
-		setInactivePlayer(gc.currentPlayerNum());
-		gc.endTurn();
-		setActivePlayer(gc.currentPlayerNum());
-	}
-
-	private void closePlayerWindows(){
-		if(uiTrade!=null){
-			uiTrade.done();
-			uiTrade = null;
-		}
-		if(uiSelectCard!=null){
-			uiSelectCard.done();
-			uiSelectCard = null;
-		}
 	}
 
 
