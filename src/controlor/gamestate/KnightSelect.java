@@ -26,34 +26,31 @@ import java.util.TreeSet;
 
 import player.Player;
 
+import model.card.Card;
+import model.card.CardState;
 import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersTile;
 import model.hexagonalTiling.SettlersVertex;
 import controlor.DB;
 import controlor.GameControlor;
 import controlor.ISettlersServer;
+import controlor.SettlersServer;
 import delaunay.Pnt;
 
-public class ThiefSelect extends GameState {
+public class KnightSelect extends CardState {
 	SettlersTile thiefOldPosition;
 	SettlersTile selectedTile;
 
-	// state of the player who thew the 7
-	// must be restored after thief selection
-	GameState stateToRestore;
-
 	int currentPlayer;
 
-	public ThiefSelect(GameControlor gc,
-			GameState stateToRestore,
+	public KnightSelect(GameControlor gc,
+			Card card,
 			int currentPlayer) {
-		super(gc);
+		super(gc,card);
 		this.thiefOldPosition = gc.getModel().getThiefPosition();
 		selectedTile = null;
-		this.stateToRestore = stateToRestore;
 		this.currentPlayer = currentPlayer;
 		gc.getServerControlor().appendMessage(gc.getPlayer(currentPlayer).getName()+" please select a new place for the thief");
-		gc.setState(this);
 	}
 
 	@Override
@@ -89,8 +86,6 @@ public class ThiefSelect extends GameState {
 //			else
 //				gc.getUIControlor().chooseEnnemyToSteal(this, ennemiesAroundTile);
 		}
-		else
-			gc.setState(stateToRestore);
 	}
 
 	@Override
@@ -98,10 +93,8 @@ public class ThiefSelect extends GameState {
 		int playerToSteal = (int) o;
 		Player stealer = gc.getPlayer(currentPlayer);
 		Player screwed = gc.getPlayer(playerToSteal);
-//		gc.steal(stealer, screwed);
-		gc.getServerControlor().appendMessage(
-				stealer.getName()+" stole "+gc.getPlayer(playerToSteal).getName());
-		gc.setState(stateToRestore);
+		gc.getServerControlor().stealRandomEnnemyRessource(playerToSteal);
+		gc.getServerControlor().appendMessage(stealer.getName()+" stole "+screwed.getName());
 	}
 
 	@Override

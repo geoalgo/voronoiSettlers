@@ -37,6 +37,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
+import controlor.DB;
 import controlor.ui.UIChoosePlayerToSteal.PlayerNumber;
 
 import model.card.MonopoleState;
@@ -73,6 +74,7 @@ public class UISelectRessourceMonopole extends JFrame implements ActionListener 
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == ok){
+			DB.msg("ok button pressed");
 			Ressource selected = ((Ressource)ressources.getSelectedItem());
 			callBackState.apply(selected);
 			setVisible(false);

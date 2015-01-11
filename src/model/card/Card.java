@@ -22,6 +22,7 @@
 package model.card;
 
 import controlor.GameControlor;
+import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
 import delaunay.Pnt;
 import player.Player;
@@ -35,7 +36,7 @@ public abstract class Card {
 		this.descr = descr;
 	}
 	
-	public abstract void apply(GameControlor gc,GameState gs);
+	public abstract void apply(ISettlersServer gc);
 
 	void setPlayer(Player p){
 		this.p = p;

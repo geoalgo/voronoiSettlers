@@ -40,7 +40,7 @@ public class AskSecondColony extends GameState{
 	public void click(Pnt click) {
 		try {
 			gc.addFreeColony(click, gc.getPlayer(currentPlayer));
-			gc.setSet(new AskSecondRoad(gc, currentPlayer));
+			gc.setState(new AskSecondRoad(gc, currentPlayer));
 		} catch (Exception e) {
 			System.out.println("Invalid colony placement");
 		}		

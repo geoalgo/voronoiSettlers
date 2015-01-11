@@ -3,6 +3,7 @@ package view;
 import java.util.Collection;
 
 import model.card.Card;
+import model.card.CardState;
 import model.card.FreeRoad;
 import model.card.Knight;
 import model.card.KnightState;
@@ -20,9 +21,11 @@ import controlor.gamestate.ThiefSelect;
 import controlor.ui.UIChoosePlayerToSteal;
 import controlor.ui.UISelectCard;
 import controlor.ui.UITrade;
+import delaunay.Pnt;
 
 public class UIViewControlor {
 	ISettlersServer server;
+	CardState cardState = null;
 	UITrade uiTrade = null;
 	UISelectCard uiSelectCard = null;
 	GameView view;
@@ -30,6 +33,7 @@ public class UIViewControlor {
 
 	UIViewControlor(ISettlersServer server,GameView view){
 		this.server = server;
+		this.view = view;
 	}
 
 	public void	tradePressed(){
@@ -58,6 +62,8 @@ public class UIViewControlor {
 		}
 	}
 
+
+	
 	public void buyCardPressed(){
 		try{
 			Card card = server.buyCard();
@@ -69,23 +75,19 @@ public class UIViewControlor {
 		}
 	}
 
-	public void playCard(Card card) {
-//		GameState stateToRestore = server.getSet();
-//		if(card instanceof Monopole){
-//			//aaa do static cleaner
-//			new MonopoleState(this, stateToRestore, (Monopole)card);
-//		}
-//		if(card instanceof Knight){
-//			//aaa do static cleaner
-//			new KnightState(this, stateToRestore, (Knight)card);
-//		}
-//		if(card instanceof VictoryPoint){
-//			new VictoryPointState(this, stateToRestore, card);
-//		}
-//		if(card instanceof FreeRoad){
-//			card.apply(this,null);
-//		}
+	public boolean isIncardState(){
+		return cardState != null;
 	}
+	
+	public void click(Pnt pnt){
+		cardState.click(pnt);
+	}
+
+	
+	public void playCard(Card card) {
+		server.playCard(card);
+	}
+	
 
 //	void chooseEnnemyToSteal(ThiefSelect stealState,Collection<Player> ennemies){
 ////		DB.msg("show chooser");

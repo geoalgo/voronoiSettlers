@@ -14,13 +14,13 @@ import player.Player;
 import model.Model;
 
 import controlor.DB;
-import controlor.IWindowControlor;
+import controlor.IWindowController;
 import controlor.ISettlersServer;
 import controlor.ui.UIControlor;
 import controlor.ui.UITrade;
 import delaunay.Pnt;
 
-public class GameView extends JFrame implements IWindowControlor{
+public class GameView extends JFrame implements IWindowController{
 	ISettlersServer settlersServer;
 	UIViewControlor uiViewControlor;
 	private Model model;
@@ -34,9 +34,9 @@ public class GameView extends JFrame implements IWindowControlor{
 	public GameView(ISettlersServer sserver,int width,int height){
 		this.settlersServer = sserver;
 		this.model = sserver.getModel();
-		
+
 		uiViewControlor = new UIViewControlor(sserver,this);
-		
+
 		this.boardView = new BoardView(model);
 		boardView.addMouseListener(this);
 		setLayout(new BorderLayout());
@@ -48,13 +48,13 @@ public class GameView extends JFrame implements IWindowControlor{
 		setPlayerView();
 		this.setVisible(true);
 	}
-	
-	
+
+
 	void setPlayerView(){
 		playerPanelLeft = new JPanel();
 		add(playerPanelLeft,"West");
 		playerPanelLeft.setLayout(new GridLayout(2,1));
-		
+
 		playerPanelRight = new JPanel();
 		add(playerPanelRight,"East");
 		playerPanelRight.setLayout(new GridLayout(2,1));
@@ -69,6 +69,26 @@ public class GameView extends JFrame implements IWindowControlor{
 				playerPanelLeft.add(playerPanel[i]);
 			else 
 				playerPanelRight.add(playerPanel[i]);
+		}
+	}
+
+	/**
+	 * If mouse has been pressed inside the delaunayPanel then add a new site.
+	 */
+	public void mousePressed(MouseEvent e) {
+		Pnt pnt = convertToCatanCoord(new Pnt(e.getX(), e.getY()));
+
+		if(uiViewControlor.isIncardState()){
+			uiViewControlor.click(pnt);
+		}
+		else{
+
+			if(!buildPanel.isButton(e.getSource()))
+				settlersServer.mouseClicked(pnt,0);
+			else{
+				handleButton(e.getSource());
+			}
+			boardView.repaint();
 		}
 	}
 
@@ -127,7 +147,7 @@ public class GameView extends JFrame implements IWindowControlor{
 	public void setActive(int player) {
 		playerPanel[player].setTurn();
 	}
-	
+
 	private Pnt convertToCatanCoord(Pnt o){
 		Pnt res = new Pnt(o); 
 		res.scale(0,1./boardView.getWidth());
@@ -135,7 +155,7 @@ public class GameView extends JFrame implements IWindowControlor{
 		return res;
 	}
 
-	
+
 	/**
 	 * A button has been pressed; redraw the picture.
 	 */
@@ -145,21 +165,6 @@ public class GameView extends JFrame implements IWindowControlor{
 		boardView.repaint();
 	}
 
-	
-	/**
-	 * If mouse has been pressed inside the delaunayPanel then add a new site.
-	 */
-	public void mousePressed(MouseEvent e) {
-		Pnt pnt = convertToCatanCoord(new Pnt(e.getX(), e.getY()));
-
-		if(!buildPanel.isButton(e.getSource()))
-			settlersServer.mouseClicked(pnt,0);
-		else{
-			handleButton(e.getSource());
-		}
-		boardView.repaint();
-	}
-	
 	private void handleButton(Object button){
 		DB.msg("button pressed");
 		if(buildPanel.isNextTurnButton(button)){
@@ -184,10 +189,10 @@ public class GameView extends JFrame implements IWindowControlor{
 			return;
 		}
 	}
-	
-	
 
-	
-	
-	
+
+
+
+
+
 }

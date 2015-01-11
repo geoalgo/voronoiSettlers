@@ -19,29 +19,26 @@
 * The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
 **/
 
-package model.card;
 
-import controlor.DB;
-import controlor.GameControlor;
-import controlor.ISettlersServer;
-import controlor.gamestate.AskFirstFreeRoad;
-import controlor.gamestate.GameState;
+package controlor;
 
-public class FreeRoad extends Card {
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
-	FreeRoad() {
-		super("Two free roads");
-	}
 
-	@Override
-	public void apply(ISettlersServer gc) {
-//		//1- ask position two roads
-//		//2- restore gamestate
-//		DB.msg("set gs to AskFirstRoad");
-//		gs = new AskFirstFreeRoad(gc,p.getNum());
-//		//BoardView v = new BoardView();
-//		gc.setSet(gs);
-//		gc.updateView();
-	}
+/**
+ * Interface for a Window Controller of the game.
+ * @author david
+ *
+ */
+public interface IWindowController 
+extends ActionListener, MouseListener, KeyListener {
 
+	void setMessage(String txt);
+	void appendMessage(String txt);
+	void updateView();
+	void setInactive(int player);
+	void setActive(int player);
 }
+

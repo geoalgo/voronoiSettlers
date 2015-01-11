@@ -25,14 +25,15 @@ import player.Player;
 import model.ressources.Ressource;
 import controlor.DB;
 import controlor.GameControlor;
+import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
 import controlor.ui.UISelectRessourceMonopole;
 import delaunay.Pnt;
 
 public class MonopoleState extends CardState {
 
-	public MonopoleState(GameControlor gc, GameState stateToRestore, Monopole card) {
-		super(gc, stateToRestore, card);
+	public MonopoleState(GameControlor gc, Monopole card) {
+		super(gc, card);
 		// create gui to select ressource to steal
 		UISelectRessourceMonopole ui = new UISelectRessourceMonopole(this);
 	}
@@ -44,20 +45,6 @@ public class MonopoleState extends CardState {
 	@Override
 	public void apply(Object o) {
 		Ressource selectedRess = (Ressource)o;
-		int currentPlayer = gc.currentPlayerNum();
-		for(int i = 0; i< gc.numPlayer();++i){
-			if(i!=currentPlayer){
-				stealPlayerRessource(gc.currentPlayer(),gc.getPlayer(i),selectedRess);
-			}
-		}
-		done();
-	}
-
-	private void stealPlayerRessource(Player stealer, Player screwed, Ressource r){
-		int numRess = screwed.getRessource().getNum(r);
-		DB.msg(numRess+ " ressources of "+r);
-		screwed.getRessource().add(r, -numRess);
-		stealer.getRessource().add(r, numRess);
-		gc.getServerControlor().updateView();
+		gc.getServerControlor().monopole(selectedRess);
 	}
 }

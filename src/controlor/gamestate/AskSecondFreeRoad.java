@@ -40,7 +40,7 @@ public class AskSecondFreeRoad extends GameState {
 	public void click(Pnt click) {
 		try {
 			gc.addFreeRoad(click, gc.getPlayer(currentPlayer));
-			gc.setSet(new PlayTurn(gc,currentPlayer));
+			gc.setState(new PlayTurn(gc,currentPlayer));
 			gc.getSet().run();
 		} catch (Exception e) {
 			System.out.println("Invalid Second free road placement");

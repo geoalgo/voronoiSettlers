@@ -25,6 +25,7 @@ import player.Player;
 import model.Construction.Building;
 import model.Construction.Colony;
 import controlor.GameControlor;
+import controlor.ISettlersServer;
 import delaunay.Pnt;
 
 public class AskFirstFreeRoad extends GameState {
@@ -42,7 +43,7 @@ public class AskFirstFreeRoad extends GameState {
 	public void click(Pnt click) {
 		try {
 			gc.addFreeRoad(click, gc.getPlayer(currentPlayer));
-			gc.setSet(new AskSecondFreeRoad(gc,currentPlayer));
+			gc.setState(new AskSecondFreeRoad(gc,currentPlayer));
 		} catch (Exception e) {
 			System.out.println("Invalid first free road placement");
 		}

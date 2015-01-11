@@ -40,7 +40,7 @@ public class AskFirstColony extends GameState {
 	public void click(Pnt click) {
 		try {
 			gc.addFreeColony(click, gc.getPlayer(currentPlayer));
-			gc.setSet(new AskFirstRoad(gc, currentPlayer));
+			gc.setState(new AskFirstRoad(gc, currentPlayer));
 		} catch (Exception e) {
 			System.out.println("Invalid first colony placement");
 		}

@@ -73,8 +73,8 @@ public class LooseRessource extends GameState{
 		if(currentPlayerLoosingRessource<gc.numPlayer())
 			looseRessourceIfFull();
 		else {
-//			gc.setSet(new ThiefSelect(gc, stateBefore, stateBefore.currentPlayer));
-			ThiefSelect ts = new ThiefSelect(gc, stateBefore, stateBefore.currentPlayer);
+			gc.setState(new ThiefSelect(gc, stateBefore, stateBefore.currentPlayer));
+//			ThiefSelect ts = new ThiefSelect(gc, stateBefore, stateBefore.currentPlayer);
 		}
 	}
 	

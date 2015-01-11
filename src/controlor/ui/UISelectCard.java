@@ -71,7 +71,7 @@ public class UISelectCard extends JFrame implements ActionListener {
 
 		setVisible(true);
 		setPreferredSize(new Dimension(300, 75));
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+//		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		pack();
 
 		if(p.numCards()==0) done();

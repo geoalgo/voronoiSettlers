@@ -22,6 +22,7 @@
 package model.card;
 
 import controlor.GameControlor;
+import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
 import player.Player;
 
@@ -32,8 +33,7 @@ public class VictoryPoint extends Card {
 	}
 
 	@Override
-	public
-	void apply(GameControlor gc,GameState gs) {
+	public void apply(ISettlersServer gc) {
 		p.addPoint();
 	}
 

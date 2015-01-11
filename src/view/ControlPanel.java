@@ -24,7 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controlor.IWindowControlor;
+import controlor.IWindowController;
 import controlor.SettlersServer;
 
 @SuppressWarnings("serial")
@@ -35,7 +35,7 @@ public class ControlPanel extends JPanel{
 	private JButton playCardButton;
 	private JButton nextTurnButton;
 	
-	public ControlPanel(IWindowControlor parentWindow) {
+	public ControlPanel(IWindowController parentWindow) {
 		buyCardButton = new JButton("Buy card");
 		playCardButton = new JButton("Play card");
 		nextTurnButton = new JButton("End turn");

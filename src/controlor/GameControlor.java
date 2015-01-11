@@ -86,7 +86,7 @@ public class GameControlor {
 		return server;
 	}
 	
-	public void setSet(GameState newState){
+	public void setState(GameState newState){
 		this.gs = newState;
 	}
 
@@ -252,33 +252,33 @@ public class GameControlor {
 	}
 	
 	
-	public void selectCard(Card c){
-		server.appendMessage(currentPlayer().getName()+" plays a "+c,currentPlayerNum());
-		GameState stateToRestore = getSet();
-		DB.msg("state to restore:"+stateToRestore);
-		applyCard(c);
-		currentPlayer().removeCard(c);
-		releaseCard(c);
-	}
+//	public void selectCard(Card c){
+//		server.appendMessage(currentPlayer().getName()+" plays a "+c,currentPlayerNum());
+//		GameState stateToRestore = getSet();
+//		DB.msg("state to restore:"+stateToRestore);
+//		applyCard(c);
+//		currentPlayer().removeCard(c);
+//		releaseCard(c);
+//	}
 
-	//xxx should be on the view
-	public void applyCard(Card card){
-		GameState stateToRestore = getSet();
-		if(card instanceof Monopole){
-			//aaa do static cleaner
-			new MonopoleState(this, stateToRestore, (Monopole)card);
-		}
-		if(card instanceof Knight){
-			//aaa do static cleaner
-			new KnightState(this, stateToRestore, (Knight)card);
-		}
-		if(card instanceof VictoryPoint){
-			new VictoryPointState(this, stateToRestore, card);
-		}
-		if(card instanceof FreeRoad){
-			card.apply(this,null);
-		}
-	}
+//	//xxx should be on the view
+//	public void applyCard(Card card){
+//		GameState stateToRestore = getSet();
+//		if(card instanceof Monopole){
+//			//aaa do static cleaner
+//			new MonopoleState(this, stateToRestore, (Monopole)card);
+//		}
+//		if(card instanceof Knight){
+//			//aaa do static cleaner
+//			new KnightState(this, stateToRestore, (Knight)card);
+//		}
+//		if(card instanceof VictoryPoint){
+//			new VictoryPointState(this, stateToRestore, card);
+//		}
+//		if(card instanceof FreeRoad){
+//			card.apply(this,null);
+//		}
+//	}
 
 
 }

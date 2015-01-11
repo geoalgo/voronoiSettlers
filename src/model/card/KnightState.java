@@ -25,15 +25,27 @@ import player.Player;
 import model.ressources.Ressource;
 import controlor.DB;
 import controlor.GameControlor;
+import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
+import controlor.gamestate.KnightSelect;
 import controlor.ui.UISelectRessourceMonopole;
 import delaunay.Pnt;
 
 public class KnightState extends CardState {
 
-	public KnightState(GameControlor gc, GameState stateToRestore, Knight card) {
-		super(gc, stateToRestore, card);
-		card.apply(gc, stateToRestore);
+	public KnightState(GameControlor gc, Knight card) {
+		super(gc, card);
+		
+		//1- UI ask stealer position
+		//2- increase knight number
+		//3- update biggest army holder
+		KnightSelect uiThief = new KnightSelect(gc, card,gc.currentPlayerNum());
+		gc.currentPlayer().addKnight();
+		boolean armyChanged = gc.getModel().updateBiggestArmy();
+		if(armyChanged) 
+			gc.getServerControlor().appendMessage(gc.currentPlayer().getName()+ " now has the biggest army.");
+		gc.getServerControlor().updateView();
+//		card.apply(gc);
 	}
 
 	@Override

@@ -62,7 +62,7 @@ public class PlayTurn extends GameState{
 		else{
 			//changes the current state
 			DB.msg("set loose ressource");
-			gc.setSet(new LooseRessource(gc,this));
+			gc.setState(new LooseRessource(gc,this));
 			gc.getSet().run();
 			DB.msg("gc set:"+gc.getSet());
 		}

@@ -22,11 +22,13 @@
 package controlor.gamestate;
 
 import controlor.GameControlor;
+import controlor.ISettlersServer;
 import delaunay.Pnt;
 
 /**
  * A game state that corresponds to various UI interaction (choosing road or stealer
  * placement) for instance.
+ * Overloads the click method to customize effect.
  * 
  * @author david
  *

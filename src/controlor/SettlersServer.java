@@ -27,6 +27,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controlor.gamestate.GameState;
+import controlor.gamestate.PlayTurn;
 import controlor.ui.UIControlor;
 import controlor.ui.UIWindow;
 
@@ -34,6 +35,14 @@ import model.Model;
 import model.InitialRules;
 import model.NotEnoughRessourceException;
 import model.card.Card;
+import model.card.CardState;
+import model.card.FreeRoad;
+import model.card.Knight;
+import model.card.KnightState;
+import model.card.Monopole;
+import model.card.MonopoleState;
+import model.card.VictoryPoint;
+import model.hexagonalTiling.SettlersEdge;
 import model.ressources.Ressource;
 import model.ressources.Ressources;
 import player.Player;
@@ -80,6 +89,16 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 
 	public GameState getSet(){
 		return gc.getSet();
+	}
+	
+	void setNormalState(){
+		gc.setState(new PlayTurn(gc, getCurrentPlayerNum()));
+	}
+	
+	
+	@Override
+	public void setSet(GameState state){
+		gc.setState(state);
 	}
 	
 	void setModel() {
@@ -129,27 +148,6 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 		view.setActive(gc.currentPlayerNum());
 	}
 
-
-	
-	@Override
-	public void looseRessources(Ressources ress) {
-		uicontrolor.looseRessources(ress);		
-	}
-
-	@Override
-	public void stealEnnemy(int playerToSteal) {
-		uicontrolor.stealEnnemy(playerToSteal);
-	}
-
-	@Override
-	public void playCard(Card c) {
-		view.appendMessage(gc.currentPlayer().getName()+" plays a "+c);
-		GameState stateToRestore = gc.getSet();
-		DB.msg("state to restore:"+stateToRestore);
-		gc.applyCard(c);
-		view.appendMessage(gc.currentPlayer().getName()+" releases the card "+c);
-	}
-
 	@Override
 	public void internalTrade(int player,Ressource tradedRessource,
 			int numTradedRessource,Ressource obtainedRessource){
@@ -176,19 +174,26 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 		}
 	}
 
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SettlersServer window = new SettlersServer();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	@Override
+	public void playCard(Card card) {
+		gc.setState(CardState.makeCardState(gc, card));
+		getCurrentPlayer().removeCard(card);
+		view.updateView();
 	}
 
+	public void applyCardEffect(Card card,Object selection){
+		DB.msg("apply card effect");
+		gc.getSet().apply(selection); // the game state is necessarily a card state
+		getCurrentPlayer().removeCard(card);
+		setNormalState();
+		view.updateView();
+	}
+
+	@Override
+	public int getNumPlayer(){
+		return gc.numPlayer();
+	}
+	
 	@Override
 	public int getCurrentPlayerNum() {
 		return gc.currentPlayer().getNum();
@@ -203,6 +208,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 	public Player getCurrentPlayer() {
 		return getPlayer(getCurrentPlayerNum());
 	}
+	
 
 	@Override
 	public void setMessage(String txt, int player) {
@@ -219,7 +225,57 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 		for(int i = 0 ; i < gc.numPlayer(); ++i)
 			if(i==player) view.setActive(i);
 			else view.setInactive(i);
+	}
+
+	@Override
+	public void looseRessources(int playerLoosingRess, Ressources ress) {
+		DB.msg("num pl:"+playerLoosingRess);
+		gc.getPlayer(playerLoosingRess).getRessource().remove(ress);
+		view.appendMessage(getPlayer(playerLoosingRess).getName()+" looses half his ressources.");
+	}
+
+	@Override
+	public void monopole(Ressource ress) {
+		int currentPlayer = getCurrentPlayerNum();
+		for(int i = 0; i< getNumPlayer();++i){
+			if(i!=currentPlayer){
+				stealAllPlayerRessource(getCurrentPlayer(),gc.getPlayer(i),ress);
+			}
+		}		
+		view.appendMessage(getCurrentPlayer().getName()+" plays a monopole on "+ress);
+		setNormalState();
+	}
+
+	private void stealAllPlayerRessource(Player stealer, Player screwed, Ressource r){
+		int numRess = screwed.getRessource().getNum(r);
+		DB.msg("steal "+numRess+ " ressources of "+r);
+		screwed.getRessource().add(r, -numRess);
+		stealer.getRessource().add(r, numRess);
+		view.updateView();
+	}
+
+	@Override
+	public void stealRandomEnnemyRessource(int playerToSteal) {
+		gc.steal(getCurrentPlayer(),getPlayer(playerToSteal));
+		setNormalState();
+	}
+	
+	@Override
+	public void selectTwoFreeRoads(SettlersEdge road1, SettlersEdge road2) {
+		// TODO Auto-generated method stub
+		setNormalState();
 	}	
 
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SettlersServer window = new SettlersServer();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 }

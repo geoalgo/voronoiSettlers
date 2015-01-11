@@ -42,14 +42,14 @@ public class AskSecondRoad extends GameState {
 			gc.addSecondRoad(click, gc.getPlayer(currentPlayer));
 			int nextPlayer = currentPlayer-1;
 			if( nextPlayer >= 0 )
-				gc.setSet(new AskSecondColony(gc, nextPlayer));
+				gc.setState(new AskSecondColony(gc, nextPlayer));
 			else{
 				try {
 					gc.initialHarvest();
 				} catch (Exception e) {
 					DB.msg("pb with harvest");
 				}
-				gc.setSet(new PlayTurn(gc,currentPlayer));
+				gc.setState(new PlayTurn(gc,currentPlayer));
 				gc.getSet().run();
 			}
 		} catch (Exception e) {

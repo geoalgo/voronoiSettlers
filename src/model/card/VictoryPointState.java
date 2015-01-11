@@ -23,14 +23,14 @@ package model.card;
 
 import controlor.DB;
 import controlor.GameControlor;
+import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
 import delaunay.Pnt;
 
 public class VictoryPointState extends CardState {
 
-	public VictoryPointState(GameControlor gc, GameState stateToRestore,
-			Card card) {
-		super(gc, stateToRestore, card);
+	public VictoryPointState(GameControlor gc,Card card) {
+		super(gc, card);
 		DB.msg("add point");
 		gc.currentPlayer().addPoint();
 	}
@@ -43,6 +43,8 @@ public class VictoryPointState extends CardState {
 	}
 
 	@Override
-	public void apply(Object o) {}
+	public void apply(Object o) {
+		this.card.p.addPoint();
+	}
 
 }
