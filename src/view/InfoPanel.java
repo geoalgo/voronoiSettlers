@@ -27,6 +27,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+import controlor.DB;
+
 @SuppressWarnings("serial")
 public class InfoPanel extends JPanel {
 
@@ -56,7 +58,8 @@ public class InfoPanel extends JPanel {
 
 	public void appendMessage(String msg){
 	    String currentTxt = text.getText();
-	    text.append(currentTxt +"\n"+ msg);
+	    DB.msg("app msg:"+msg);
+	    text.append("\n"+ msg);
 	}
 
 	
