@@ -58,7 +58,7 @@ public class ThiefSelect extends GameState {
 
 	@Override
 	public void click(Pnt click) {
-		DB.msg("theif select click");
+		DB.msg("Thief select click");
 		SettlersTile closestTile = gc.getModel().board().locateClosestTile(click);
 		if(closestTile!=null) 
 			click(closestTile,click);

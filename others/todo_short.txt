@@ -1,6 +1,5 @@
 o clean state transition code (3/5)
 
-o cheat code to add ressource for first player (1/5)
 o separate window controlor et applet main (2/5)
 
 o count longest road (2/5) need a test
@@ -9,6 +8,7 @@ o reject configs where 6/8 are adjacent (1/5)
 
 o currently, the ressources and tokens are fixed by DelaunayBoard but it should be done by the model (1/5)
 
+x cheat code to add ressource for first player (1/5)
 x restrict number of roads/city/...
 x free road card
 x bug when play knight and click elsewhere, windows does not close and knight can then be played at another time

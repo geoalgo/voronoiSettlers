@@ -21,7 +21,8 @@ import controlor.ui.UIControlor;
 import controlor.ui.UITrade;
 import delaunay.Pnt;
 
-public class GameView extends JFrame implements IWindowController{
+public class GameView implements IWindowController{
+	private JFrame frame;
 	ISettlersServer settlersServer;
 	UIViewControlor uiViewControlor;
 	private Model model;
@@ -44,30 +45,33 @@ public class GameView extends JFrame implements IWindowController{
 		
 		setView(width,height);
 		
-		infoPanel.addKeyListener(this);
-		infoPanel.setFocusable(true);
-		infoPanel.requestFocusInWindow();
+		frame.addKeyListener(this);
+		frame.setFocusable(true);
+		frame.requestFocusInWindow();
+		
+		infoPanel.setFocusable(false);
 	}
 	
 	private void setView(int width,int height){
-		setLayout(new BorderLayout());
-		setSize(width, height);
-		this.add(infoPanel, "North");
-		this.add(boardView, "Center");
+		frame = new JFrame("Voronoi Settlers");
+		frame.setLayout(new BorderLayout());
+		frame.setSize(width, height);
+		frame.add(infoPanel, "North");
+		frame.add(boardView, "Center");
 		buildPanel = new ControlPanel(this);
-		this.add(buildPanel, "South");
+		frame.add(buildPanel, "South");
 		setPlayerView();
-		this.setVisible(true);
+		frame.setVisible(true);
 	}
 
 
 	void setPlayerView(){
 		playerPanelLeft = new JPanel();
-		add(playerPanelLeft,"West");
+		frame.add(playerPanelLeft,"West");
 		playerPanelLeft.setLayout(new GridLayout(2,1));
 
 		playerPanelRight = new JPanel();
-		add(playerPanelRight,"East");
+		frame.add(playerPanelRight,"East");
 		playerPanelRight.setLayout(new GridLayout(2,1));
 
 		int numPlayers = model.numPlayers();
@@ -89,18 +93,17 @@ public class GameView extends JFrame implements IWindowController{
 	public void mousePressed(MouseEvent e) {
 		Pnt pnt = convertToCatanCoord(new Pnt(e.getX(), e.getY()));
 
-		if(uiViewControlor.isIncardState()){
-			uiViewControlor.click(pnt);
-		}
-		else{
-
+//		if(uiViewControlor.isIncardState()){
+//			uiViewControlor.click(pnt);
+//		}
+//		else{
 			if(!buildPanel.isButton(e.getSource()))
 				settlersServer.mouseClicked(pnt,0);
 			else{
 				handleButton(e.getSource());
 			}
 			boardView.repaint();
-		}
+//		}
 	}
 
 	@Override
@@ -147,6 +150,8 @@ public class GameView extends JFrame implements IWindowController{
 		boardView.repaint();
 		for(int i = 0; i < playerPanel.length; ++i)
 			playerPanel[i].update();
+		frame.setFocusable(true);
+		frame.requestFocusInWindow();
 	}
 
 	@Override

@@ -1,3 +1,6 @@
+o use cgal to generate voronoi/clean api 
+- read diagram in a file as an intermediate (file should be small)
+
 o Main interface: 2/5
 -New,Load options
 -choose game options (number of tiles, players, special rules, ...)  

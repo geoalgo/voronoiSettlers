@@ -70,7 +70,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 	GameControlor gc;
 
 	public SettlersServer(){
-		setModel();
+		setModel(3);
 		setView();
 		run();
 	}
@@ -104,8 +104,8 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 		gc.setState(state);
 	}
 	
-	void setModel() {
-		gc = new GameControlor(new InitialRules(2, 10));
+	void setModel(int numPlayers) {
+		gc = new GameControlor(new InitialRules(numPlayers, 10));
 		uicontrolor = new UIWindow(this,gc);
 		gc.setUIControlor(uicontrolor);
 		gc.setServerControlor(this);
@@ -135,8 +135,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 
 	@Override
 	public void mouseClicked(Pnt p,int playerId) {
-		if(playerId == gc.currentPlayerNum())
-			gc.getState().click(p);
+		gc.getState().click(p);
 	}
 
 	@Override
@@ -147,11 +146,15 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 				gc.currentPlayer().getRessource().add(ress, 3);
 			updateView();
 		}
+		if(e.getKeyChar()=='d'){
+			DB.msg("current state"+gc.getState());
+		}
 	}
 
 	@Override
 	public void nextTurnPressed() {
 		DB.msg("next turn pressed");
+		DB.msg("current state"+gc.getState());
 		view.setInactive(gc.currentPlayerNum());
 		gc.endTurn();
 		view.setActive(gc.currentPlayerNum());
