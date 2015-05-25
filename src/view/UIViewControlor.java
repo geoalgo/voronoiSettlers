@@ -10,7 +10,6 @@ import model.card.CardKnightState;
 import model.card.Monopole;
 import model.card.MonopoleState;
 import model.card.VictoryPoint;
-import model.card.VictoryPointState;
 import model.ressources.Ressources;
 import player.Player;
 import controlor.DB;
