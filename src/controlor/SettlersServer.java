@@ -44,7 +44,6 @@ import model.card.CardKnightState;
 import model.card.Monopole;
 import model.card.MonopoleState;
 import model.card.VictoryPoint;
-import model.card.VictoryPointState;
 import model.hexagonalTiling.SettlersEdge;
 import model.ressources.Ressource;
 import model.ressources.Ressources;

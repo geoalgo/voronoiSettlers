@@ -1,3 +1,19 @@
+o test state transition (4/5)
+several client-actions can be considered 
+select a:
+-vertex (colony, city)
+-edge (road)
+-face (thief)
+-player (steal)
+-ressource (monopole)
+-ressources (draw 7)
+
+According to the current game state, the client sends a selection request to the server. The server checks the validity of the request (adjacent road etc...) and if valid updates its model/state and notify the clients (update model for inactive players, updates model/gamestate for active player).
+
+The test can be done by saving a config a try different client action and checking model/gamestate obtained.
+
+
+
 o clean state transition code (3/5)
 
 o separate window controlor et applet main (2/5)
