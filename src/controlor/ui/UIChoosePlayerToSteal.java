@@ -36,13 +36,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controlor.DB;
+import controlor.GameControlor;
+import controlor.gamestate.GameState;
+import delaunay.Pnt;
 
 import player.Player;
 
-public class UIChoosePlayerToSteal extends JFrame implements ActionListener {
-	UIControlor uicontrolor;
+/**
+ * Display the list of players that can be stolen.
+ * Callback the callbackState.apply(int selected) methods when chosen.
+ * @author david
+ */
+public class UIChoosePlayerToSteal extends GameState implements ActionListener {
+	JFrame chooseMenu;
 	JButton ok;
 	JComboBox<PlayerNumber> players;
+	GameState callbackState;
 	
 	class PlayerNumber{
 		public int numPlayer;
@@ -56,35 +65,47 @@ public class UIChoosePlayerToSteal extends JFrame implements ActionListener {
 		}
 	}
 	
-	public UIChoosePlayerToSteal(UIControlor uicontrolor,Collection<Player> ennemies){
-		super("Choose ennemy to steal");
-		this.uicontrolor = uicontrolor;
+	public UIChoosePlayerToSteal(GameState stateToRestore,GameControlor gc,Collection<Player> ennemies){
+		super(gc);
+		this.callbackState = stateToRestore;
+		chooseMenu = new JFrame("Choose ennemy to steal");
 
-		setLayout(new FlowLayout());
+		chooseMenu.setLayout(new FlowLayout());
 		
 		players = new JComboBox<PlayerNumber>();
 		for(Player p : ennemies)
 			players.addItem(new PlayerNumber(p.getNum(),p.getName()));
-		add(players);
+		chooseMenu.add(players);
 		
 		ok = new JButton("Ok");
 		ok.addActionListener(this);
-		add(ok);
+		chooseMenu.add(ok);
 
-		setPreferredSize(new Dimension(300, 75));
+		chooseMenu.setPreferredSize(new Dimension(300, 75));
 		
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		
-		pack();
+		chooseMenu.setDefaultCloseOperation(chooseMenu.DO_NOTHING_ON_CLOSE);
+		chooseMenu.setVisible(true);
+		chooseMenu.pack();
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == ok){
 			int selected = ((PlayerNumber)players.getSelectedItem()).numPlayer;
-			uicontrolor.stealEnnemy(selected);
-			setVisible(false);
-			dispose();
+			chooseMenu.setVisible(false);
+			chooseMenu.dispose();
+			callbackState.apply(selected);
 		}
+	}
+
+	@Override
+	public void click(Pnt click) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void apply(Object o) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

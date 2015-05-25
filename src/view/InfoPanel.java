@@ -48,20 +48,12 @@ public class InfoPanel extends JPanel {
 		
 	}
 	
-	
 	public void setMessage(String msg){
-	    String currentTxt = text.getText();
-//	    text.append(currentTxt + msg);
 	    text.setText(msg);
 	}
-	
 
 	public void appendMessage(String msg){
-	    String currentTxt = text.getText();
-	    DB.msg("app msg:"+msg);
 	    text.append("\n"+ msg);
 	}
-
-	
 
 }

@@ -127,7 +127,6 @@ public class GameView extends JFrame implements IWindowController{
 
 	@Override
 	public void appendMessage(String txt) {
-		DB.msg("append msg:"+txt);
 		infoPanel.appendMessage(txt);
 	}
 

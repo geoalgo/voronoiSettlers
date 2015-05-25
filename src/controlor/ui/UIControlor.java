@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.util.Collection;
 import java.util.List;
 
+import controlor.gamestate.GameState;
 import controlor.gamestate.LooseRessource;
 import controlor.gamestate.PlayTurn;
 import controlor.gamestate.ThiefSelect;
@@ -47,7 +48,6 @@ public interface UIControlor {
 	//client -> client
 	//launch UI to choose ressources to loose
 	void selectRessourcesToLoose(Player p, LooseRessource currentState);
-	void chooseEnnemyToSteal(ThiefSelect stealState,Collection<Player> ennemies);
 	
 	//client view -> server
 	//call back by the UI after choosing

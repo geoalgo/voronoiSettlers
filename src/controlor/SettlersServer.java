@@ -38,7 +38,7 @@ import model.card.Card;
 import model.card.CardState;
 import model.card.FreeRoad;
 import model.card.Knight;
-import model.card.KnightState;
+import model.card.CardKnightState;
 import model.card.Monopole;
 import model.card.MonopoleState;
 import model.card.VictoryPoint;

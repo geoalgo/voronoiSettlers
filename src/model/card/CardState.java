@@ -28,7 +28,6 @@ import controlor.gamestate.GameState;
 import delaunay.Pnt;
 
 public abstract class CardState extends GameState{
-	GameState stateToRestore;
 	Card card;
 
 	public CardState(GameControlor gc,Card card) {
@@ -50,7 +49,7 @@ public abstract class CardState extends GameState{
 		if(card instanceof Monopole)
 			return new MonopoleState(gc, (Monopole)card);
 		if(card instanceof Knight)
-			return new KnightState(gc, (Knight)card);
+			return new CardKnightState(gc, (Knight)card,gc.getSet());
 		if(card instanceof VictoryPoint)
 			return new VictoryPointState(gc, (VictoryPoint)card);
 		return null;

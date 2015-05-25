@@ -26,7 +26,7 @@ public class DB {
 
 	static boolean debug = true;
 	public static void msg(String s){
-		if(debug) System.out.println(getCallerCallerClassName()+":"+s);
+		if(debug) System.out.println(getCallerClassName()+":"+s);
 	}
 
 	public static String getCallerClassName() { 

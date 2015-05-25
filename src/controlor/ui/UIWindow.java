@@ -32,7 +32,7 @@ import model.card.Card;
 import model.card.CardState;
 import model.card.FreeRoad;
 import model.card.Knight;
-import model.card.KnightState;
+import model.card.CardKnightState;
 import model.card.Monopole;
 import model.card.MonopoleState;
 import model.card.VictoryPoint;
@@ -82,16 +82,13 @@ public class UIWindow implements UIControlor {
 	}
 
 	@Override
-	public void chooseEnnemyToSteal(ThiefSelect state,Collection<Player> ennemies) {
-		DB.msg("show chooser");
-		UIChoosePlayerToSteal chooser = new UIChoosePlayerToSteal(this,ennemies);
-		chooser.setVisible(true);
-		callBackState = state;
-	}
-
-	@Override
 	public void stealEnnemy(int playerToSteal) {
-		callBackState.apply(playerToSteal);
+		Player stealer = gc.currentPlayer();
+		Player screwed = gc.getPlayer(playerToSteal);
+		gc.steal(stealer, screwed);
+		gc.getServerControlor().appendMessage(
+				stealer.getName()+" stole "+gc.getPlayer(playerToSteal).getName());
+		gc.setState(callBackState);
 	}
 
 	@Override

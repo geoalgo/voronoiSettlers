@@ -1,3 +1,5 @@
+o clean state transition code (3/5)
+
 o cheat code to add ressource for first player (1/5)
 o separate window controlor et applet main (2/5)
 
