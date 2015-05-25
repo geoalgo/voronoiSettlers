@@ -66,10 +66,6 @@ public class Model {
 		board = new DelaunayBoardTiles(rules);	
 		setBoard();
 		cards = new Cards(rules);
-
-		//todo cheat
-		for(Ressource r : Ressource.allRessources())
-			players.getPlayer(0).getRessource().add(r,3);
 	}
 
 	public BoardTiles board(){

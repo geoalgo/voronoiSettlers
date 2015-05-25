@@ -50,11 +50,9 @@ public abstract class CardState extends GameState{
 		if(card instanceof Monopole)
 			return new MonopoleState(gc, (Monopole)card);
 		if(card instanceof Knight)
-			return new CardKnightState(gc, (Knight)card,gc.getSet());
-		if(card instanceof VictoryPoint)
-			return new VictoryPointState(gc, (VictoryPoint)card);
+			return new CardKnightState(gc, (Knight)card,gc.getState());
 		if(card instanceof FreeRoad)
-			return new AskFirstFreeRoad(gc,(FreeRoad)card,gc.getSet());
+			return new AskFirstFreeRoad(gc,(FreeRoad)card,gc.getState());
 		DB.msg("Unknown type of card");
 		return null;
 	}

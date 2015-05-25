@@ -26,6 +26,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import org.hamcrest.core.IsInstanceOf;
+
 import controlor.gamestate.GameState;
 import controlor.gamestate.PlayTurn;
 import controlor.ui.UIControlor;
@@ -42,6 +44,7 @@ import model.card.CardKnightState;
 import model.card.Monopole;
 import model.card.MonopoleState;
 import model.card.VictoryPoint;
+import model.card.VictoryPointState;
 import model.hexagonalTiling.SettlersEdge;
 import model.ressources.Ressource;
 import model.ressources.Ressources;
@@ -88,7 +91,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 	}
 
 	public GameState getSet(){
-		return gc.getSet();
+		return gc.getState();
 	}
 	
 	void setNormalState(){
@@ -133,11 +136,17 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 	@Override
 	public void mouseClicked(Pnt p,int playerId) {
 		if(playerId == gc.currentPlayerNum())
-			gc.getSet().click(p);
+			gc.getState().click(p);
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e, int playerId) {
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyChar()=='c'){
+			DB.msg("cheat mode add ressources");
+			for(Ressource ress : Ressource.allRessources())
+				gc.currentPlayer().getRessource().add(ress, 3);
+			updateView();
+		}
 	}
 
 	@Override
@@ -176,14 +185,17 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 
 	@Override
 	public void playCard(Card card) {
-		gc.setState(CardState.makeCardState(gc, card));
+		if(card instanceof VictoryPoint) 
+			card.apply(null); //todo ugly case, refactor
+		else
+			gc.setState(CardState.makeCardState(gc, card));
 		getCurrentPlayer().removeCard(card);
 		view.updateView();
 	}
 
 	public void applyCardEffect(Card card,Object selection){
 		DB.msg("apply card effect");
-		gc.getSet().apply(selection); // the game state is necessarily a card state
+		gc.getState().apply(selection); // the game state is necessarily a card state
 		getCurrentPlayer().removeCard(card);
 		setNormalState();
 		view.updateView();

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -38,7 +39,17 @@ public class GameView extends JFrame implements IWindowController{
 		uiViewControlor = new UIViewControlor(sserver,this);
 
 		this.boardView = new BoardView(model);
+		
 		boardView.addMouseListener(this);
+		
+		setView(width,height);
+		
+		infoPanel.addKeyListener(this);
+		infoPanel.setFocusable(true);
+		infoPanel.requestFocusInWindow();
+	}
+	
+	private void setView(int width,int height){
 		setLayout(new BorderLayout());
 		setSize(width, height);
 		this.add(infoPanel, "North");
@@ -110,6 +121,7 @@ public class GameView extends JFrame implements IWindowController{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
+		settlersServer.keyPressed(arg0);
 	}
 
 	@Override

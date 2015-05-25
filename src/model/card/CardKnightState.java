@@ -31,7 +31,6 @@ import controlor.DB;
 import controlor.GameControlor;
 import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
-import controlor.gamestate.KnightSelect;
 import controlor.ui.UIChoosePlayerToSteal;
 import controlor.ui.UISelectRessourceMonopole;
 import controlor.ui.UIChoosePlayerToSteal;
@@ -87,7 +86,7 @@ public class CardKnightState extends CardState {
 		else 
 			//choose the ennemy to steal from the ennemies on the clicked position
 			// UIChoosePlayerToSteal calls apply(player) when chosen
-			gc.setState(new UIChoosePlayerToSteal(gc.getSet(),gc,ennemiesAroundTile));
+			gc.setState(new UIChoosePlayerToSteal(gc.getState(),gc,ennemiesAroundTile));
 	}
 
 	private TreeSet<Player> getNeighborsEnnemies(){

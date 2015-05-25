@@ -24,7 +24,6 @@ package model.card;
 import controlor.GameControlor;
 import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
-import controlor.gamestate.KnightSelect;
 import controlor.gamestate.ThiefSelect;
 import player.Player;
 

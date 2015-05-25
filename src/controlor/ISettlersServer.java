@@ -21,7 +21,7 @@ public interface ISettlersServer  {
 	void setSet(GameState state);
 	
 	public void mouseClicked(Pnt p,int playerId);
-	public void keyPressed(KeyEvent e,int playerId);
+	public void keyPressed(KeyEvent e);
 	public void nextTurnPressed();		
 
 

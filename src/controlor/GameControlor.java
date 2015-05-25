@@ -90,7 +90,7 @@ public class GameControlor {
 		this.gs = newState;
 	}
 
-	public GameState getSet(){
+	public GameState getState(){
 		return gs;
 	}
 

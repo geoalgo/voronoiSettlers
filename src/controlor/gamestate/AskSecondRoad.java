@@ -50,7 +50,7 @@ public class AskSecondRoad extends GameState {
 					DB.msg("pb with harvest");
 				}
 				gc.setState(new PlayTurn(gc,currentPlayer));
-				gc.getSet().run();
+				gc.getState().run();
 			}
 		} catch (Exception e) {
 			System.out.println("Invalid Second road placement");
