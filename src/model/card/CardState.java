@@ -24,6 +24,7 @@ package model.card;
 import controlor.DB;
 import controlor.GameControlor;
 import controlor.ISettlersServer;
+import controlor.gamestate.AskFirstFreeRoad;
 import controlor.gamestate.GameState;
 import delaunay.Pnt;
 
@@ -52,6 +53,9 @@ public abstract class CardState extends GameState{
 			return new CardKnightState(gc, (Knight)card,gc.getSet());
 		if(card instanceof VictoryPoint)
 			return new VictoryPointState(gc, (VictoryPoint)card);
+		if(card instanceof FreeRoad)
+			return new AskFirstFreeRoad(gc,(FreeRoad)card,gc.getSet());
+		DB.msg("Unknown type of card");
 		return null;
 	}
 	

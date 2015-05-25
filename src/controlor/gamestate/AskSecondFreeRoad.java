@@ -27,9 +27,11 @@ import delaunay.Pnt;
 
 public class AskSecondFreeRoad extends GameState {
 	int currentPlayer;
+	GameState stateToBeRestored;
 	
-	AskSecondFreeRoad(GameControlor gc,int currentPlayer){
+	AskSecondFreeRoad(GameControlor gc,int currentPlayer,GameState stateToBeRestored){
 		super(gc);
+		this.stateToBeRestored = stateToBeRestored;
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
 				", please specify your placement for your second free road";
 		gc.getServerControlor().appendMessage(msg, currentPlayer);
@@ -40,8 +42,7 @@ public class AskSecondFreeRoad extends GameState {
 	public void click(Pnt click) {
 		try {
 			gc.addFreeRoad(click, gc.getPlayer(currentPlayer));
-			gc.setState(new PlayTurn(gc,currentPlayer));
-			gc.getSet().run();
+			gc.setState(stateToBeRestored);
 		} catch (Exception e) {
 			System.out.println("Invalid Second free road placement");
 		}

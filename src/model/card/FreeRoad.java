@@ -35,13 +35,6 @@ public class FreeRoad extends Card {
 
 	@Override
 	public void apply(ISettlersServer gc) {
-//		//1- ask position two roads
-//		//2- restore gamestate
-//		DB.msg("set gs to AskFirstRoad");
-//		gs = new AskFirstFreeRoad(gc,p.getNum());
-//		//BoardView v = new BoardView();
-//		gc.setSet(gs);
-//		gc.updateView();
 	}
 
 }

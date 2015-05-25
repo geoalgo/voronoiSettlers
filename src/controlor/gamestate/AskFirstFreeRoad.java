@@ -24,16 +24,20 @@ package controlor.gamestate;
 import player.Player;
 import model.Construction.Building;
 import model.Construction.Colony;
+import model.card.CardState;
+import model.card.FreeRoad;
 import controlor.GameControlor;
 import controlor.ISettlersServer;
 import delaunay.Pnt;
 
-public class AskFirstFreeRoad extends GameState {
+public class AskFirstFreeRoad extends CardState {
 	int currentPlayer;
+	GameState stateToBeRestored;
 
-	public AskFirstFreeRoad(GameControlor gc,int currentPlayer){
-		super(gc);
-		this.currentPlayer = currentPlayer;
+	public AskFirstFreeRoad(GameControlor gc,FreeRoad card,GameState stateToBeRestored){
+		super(gc,card);
+		this.stateToBeRestored = stateToBeRestored;
+		this.currentPlayer = gc.currentPlayerNum();
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
 				", please specify your placement for your first free road";
 		gc.getServerControlor().appendMessage(msg,currentPlayer);
@@ -43,7 +47,7 @@ public class AskFirstFreeRoad extends GameState {
 	public void click(Pnt click) {
 		try {
 			gc.addFreeRoad(click, gc.getPlayer(currentPlayer));
-			gc.setState(new AskSecondFreeRoad(gc,currentPlayer));
+			gc.setState(new AskSecondFreeRoad(gc,currentPlayer,stateToBeRestored));
 		} catch (Exception e) {
 			System.out.println("Invalid first free road placement");
 		}

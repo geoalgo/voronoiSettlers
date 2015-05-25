@@ -80,12 +80,12 @@ public class CardKnightState extends CardState {
 	private void stealEnnemies(SettlersTile selectedTile){
 		TreeSet<Player> ennemiesAroundTile = getNeighborsEnnemies();
 		if(ennemiesAroundTile.isEmpty()) end();
-//		if(ennemiesAroundTile.size()==1){
-//			apply(ennemiesAroundTile.first().getNum());
-//			end();
-//		}
-//		else 
-			//choose ennemy to steal from
+		if(ennemiesAroundTile.size()==1){
+			apply(ennemiesAroundTile.first().getNum());
+			end();
+		}
+		else 
+			//choose the ennemy to steal from the ennemies on the clicked position
 			// UIChoosePlayerToSteal calls apply(player) when chosen
 			gc.setState(new UIChoosePlayerToSteal(gc.getSet(),gc,ennemiesAroundTile));
 	}
