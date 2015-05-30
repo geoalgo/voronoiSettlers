@@ -1,5 +1,7 @@
 package client.state;
 
+import java.util.Collection;
+
 import player.Player;
 
 
@@ -9,7 +11,9 @@ import player.Player;
  * @author david
  *
  */
-public class ClientStateSelection extends ClientState {
-
+public class ClientStateSelection<E> extends ClientState {
+	public ClientStateSelection(Collection<E> selection){
+		
+	}
 
 }

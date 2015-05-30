@@ -5,13 +5,20 @@ import player.Player;
 
 public interface IGameController {
 	public Player getPlayer(int num);
-	
 	public Player getCurrentPlayer();
-
 	public void endTurn();
+
+	/**
+	 * Set all ressources of players to zero.
+	 */
+	public void resetRessources();
+	/**
+	 * Add one of all ressources to current player (for testing).
+	 */
+	public void addRessourcesToCurrentPlayer();
 	
-	// return the card bought or an exception if not enough ressources, no more
-	// cards ...
+	// return the card bought or an exception if not enough ressources
+	// or no more cards
 	public Card buyCard() throws Exception;
 
 	int currentPlayerNum();

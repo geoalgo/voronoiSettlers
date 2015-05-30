@@ -40,6 +40,10 @@ public class Ressources {
 		ressourceNumber = new TreeMap<Ressource,Integer>(other.ressourceNumber);
 	}
 
+	public void setToZero(){
+		this.remove(this);
+	}
+	
 	/**
 	 * add nb ressources of ressource
 	 */
@@ -188,7 +192,9 @@ public class Ressources {
 		
 		ressources2.remove(ressources);
 		System.out.println("Ressources2:"+ressources2);
-		
+
+		ressources2.setToZero();
+		System.out.println("Ressources2:"+ressources2);
 	}
 
 }

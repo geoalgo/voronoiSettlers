@@ -1,10 +1,7 @@
 package server.state;
 
 import controlor.IGameController;
-import client.action.ClientAction;
-import client.action.ClientActionClick;
-import client.action.ClientNextTurn;
-import client.action.ClientSelection;
+import client.action.*;
 
 
 public class ServerStateSelectRessourceMonopole extends ServerState {
@@ -31,10 +28,5 @@ public class ServerStateSelectRessourceMonopole extends ServerState {
 		return null;
 	}
 
-	@Override
-	public ServerState receivesClientSelection(ClientSelection c) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 import model.InitialRules;
+import model.card.Card;
+import model.card.VictoryPoint;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -10,7 +12,9 @@ import org.junit.Test;
 import player.Player;
 import client.Client;
 import client.IClient;
+import client.SendToServer;
 import client.action.*;
+import client.state.ClientStateSelection;
 import controlor.DB;
 import controlor.GameController;
 import controlor.IGameController;
@@ -38,7 +42,7 @@ public class TestServerState {
 		clients = new IClient[numPlayers];
 		
 		for(int i=0; i < numPlayers; ++i){
-			clients[i] = new Client(gc.getPlayer(i));
+			clients[i] = new Client(new SendToServer(server),gc.getPlayer(i));
 		}
 	}
 
@@ -56,15 +60,55 @@ public class TestServerState {
 			fail("Stated changed by another player");
 		
 		for(int currentPlayer = 0; currentPlayer < numPlayers; ++currentPlayer){
-			resetRessources();
+			gc.resetRessources();
 			server.receiveAction(new ClientNextTurn(clients[currentPlayer]));
 			if(server.getCurrentState().getCurrentPlayer().getNum()!=(currentPlayer+1)%numPlayers)
 				fail("Active players should have changed after next turn");	
 		}
 	}
 	
-	// to avoid 7 draws
-	private void resetRessources(){
+	@Test
+	public void testServerPlayTurnBuyCard() {
+		ServerState initialState = server.getCurrentState();
+		if(server.getCurrentState().getCurrentPlayer().getNum()!=0)
+			fail("Does not start with 1st player");
 		
+		server.receiveAction(new ClientBuyCard(clients[0]));
+		if(server.getCurrentState() != initialState)
+			fail("Stated should not have changed");
+		if(gc.getCurrentPlayer().numCards()!=0)
+			fail("Card bought without ressources!");
+		
+		gc.addRessourcesToCurrentPlayer();
+		
+		server.receiveAction(new ClientBuyCard(clients[0]));
+		if(server.getCurrentState() != initialState)
+			fail("Stated should not have changed");
+		if(gc.getCurrentPlayer().numCards()!=1)
+			fail("Card should have been bought");
+		
+		server.receiveAction(new ClientBuyCard(clients[0]));
+		if(server.getCurrentState() != initialState)
+			fail("Stated should not have changed");
+		if(gc.getCurrentPlayer().numCards()!=1)
+			fail("Card should not have been bought (no ressources)");
+	}
+	
+	@Test
+	public void testServerPlayCard() {
+		gc.addRessourcesToCurrentPlayer();
+		server.receiveAction(new ClientBuyCard(clients[0]));
+		if(gc.getCurrentPlayer().numCards()!=1)
+			fail("Card should have been bought");
+		server.receiveAction(new ClientPlayCard(clients[0]));
+		
+		if(!(server.getCurrentState() instanceof ServerStateSelectCard))
+			fail("Server should be in select card state");
+		
+		if(!((clients[0].getCurrentState()) instanceof ClientStateSelection<?>))
+			fail("Client should be in select card state");
+		
+		server.receiveAction(new ClientSelection(clients[0],new VictoryPoint()));
+
 	}
 }

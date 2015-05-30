@@ -1,5 +1,6 @@
 package server;
 
+import controlor.DB;
 import controlor.IGameController;
 import server.state.*;
 import client.action.ClientAction;
@@ -16,7 +17,11 @@ public class Server implements IServer {
 	
 	@Override
 	public void receiveAction(ClientAction action) {
-		currentState = currentState.receivesAction(action);
+		try {
+			currentState = currentState.receivesAction(action);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

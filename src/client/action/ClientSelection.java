@@ -1,17 +1,16 @@
 package client.action;
 
+import model.card.Card;
 import client.IClient;
-import player.Player;
 
-/**
- * To indicate that the player has selected a card, a player to steal, or 
- * a ressource to monopolize.
- * @author david
- *
- */
-public abstract class ClientSelection extends ClientAction{
-
-	ClientSelection(IClient client) {
+public class ClientSelection<E> extends ClientAction {
+	E selection;
+	public ClientSelection(IClient client,E selection) {
 		super(client);
+		this.selection = selection;
 	}
+	public E getSelection(){
+		return selection;
+	}
+
 }

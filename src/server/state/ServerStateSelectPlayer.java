@@ -1,10 +1,8 @@
 package server.state;
 
 import controlor.IGameController;
-import client.action.ClientAction;
-import client.action.ClientActionClick;
-import client.action.ClientNextTurn;
-import client.action.ClientSelection;
+import client.action.*;
+
 
 /**
  * Wait for the client to select a position for the stealer.
@@ -23,22 +21,6 @@ public class ServerStateSelectPlayer extends ServerState {
 		return this;
 	}
 
-	@Override
-	public ServerState receivesClientClick(ClientActionClick c) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public ServerState receivesClientNextTurn(ClientNextTurn c) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ServerState receivesClientSelection(ClientSelection c) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

@@ -28,7 +28,7 @@ import player.Player;
 
 public class VictoryPoint extends Card {
 
-	VictoryPoint() {
+	public VictoryPoint() {
 		super("Victory point");
 	}
 

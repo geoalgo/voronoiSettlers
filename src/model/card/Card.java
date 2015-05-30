@@ -21,13 +21,10 @@
 
 package model.card;
 
-import controlor.GameController;
 import controlor.ISettlersServer;
-import controlor.gamestate.GameState;
-import delaunay.Pnt;
 import player.Player;
 
-public abstract class Card {
+public abstract class Card implements Comparable<Card>{
 
 	String descr;
 	Player p;
@@ -45,5 +42,10 @@ public abstract class Card {
 	public String toString(){
 		return descr;
 	}
+	
+    @Override
+    public int compareTo(Card other){
+    	return descr.compareTo(other.descr);
+    }
 
 }

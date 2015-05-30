@@ -32,6 +32,7 @@ import model.Construction.City;
 import model.Construction.Colony;
 import model.Construction.VertexBuilding;
 import model.card.Card;
+import model.card.CardState;
 import model.card.FreeRoad;
 import model.card.Knight;
 import model.card.CardKnightState;
@@ -183,7 +184,6 @@ public class GameController implements IGameController {
 			return res;
 		}
 	}
-
 	
 	/**
 	 * Give a random card to current player.
@@ -266,6 +266,19 @@ public class GameController implements IGameController {
 		Colony c = (Colony) p.getBuilding(1);
 		model.addFreeRoadNearColony(p,e,c);
 		server.updateView();
+	}
+
+	@Override
+	public void resetRessources() {
+		for(int i = 0 ; i < numPlayer(); ++i){
+			getPlayer(i).getRessource().setToZero();
+		}
+	}
+
+	@Override
+	public void addRessourcesToCurrentPlayer() {
+		for(Ressource r : Ressource.allRessources())
+			getCurrentPlayer().getRessource().add(r, 1);
 	}
 
 

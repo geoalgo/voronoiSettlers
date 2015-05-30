@@ -8,5 +8,6 @@ import client.action.ClientAction;
  * @author david
  *
  */
-public interface ISendToServer extends IServer{
+public interface ISendToServer{
+	public void receiveAction(ClientAction action);
 }

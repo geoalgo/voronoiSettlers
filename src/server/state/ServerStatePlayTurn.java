@@ -1,14 +1,14 @@
 package server.state;
 
+import java.util.TreeSet;
+
+import model.card.Card;
 import player.*;
 import delaunay.*;
 import controlor.DB;
 import controlor.IGameController;
-import client.action.ClientAction;
-import client.action.ClientActionClick;
-import client.action.ClientBuyCard;
-import client.action.ClientNextTurn;
-import client.action.ClientSelection;
+import client.action.*;
+import client.state.ClientStateSelection;
 
 public class ServerStatePlayTurn extends ServerState{
 
@@ -42,4 +42,16 @@ public class ServerStatePlayTurn extends ServerState{
 			return this;
 		}
 	}
+	
+	@Override
+	public ServerState receivesClientPlayCard(ClientPlayCard c){
+		if(gc.getCurrentPlayer().numCards()==0){
+			c.getClient().message("You dont have any card");
+			return this;
+		}
+		// set client and server states to choose card
+		return new ServerStateSelectCard(gc,c.getClient());
+	}
+	
+	
 }
