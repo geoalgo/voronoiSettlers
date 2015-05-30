@@ -22,7 +22,7 @@
 package model.card;
 
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.ISettlersServer;
 import controlor.gamestate.AskFirstFreeRoad;
 import controlor.gamestate.GameState;
@@ -31,7 +31,7 @@ import delaunay.Pnt;
 public abstract class CardState extends GameState{
 	Card card;
 
-	public CardState(GameControlor gc,Card card) {
+	public CardState(GameController gc,Card card) {
 		super(gc);
 		this.card = card;
 	}
@@ -46,7 +46,7 @@ public abstract class CardState extends GameState{
 		DB.msg("card done");
 	}
 	
-	public static CardState makeCardState(GameControlor gc, Card card){
+	public static CardState makeCardState(GameController gc, Card card){
 		if(card instanceof Monopole)
 			return new MonopoleState(gc, (Monopole)card);
 		if(card instanceof Knight)

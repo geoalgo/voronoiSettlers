@@ -28,7 +28,7 @@ import model.hexagonalTiling.SettlersTile;
 import model.hexagonalTiling.SettlersVertex;
 import model.ressources.Ressource;
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
 import controlor.ui.UIChoosePlayerToSteal;
@@ -52,7 +52,7 @@ public class CardKnightState extends CardState {
 	GameState stateToBeRestored;
 
 
-	public CardKnightState(GameControlor gc, Knight card,GameState stateToBeRestored) {
+	public CardKnightState(GameController gc, Knight card,GameState stateToBeRestored) {
 		super(gc, card);
 		this.stateToBeRestored = stateToBeRestored;
 	}
@@ -95,7 +95,7 @@ public class CardKnightState extends CardState {
 			if(v.hasBuilding())
 				ennemiesAroundTile.add(v.getBuilding().getPlayer());
 		}
-		ennemiesAroundTile.remove(gc.currentPlayer());
+		ennemiesAroundTile.remove(gc.getCurrentPlayer());
 		return ennemiesAroundTile;
 	}
 	
@@ -120,10 +120,10 @@ public class CardKnightState extends CardState {
 	 * updates the largest army holder with the new knight card of the player.
 	 */
 	private void updateLargestArmy(){
-		gc.currentPlayer().addKnight();
+		gc.getCurrentPlayer().addKnight();
 		boolean armyChanged = gc.getModel().updateBiggestArmy();
 		if(armyChanged) 
-			gc.getServerControlor().appendMessage(gc.currentPlayer().getName()+ " now has the biggest army.");
+			gc.getServerControlor().appendMessage(gc.getCurrentPlayer().getName()+ " now has the biggest army.");
 		gc.getServerControlor().updateView();
 	}
 

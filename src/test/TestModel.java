@@ -41,7 +41,7 @@ import org.junit.Test;
 
 import player.Player;
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import delaunay.Pnt;
 import delaunayBrute.TriangleHandle;
 

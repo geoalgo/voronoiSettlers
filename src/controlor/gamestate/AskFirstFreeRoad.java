@@ -26,7 +26,7 @@ import model.Construction.Building;
 import model.Construction.Colony;
 import model.card.CardState;
 import model.card.FreeRoad;
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.ISettlersServer;
 import delaunay.Pnt;
 
@@ -34,7 +34,7 @@ public class AskFirstFreeRoad extends CardState {
 	int currentPlayer;
 	GameState stateToBeRestored;
 
-	public AskFirstFreeRoad(GameControlor gc,FreeRoad card,GameState stateToBeRestored){
+	public AskFirstFreeRoad(GameController gc,FreeRoad card,GameState stateToBeRestored){
 		super(gc,card);
 		this.stateToBeRestored = stateToBeRestored;
 		this.currentPlayer = gc.currentPlayerNum();

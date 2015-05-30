@@ -22,14 +22,14 @@
 package controlor.gamestate;
 
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import delaunay.Pnt;
 
 public class AskSecondFreeRoad extends GameState {
 	int currentPlayer;
 	GameState stateToBeRestored;
 	
-	AskSecondFreeRoad(GameControlor gc,int currentPlayer,GameState stateToBeRestored){
+	AskSecondFreeRoad(GameController gc,int currentPlayer,GameState stateToBeRestored){
 		super(gc);
 		this.stateToBeRestored = stateToBeRestored;
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+

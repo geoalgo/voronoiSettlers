@@ -36,7 +36,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.gamestate.GameState;
 import delaunay.Pnt;
 
@@ -65,7 +65,7 @@ public class UIChoosePlayerToSteal extends GameState implements ActionListener {
 		}
 	}
 	
-	public UIChoosePlayerToSteal(GameState stateToRestore,GameControlor gc,Collection<Player> ennemies){
+	public UIChoosePlayerToSteal(GameState stateToRestore,GameController gc,Collection<Player> ennemies){
 		super(gc);
 		this.callbackState = stateToRestore;
 		chooseMenu = new JFrame("Choose ennemy to steal");

@@ -21,13 +21,13 @@
 
 package controlor.gamestate;
 
-import controlor.GameControlor;
+import controlor.GameController;
 import delaunay.Pnt;
 
 public class AskFirstColony extends GameState {
 	int currentPlayer;
 	
-	public AskFirstColony(GameControlor gc,int currentPlayer){
+	public AskFirstColony(GameController gc,int currentPlayer){
 		super(gc);
 		gc.getServerControlor().setActivePlayer(currentPlayer);
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+

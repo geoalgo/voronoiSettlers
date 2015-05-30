@@ -21,7 +21,7 @@
 
 package controlor.gamestate;
 
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.ISettlersServer;
 import delaunay.Pnt;
 
@@ -35,9 +35,9 @@ import delaunay.Pnt;
  */
 public abstract class GameState {
 
-	protected GameControlor gc;
+	protected GameController gc;
 
-	public GameState(GameControlor gc) {
+	public GameState(GameController gc) {
 		this.gc = gc;
 	}
 	

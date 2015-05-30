@@ -24,13 +24,13 @@ package controlor.gamestate;
 import player.Player;
 import model.Construction.Building;
 import model.Construction.Colony;
-import controlor.GameControlor;
+import controlor.GameController;
 import delaunay.Pnt;
 
 public class AskFirstRoad extends GameState {
 	int currentPlayer;
 	
-	public AskFirstRoad(GameControlor gc,int currentPlayer){
+	public AskFirstRoad(GameController gc,int currentPlayer){
 		super(gc);
 		this.currentPlayer = currentPlayer;
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+

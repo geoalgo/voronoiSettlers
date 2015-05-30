@@ -42,7 +42,7 @@ import model.ressources.Crop;
 import model.ressources.Ressource;
 import player.Player;
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.ISettlersServer;
 
 public class UITrade extends JFrame implements ActionListener {

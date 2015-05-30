@@ -13,7 +13,7 @@ import model.card.VictoryPoint;
 import model.ressources.Ressources;
 import player.Player;
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
 import controlor.gamestate.ThiefSelect;

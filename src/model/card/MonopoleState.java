@@ -24,7 +24,7 @@ package model.card;
 import player.Player;
 import model.ressources.Ressource;
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
 import controlor.ui.UISelectRessourceMonopole;
@@ -32,7 +32,7 @@ import delaunay.Pnt;
 
 public class MonopoleState extends CardState {
 
-	public MonopoleState(GameControlor gc, Monopole card) {
+	public MonopoleState(GameController gc, Monopole card) {
 		super(gc, card);
 		// create gui to select ressource to steal
 		UISelectRessourceMonopole ui = new UISelectRessourceMonopole(this);

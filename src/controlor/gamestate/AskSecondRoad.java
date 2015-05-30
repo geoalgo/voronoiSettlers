@@ -22,13 +22,13 @@
 package controlor.gamestate;
 
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import delaunay.Pnt;
 
 public class AskSecondRoad extends GameState {
 	int currentPlayer;
 	
-	AskSecondRoad(GameControlor gc,int currentPlayer){
+	AskSecondRoad(GameController gc,int currentPlayer){
 		super(gc);
 		String msg = "Player "+gc.getPlayer(currentPlayer).getName()+
 				", please specify your placement for your second road";

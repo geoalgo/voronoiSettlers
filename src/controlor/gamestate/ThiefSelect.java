@@ -30,7 +30,7 @@ import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersTile;
 import model.hexagonalTiling.SettlersVertex;
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.ISettlersServer;
 import delaunay.Pnt;
 
@@ -44,7 +44,7 @@ public class ThiefSelect extends GameState {
 
 	int currentPlayer;
 
-	public ThiefSelect(GameControlor gc,
+	public ThiefSelect(GameController gc,
 			GameState stateToRestore,
 			int currentPlayer) {
 		super(gc);

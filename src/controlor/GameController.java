@@ -54,14 +54,14 @@ import delaunay.Pnt;
  * @author David Salinas
  *
  */
-public class GameControlor {
+public class GameController implements IGameController {
 	Model model;
 	int currentPlayer;
 	GameState gs;
-	UIControlor uicontrolor; //todo remove
+	UIControlor uicontroller; //todo remove
 	ISettlersServer server;
 
-	public GameControlor(InitialRules rules) {
+	public GameController(InitialRules rules) {
 		model = new Model(rules);	
 	}
 
@@ -70,11 +70,11 @@ public class GameControlor {
 	}
 
 	public void setUIControlor(UIControlor uicontrolor){
-		this.uicontrolor = uicontrolor;
+		this.uicontroller = uicontrolor;
 	}
 
 	public UIControlor getUIControlor(){
-		return uicontrolor;
+		return uicontroller;
 	}
 
 	public void setServerControlor(ISettlersServer server){
@@ -109,7 +109,7 @@ public class GameControlor {
 		}
 	}
 
-	public Player currentPlayer(){
+	public Player getCurrentPlayer(){
 		return model.getPlayer(currentPlayer);
 	}
 	
@@ -167,7 +167,7 @@ public class GameControlor {
 	 * Give a random card to current player.
 	 */
 	public Card giveRandomCard() throws Exception{
-		return model.giveRandomCard(currentPlayer());
+		return model.giveRandomCard(getCurrentPlayer());
 	}
 	
 	public void releaseCard(Card c){

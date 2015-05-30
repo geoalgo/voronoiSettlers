@@ -40,7 +40,7 @@ import model.ressources.Ressource;
 import model.ressources.Ressources;
 import player.Player;
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.SettlersServer;
 import controlor.gamestate.GameState;
 import controlor.gamestate.LooseRessource;
@@ -52,7 +52,7 @@ import delaunay.Pnt;
 public class UIWindow implements UIControlor {
 
 	SettlersServer parentWindow;
-	GameControlor gc;
+	GameController gc;
 
 	// state that is waiting a callback with done()
 	GameState callBackState;
@@ -60,7 +60,7 @@ public class UIWindow implements UIControlor {
 	UISelectCard uiSelectCard = null;
 
 	public UIWindow(SettlersServer parentWindow,
-			GameControlor gc ){
+			GameController gc ){
 		this.parentWindow = parentWindow;
 		this.gc = gc;
 		callBackState = null;
@@ -82,7 +82,7 @@ public class UIWindow implements UIControlor {
 
 	@Override
 	public void stealEnnemy(int playerToSteal) {
-		Player stealer = gc.currentPlayer();
+		Player stealer = gc.getCurrentPlayer();
 		Player screwed = gc.getPlayer(playerToSteal);
 		gc.steal(stealer, screwed);
 		gc.getServerControlor().appendMessage(

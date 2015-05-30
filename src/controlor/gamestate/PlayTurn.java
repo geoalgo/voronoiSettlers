@@ -28,13 +28,13 @@ import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersTile;
 import model.hexagonalTiling.SettlersVertex;
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import delaunay.Pnt;
 
 public class PlayTurn extends GameState{
 	int currentPlayer;
 
-	public PlayTurn(GameControlor gc,int currentPlayer){
+	public PlayTurn(GameController gc,int currentPlayer){
 		super(gc);
 		this.currentPlayer = currentPlayer;
 		gc.getServerControlor().setActivePlayer(currentPlayer);

@@ -66,7 +66,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 	Model model;
 	GameView view;
 	UIControlor uicontrolor;
-	GameControlor gc;
+	GameController gc;
 
 	public SettlersServer(){
 		setModel(3);
@@ -104,7 +104,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 	}
 	
 	void setModel(int numPlayers) {
-		gc = new GameControlor(new InitialRules(numPlayers, 10));
+		gc = new GameController(new InitialRules(numPlayers, 10));
 		uicontrolor = new UIWindow(this,gc);
 		gc.setUIControlor(uicontrolor);
 		gc.setServerControlor(this);
@@ -142,7 +142,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 		if(e.getKeyChar()=='c'){
 			DB.msg("cheat mode add ressources");
 			for(Ressource ress : Ressource.allRessources())
-				gc.currentPlayer().getRessource().add(ress, 3);
+				gc.getCurrentPlayer().getRessource().add(ress, 3);
 			updateView();
 		}
 		if(e.getKeyChar()=='d'){
@@ -174,13 +174,13 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 		cardCost.addStone(1);
 		cardCost.addSheep(1);
 
-		boolean enoughRessource = gc.currentPlayer().getRessource().greaterThan(cardCost);
+		boolean enoughRessource = gc.getCurrentPlayer().getRessource().greaterThan(cardCost);
 		if(!enoughRessource)
 			throw new NotEnoughRessourceException();
 		else{
 			Card res = gc.giveRandomCard();
-			gc.currentPlayer().getRessource().remove(cardCost);
-			gc.currentPlayer().addCard(res);
+			gc.getCurrentPlayer().getRessource().remove(cardCost);
+			gc.getCurrentPlayer().addCard(res);
 			return res;
 		}
 	}
@@ -210,7 +210,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 	
 	@Override
 	public int getCurrentPlayerNum() {
-		return gc.currentPlayer().getNum();
+		return gc.getCurrentPlayer().getNum();
 	}
 
 	@Override

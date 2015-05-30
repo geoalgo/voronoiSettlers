@@ -22,7 +22,7 @@
 package model.card;
 
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.ISettlersServer;
 import controlor.gamestate.AskFirstFreeRoad;
 import controlor.gamestate.GameState;

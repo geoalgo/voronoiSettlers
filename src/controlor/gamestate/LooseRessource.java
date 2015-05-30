@@ -24,7 +24,7 @@ package controlor.gamestate;
 import player.Player;
 import model.ressources.Ressources;
 import controlor.DB;
-import controlor.GameControlor;
+import controlor.GameController;
 import delaunay.Pnt;
 
 public class LooseRessource extends GameState{
@@ -35,7 +35,7 @@ public class LooseRessource extends GameState{
 	// picks his ressources to throw
 	PlayTurn stateBefore;
 
-	public LooseRessource(GameControlor gc,
+	public LooseRessource(GameController gc,
 			PlayTurn stateBefore){
 		super(gc);
 		DB.msg("loose state");

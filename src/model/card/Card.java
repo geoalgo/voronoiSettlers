@@ -21,7 +21,7 @@
 
 package model.card;
 
-import controlor.GameControlor;
+import controlor.GameController;
 import controlor.ISettlersServer;
 import controlor.gamestate.GameState;
 import delaunay.Pnt;
