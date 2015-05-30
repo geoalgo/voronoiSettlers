@@ -27,6 +27,7 @@ import java.util.Iterator;
 
 import model.InitialRules;
 import model.Model;
+import model.NotEnoughRessourceException;
 import model.Construction.City;
 import model.Construction.Colony;
 import model.Construction.VertexBuilding;
@@ -102,17 +103,15 @@ public class GameController implements IGameController {
 	}
 
 	public void endTurn(){
-		if(gs instanceof PlayTurn){
-			currentPlayer = (currentPlayer+1)%numPlayer();
-			gs = new PlayTurn(this, currentPlayer);
-			gs.run();
-		}
+		currentPlayer = (currentPlayer+1)%numPlayer();
 	}
 
+	@Override
 	public Player getCurrentPlayer(){
 		return model.getPlayer(currentPlayer);
 	}
 	
+	@Override
 	public int currentPlayerNum(){
 		return currentPlayer;
 	}
@@ -125,6 +124,7 @@ public class GameController implements IGameController {
 		return model.numPlayers();
 	}
 
+	@Override
 	public int drawRandomDices(){
 		int firstDice = (int)(Math.random()*6+1);
 		int secondDice = (int)(Math.random()*6+1);
@@ -134,6 +134,7 @@ public class GameController implements IGameController {
 	/**
 	 * do the first harvest with the last settlement.
 	 */
+	@Override
 	public void initialHarvest(){
 		Iterator<Player> players = model.getPlayerIterator();
 		while(players.hasNext()){
@@ -143,10 +144,12 @@ public class GameController implements IGameController {
 		}
 	}
 
+	@Override
 	public void harvest(int randomDices){
 		model.harvest(randomDices);
 	}
 	
+	@Override
 	public void steal(Player stealer,Player screwed){
 		Ressources screwedRessources=screwed.getRessource();
 		Ressource stealedRessource;
@@ -163,17 +166,32 @@ public class GameController implements IGameController {
 		}
 	}
 	
+	@Override
+	public Card buyCard() throws Exception {
+		Ressources cardCost = new Ressources();
+		cardCost.addCrop(1);
+		cardCost.addStone(1);
+		cardCost.addSheep(1);
+
+		boolean enoughRessource = getCurrentPlayer().getRessource().greaterThan(cardCost);
+		if(!enoughRessource)
+			throw new NotEnoughRessourceException();
+		else{
+			Card res = giveRandomCard();
+			getCurrentPlayer().getRessource().remove(cardCost);
+			getCurrentPlayer().addCard(res);
+			return res;
+		}
+	}
+
+	
 	/**
 	 * Give a random card to current player.
 	 */
-	public Card giveRandomCard() throws Exception{
+	private Card giveRandomCard() throws Exception{
 		return model.giveRandomCard(getCurrentPlayer());
 	}
 	
-	public void releaseCard(Card c){
-		model.releaseCard(c);
-	}
-
 	/**
 	 * @throws Exception if building not allowed
 	 */
@@ -249,35 +267,6 @@ public class GameController implements IGameController {
 		model.addFreeRoadNearColony(p,e,c);
 		server.updateView();
 	}
-	
-	
-//	public void selectCard(Card c){
-//		server.appendMessage(currentPlayer().getName()+" plays a "+c,currentPlayerNum());
-//		GameState stateToRestore = getSet();
-//		DB.msg("state to restore:"+stateToRestore);
-//		applyCard(c);
-//		currentPlayer().removeCard(c);
-//		releaseCard(c);
-//	}
-
-//	//xxx should be on the view
-//	public void applyCard(Card card){
-//		GameState stateToRestore = getSet();
-//		if(card instanceof Monopole){
-//			//aaa do static cleaner
-//			new MonopoleState(this, stateToRestore, (Monopole)card);
-//		}
-//		if(card instanceof Knight){
-//			//aaa do static cleaner
-//			new KnightState(this, stateToRestore, (Knight)card);
-//		}
-//		if(card instanceof VictoryPoint){
-//			new VictoryPointState(this, stateToRestore, card);
-//		}
-//		if(card instanceof FreeRoad){
-//			card.apply(this,null);
-//		}
-//	}
 
 
 }

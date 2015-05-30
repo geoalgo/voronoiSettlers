@@ -2,9 +2,13 @@ package server.state;
 
 import player.*;
 import delaunay.*;
+import controlor.DB;
 import controlor.IGameController;
 import client.action.ClientAction;
 import client.action.ClientActionClick;
+import client.action.ClientBuyCard;
+import client.action.ClientNextTurn;
+import client.action.ClientSelection;
 
 public class ServerStatePlayTurn extends ServerState{
 
@@ -14,19 +18,28 @@ public class ServerStatePlayTurn extends ServerState{
 	}
 
 	@Override
-	public void receivesAction(ClientAction action) {
-		if(!isCurrentPlayer(action.getPlayer()))
-			action.getClient().message("It is not your turn");
-		if(action instanceof ClientActionClick) 
-			click(((ClientActionClick)action).getPoint());
+	public ServerState receivesClientClick(ClientActionClick action) {
+		click(((ClientActionClick)action).getPoint());
+		return this;
 	}
 	
-	private boolean isCurrentPlayer(Player player) {
-		return true;
-	}
-
 	private void click(Pnt point){
-		
 	}
 
+	@Override
+	public ServerState receivesClientNextTurn(ClientNextTurn c) {
+		gc.endTurn();
+		return new ServerStatePlayTurn(gc);
+	}
+	
+	@Override
+	public ServerState receivesClientBuyCard(ClientBuyCard c){
+		try {
+			c.getClient().message("You bought a "+gc.buyCard());
+			return this;
+		} catch (Exception e) {
+			c.getClient().message("You dont have enough ressources to buy a card!");
+			return this;
+		}
+	}
 }

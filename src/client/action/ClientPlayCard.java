@@ -9,9 +9,9 @@ import player.Player;
  * @author david
  *
  */
-public abstract class ClientSelection extends ClientAction{
+public abstract class ClientPlayCard extends ClientAction{
 
-	ClientSelection(IClient client) {
+	ClientPlayCard(IClient client) {
 		super(client);
 	}
 }

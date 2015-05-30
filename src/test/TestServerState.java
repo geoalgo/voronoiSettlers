@@ -11,6 +11,7 @@ import player.Player;
 import client.Client;
 import client.IClient;
 import client.action.*;
+import controlor.DB;
 import controlor.GameController;
 import controlor.IGameController;
 import server.IServer;
@@ -43,20 +44,27 @@ public class TestServerState {
 
 	@Test
 	public void testServerPlayTurn() {
-		
 		ServerState initialState = server.getCurrentState();
 		if(!(initialState instanceof ServerStatePlayTurn))
 			fail("First state should be ServerStatePlayTurn");
 		
-//		if(initialState instanceof ServerStatePlayTurn))
-//			fail("First state should be ServerStatePlayTurn");
-
+		if(initialState.getCurrentPlayer().getNum()!=0)
+			fail("First state should starts with player 0");
+		
 		server.receiveAction(new ClientNextTurn(clients[1]));
 		if(server.getCurrentState() != initialState)
 			fail("Stated changed by another player");
-//		
-//		server.receiveAction(new ClientNextTurn(client,new Player(0)));
-//		if(server.getState() instanceof ServerStatePlayTurn) 
-//			fail("Next Turn not taken into account");		
+		
+		for(int currentPlayer = 0; currentPlayer < numPlayers; ++currentPlayer){
+			resetRessources();
+			server.receiveAction(new ClientNextTurn(clients[currentPlayer]));
+			if(server.getCurrentState().getCurrentPlayer().getNum()!=(currentPlayer+1)%numPlayers)
+				fail("Active players should have changed after next turn");	
+		}
+	}
+	
+	// to avoid 7 draws
+	private void resetRessources(){
+		
 	}
 }

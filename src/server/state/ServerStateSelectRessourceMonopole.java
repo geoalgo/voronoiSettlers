@@ -2,6 +2,9 @@ package server.state;
 
 import controlor.IGameController;
 import client.action.ClientAction;
+import client.action.ClientActionClick;
+import client.action.ClientNextTurn;
+import client.action.ClientSelection;
 
 
 public class ServerStateSelectRessourceMonopole extends ServerState {
@@ -12,9 +15,26 @@ public class ServerStateSelectRessourceMonopole extends ServerState {
 	}
 
 	@Override
-	public void receivesAction(ClientAction action) {
+	public ServerState receivesAction(ClientAction action) {
+		return this;
+	}
+
+	@Override
+	public ServerState receivesClientClick(ClientActionClick c) {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+	@Override
+	public ServerState receivesClientNextTurn(ClientNextTurn c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServerState receivesClientSelection(ClientSelection c) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -169,20 +169,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 
 	@Override
 	public Card buyCard() throws Exception {
-		Ressources cardCost = new Ressources();
-		cardCost.addCrop(1);
-		cardCost.addStone(1);
-		cardCost.addSheep(1);
-
-		boolean enoughRessource = gc.getCurrentPlayer().getRessource().greaterThan(cardCost);
-		if(!enoughRessource)
-			throw new NotEnoughRessourceException();
-		else{
-			Card res = gc.giveRandomCard();
-			gc.getCurrentPlayer().getRessource().remove(cardCost);
-			gc.getCurrentPlayer().addCard(res);
-			return res;
-		}
+		return gc.buyCard();
 	}
 
 	@Override

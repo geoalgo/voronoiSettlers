@@ -16,7 +16,7 @@ public class Server implements IServer {
 	
 	@Override
 	public void receiveAction(ClientAction action) {
-		currentState.receivesAction(action);
+		currentState = currentState.receivesAction(action);
 	}
 
 	@Override
