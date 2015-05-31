@@ -12,7 +12,10 @@ According to the current game state, the client sends a selection request to the
 
 The test can be done by saving a config a try different client action and checking model/gamestate obtained.
 
+o free road card
+o internal trade
 
+o clean old classes after new state transition model
 
 o clean state transition code (3/5)
 

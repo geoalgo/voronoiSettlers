@@ -1,32 +1,30 @@
 package server.state;
 
+import model.ressources.Ressource;
+import player.Player;
+import controlor.DB;
 import controlor.IGameController;
+import client.Client;
+import client.IClient;
 import client.action.*;
 
 
 public class ServerStateSelectRessourceMonopole extends ServerState {
 
-	public ServerStateSelectRessourceMonopole(IGameController gc) {
-		super(gc);
-		// TODO Auto-generated constructor stub
+	public ServerStateSelectRessourceMonopole(IGameController gc,IClient clients[]) {
+		super(gc,clients);
 	}
 
-	@Override
-	public ServerState receivesAction(ClientAction action) {
-		return this;
+	public ServerState receivesClientSelect(ClientSelection c){
+		try {
+			Ressource chosenRessource = (Ressource)(c.getSelection());
+			DB.msg(chosenRessource.toString());
+			gc.monopole(chosenRessource);
+			messageToAllPlayers(gc.getCurrentPlayer()+" plays a monopole on "+chosenRessource);
+			return new ServerStatePlayTurn(gc,clients);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return this;
+		}
 	}
-
-	@Override
-	public ServerState receivesClientClick(ClientActionClick c) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ServerState receivesClientNextTurn(ClientNextTurn c) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 }

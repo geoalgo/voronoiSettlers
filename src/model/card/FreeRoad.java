@@ -29,7 +29,7 @@ import controlor.gamestate.GameState;
 
 public class FreeRoad extends Card {
 
-	FreeRoad() {
+	public FreeRoad() {
 		super("Two free roads");
 	}
 

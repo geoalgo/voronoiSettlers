@@ -70,7 +70,7 @@ public class LooseRessource extends GameState{
 	
 	private void nextPlayer(){
 		++currentPlayerLoosingRessource;
-		if(currentPlayerLoosingRessource<gc.numPlayer())
+		if(currentPlayerLoosingRessource<gc.getNumPlayer())
 			looseRessourceIfFull();
 		else {
 			gc.setState(new ThiefSelect(gc, stateBefore, stateBefore.currentPlayer));

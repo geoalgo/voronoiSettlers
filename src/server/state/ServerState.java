@@ -1,17 +1,13 @@
 package server.state;
 
 import player.Player;
+import controlor.DB;
 import controlor.IGameController;
+import controlor.gamestate.LooseRessource;
 import client.Client;
-import client.action.ClientAction;
-import client.action.ClientActionClick;
-import client.action.ClientBuyCard;
-import client.action.ClientCardSelection;
-import client.action.ClientNextTurn;
-import client.action.ClientPlayCard;
-import client.action.ClientPlayerSelection;
-import client.action.ClientRessourceSelection;
-import client.action.ClientSelection;
+import client.IClient;
+import client.action.*;
+import client.state.ClientState;
 
 /**
  * TODO
@@ -21,20 +17,43 @@ import client.action.ClientSelection;
  */
 public abstract class ServerState {
 	IGameController gc;
+	IClient clients[];
 
-	public ServerState(IGameController gc){
+	public ServerState(IGameController gc,IClient clients[]){
 		this.gc = gc;
+		this.clients = clients;
 	}
 
 	public Player getCurrentPlayer(){
 		return gc.getCurrentPlayer();
 	}
 
+	public void messageToCurrentPlayer(String msg){
+		clients[gc.getCurrentPlayer().getNum()].message(msg);
+	}
+	
+	public void messageToAllPlayers(String msg){
+		for (int i = 0; i < clients.length; i++) 
+			clients[i].message(msg);
+	}
+	
+	public void messageToAllButCurrentPlayer(String msg){
+		for (int i = 0; i < clients.length; i++) 
+			if(i!=gc.getCurrentPlayer().getNum())
+				clients[i].message(msg);
+	}
+
+	protected void setCurrentClientState(ClientState cs){
+		clients[gc.getCurrentPlayer().getNum()].setCurrentState(cs);
+	}
+	
 	/**
 	 * Receives an action and updates model/clients if it is valid.
 	 * @param action
 	 */
 	public ServerState receivesAction(ClientAction action) throws Exception{
+		if(action instanceof ClientSelection)
+			return receivesClientSelect((ClientSelection) action);
 		if(getCurrentPlayer().getNum()!=action.getPlayer().getNum()){
 			action.getClient().message("It is not your turn");
 			return this;
@@ -47,8 +66,6 @@ public abstract class ServerState {
 			return receivesClientBuyCard((ClientBuyCard)action);
 		if(action instanceof ClientPlayCard)
 			return receivesClientPlayCard((ClientPlayCard)action);
-		if(action instanceof ClientSelection)
-			return receivesClientSelect((ClientSelection) action);
 		throw new Exception("Unknown Client Action");
 	}
 	public ServerState receivesClientClick(ClientActionClick c){
@@ -67,6 +84,7 @@ public abstract class ServerState {
 		return this;
 	}
 
+	
 
 
 }

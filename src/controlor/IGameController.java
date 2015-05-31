@@ -4,22 +4,41 @@ import java.util.TreeSet;
 
 import delaunay.Pnt;
 import model.card.Card;
+import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersTile;
+import model.hexagonalTiling.SettlersVertex;
+import model.ressources.Ressource;
 import player.Player;
 
 public interface IGameController {
 	public Player getPlayer(int num);
+	public int getNumPlayer();
 	public Player getCurrentPlayer();
-	public void endTurn();
+	public void nextPlayer();
+	public void previousPlayer();
+
 
 	/**
 	 * Set all ressources of players to zero.
 	 */
 	public void resetRessources();
+	
+	//////////////////////////////////
+	//For test purpose
 	/**
 	 * Add one of all ressources to current player (for testing).
 	 */
 	public void addRessourcesToCurrentPlayer();
+	/**
+	 * Add a card of each type to the player (for testing).
+	 */
+	public void addCardsToCurrentPlayer();
+	
+	/**
+	 * Add a colony for each player around the tile 
+	 */
+	public void addColonyAroundTile(SettlersTile tile);
+	//////////////////////////////////
 	
 	// return the card bought or an exception if not enough ressources
 	// or no more cards
@@ -36,6 +55,11 @@ public interface IGameController {
 	void steal(Player stealer, Player screwed);
 	
 	/**
+	 * Current player monopolize a ressource.
+	 * @param ressourceToMonopolize
+	 */
+	void monopole(Ressource ressourceToMonopolize);
+	/**
 	 * Consumes a card (after it has been played).
 	 * Return an exception if it was not present.
 	 * @param c
@@ -49,4 +73,12 @@ public interface IGameController {
 	public void setThiefPosition(SettlersTile selectedTile);
 	public TreeSet<Player> getNeighborsEnnemies(SettlersTile selectedTile);
 	public boolean updateBiggestArmy();
+	public void addFreeColony(Pnt click, Player currentPlayer) throws Exception;
+	public void addFirstRoad(Pnt click, Player currentPlayer) throws Exception;
+	public void addSecondRoad(Pnt click, Player currentPlayer) throws Exception;
+	public void addColony(Pnt click, Player currentPlayer) throws Exception;
+	public void addCity(Pnt click, Player currentPlayer) throws Exception;
+	public void addRoad(SettlersEdge e, Player currentPlayer) throws Exception;
+	public SettlersVertex locateClosestVertex(Pnt click);
+	public SettlersEdge locateClosestEdge(Pnt click);
 }

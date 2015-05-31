@@ -2,40 +2,120 @@ package server.state;
 
 import java.util.TreeSet;
 
-import model.card.Card;
+import model.BuildException;
+import model.hexagonalTiling.SettlersEdge;
+import model.hexagonalTiling.SettlersTile;
+import model.hexagonalTiling.SettlersVertex;
 import player.*;
 import delaunay.*;
 import controlor.DB;
+import controlor.GameController;
 import controlor.IGameController;
+import controlor.gamestate.LooseRessource;
+import client.IClient;
 import client.action.*;
-import client.state.ClientStateSelection;
 
 public class ServerStatePlayTurn extends ServerState{
-
-	public ServerStatePlayTurn(IGameController gc) {
-		super(gc);
-		// TODO Auto-generated constructor stub
+	public ServerStatePlayTurn(IGameController gc,IClient clients[],boolean drawDices) {
+		super(gc,clients);
 	}
 
+	public ServerStatePlayTurn(IGameController gc,IClient clients[]) {
+		super(gc,clients);
+	}
+	
 	@Override
 	public ServerState receivesClientClick(ClientActionClick action) {
 		click(((ClientActionClick)action).getPoint());
 		return this;
 	}
 	
-	private void click(Pnt point){
+
+	public void click(Pnt click) {
+		DB.msg("click "+this+" pos:"+click);
+		SettlersVertex closestVertex = gc.locateClosestVertex(click);
+		SettlersEdge closestEdge = gc.locateClosestEdge(click);
+//		SettlersTile closestTile = gc.locateClosestTile(click);
+		double distVertex = closestVertex.getPosition().dist(click);
+		double distEdge = click.dist(closestEdge.p1(),closestEdge.p2());
+
+		double minDist = 0.02;
+		if(distVertex< minDist){
+			click(closestVertex,click);
+		}
+		else{
+			if(distEdge < minDist)
+				click(closestEdge,click);
+//			else
+//				if(closestTile!=null) ;
+//					click(closestTile,click);
+		}
+		DB.msg("dist v:"+distVertex);
+		DB.msg("dist e:"+distEdge);
 	}
 
+	private void click(SettlersVertex v,Pnt click){
+		if(!v.hasBuilding()) {
+			DB.msg("no building");
+			buildColony(v,click);
+		}
+		else{
+			DB.msg("building there");
+			buildCity(v,click);
+		}
+	}
+
+	private void buildColony(SettlersVertex v,Pnt click){
+		try {
+			gc.addColony(click, gc.getCurrentPlayer());
+			messageToAllPlayers(gc.getCurrentPlayer()+" build a colony ");
+		} 
+		catch (BuildException e){
+			messageToCurrentPlayer(e.getMsg());
+		}
+		catch (Exception e) {
+			messageToCurrentPlayer("Invalid colony placement");
+		}
+	}
+
+	private void buildCity(SettlersVertex v,Pnt click){
+		try {
+			gc.addCity(click, gc.getCurrentPlayer());
+			messageToAllPlayers(gc.getCurrentPlayer()+" build a city");
+		} 
+		catch (BuildException e){
+			messageToCurrentPlayer(e.getMsg());
+		}
+		catch (Exception e) {
+			messageToCurrentPlayer("Invalid city placement");
+		}
+	}
+
+	private void click(SettlersEdge e,Pnt click){
+		try {
+			gc.addRoad(e, gc.getCurrentPlayer());
+			messageToAllPlayers(getCurrentPlayer()+" build a road ");
+		}
+		catch (BuildException ex){
+			messageToCurrentPlayer(ex.getMsg());
+		}
+		catch (Exception ex) {
+			messageToCurrentPlayer("Invalid road placement");
+		}
+	}
+	
+	
 	@Override
 	public ServerState receivesClientNextTurn(ClientNextTurn c) {
-		gc.endTurn();
-		return new ServerStatePlayTurn(gc);
+		gc.nextPlayer();
+		return ServerStateDrawDices.drawRandomDices(gc,clients);
 	}
 	
 	@Override
 	public ServerState receivesClientBuyCard(ClientBuyCard c){
 		try {
-			c.getClient().message("You bought a "+gc.buyCard());
+			messageToCurrentPlayer("You bought a "+gc.buyCard());
+			messageToAllButCurrentPlayer(gc.getCurrentPlayer()+" bought a card");
 			return this;
 		} catch (Exception e) {
 			c.getClient().message("You dont have enough ressources to buy a card!");
@@ -46,11 +126,11 @@ public class ServerStatePlayTurn extends ServerState{
 	@Override
 	public ServerState receivesClientPlayCard(ClientPlayCard c){
 		if(gc.getCurrentPlayer().numCards()==0){
-			c.getClient().message("You dont have any card");
+			messageToCurrentPlayer("You dont have any card");
 			return this;
 		}
 		// set client and server states to choose card
-		return new ServerStateSelectCard(gc,c.getClient());
+		return new ServerStateSelectCard(gc,clients);
 	}
 	
 	

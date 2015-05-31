@@ -155,7 +155,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 		DB.msg("next turn pressed");
 		DB.msg("current state"+gc.getState());
 		view.setInactive(gc.currentPlayerNum());
-		gc.endTurn();
+		gc.nextPlayer();
 		view.setActive(gc.currentPlayerNum());
 	}
 
@@ -192,7 +192,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 
 	@Override
 	public int getNumPlayer(){
-		return gc.numPlayer();
+		return gc.getNumPlayer();
 	}
 	
 	@Override
@@ -223,7 +223,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 
 	@Override
 	public void setActivePlayer(int player){
-		for(int i = 0 ; i < gc.numPlayer(); ++i)
+		for(int i = 0 ; i < gc.getNumPlayer(); ++i)
 			if(i==player) view.setActive(i);
 			else view.setInactive(i);
 	}

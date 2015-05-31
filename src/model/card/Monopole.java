@@ -28,7 +28,7 @@ import player.Player;
 
 public class Monopole extends Card {
 
-	Monopole() {
+	public Monopole() {
 		super("Monopole");
 	}
 

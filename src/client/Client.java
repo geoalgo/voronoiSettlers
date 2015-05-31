@@ -16,8 +16,12 @@ public class Client implements IClient {
 	}
 	
 	@Override
-	public void message(String string) {
-		
+	public void message(String msg) {
+		System.out.println("Client: "+msg);
+	}
+	
+	@Override
+	public void updateView() {
 	}
 
 	@Override

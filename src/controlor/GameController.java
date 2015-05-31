@@ -105,9 +105,14 @@ public class GameController implements IGameController {
 		gs = new AskFirstColony(this,0);
 	}
 
-	public void endTurn(){
-		currentPlayer = (currentPlayer+1)%numPlayer();
+	public void nextPlayer(){
+		currentPlayer = (currentPlayer+1)%getNumPlayer();
 	}
+	
+	public void previousPlayer(){
+		currentPlayer = (currentPlayer-1)%getNumPlayer();
+	}
+
 
 	@Override
 	public Player getCurrentPlayer(){
@@ -123,7 +128,7 @@ public class GameController implements IGameController {
 		return model.getPlayer(num);
 	}
 
-	public int numPlayer(){
+	public int getNumPlayer(){
 		return model.numPlayers();
 	}
 
@@ -133,6 +138,7 @@ public class GameController implements IGameController {
 		int secondDice = (int)(Math.random()*6+1);
 		return firstDice + secondDice;
 	}
+	
 
 	/**
 	 * do the first harvest with the last settlement.
@@ -165,7 +171,6 @@ public class GameController implements IGameController {
 			}while(numberOfRessource<1);
 			screwed.getRessource().add(stealedRessource,-1);
 			stealer.getRessource().add(stealedRessource,1);
-			server.updateView();
 		}
 	}
 	
@@ -205,12 +210,10 @@ public class GameController implements IGameController {
 	 */
 	void addColony(SettlersVertex v,Player p) throws Exception{
 		model.addColony(new Colony(v,p),v);
-		server.updateView();
 	}
 
 	void addFreeColony(SettlersVertex v,Player p) throws Exception{
 		model.addFreeColony(new Colony(v,p),v);
-		server.updateView();
 	}
 
 	public void addColony(Pnt pnt,Player p) throws Exception{
@@ -225,7 +228,6 @@ public class GameController implements IGameController {
 
 	void addCity(SettlersVertex v,Player p) throws Exception{
 		model.addCity(new City(v,p),v);
-		server.updateView();
 	}
 
 	public void addCity(Pnt click,Player p) throws Exception{
@@ -240,7 +242,6 @@ public class GameController implements IGameController {
 
 	public void addRoad(SettlersEdge e,Player p) throws Exception{
 		model.addRoad(p,e);
-		server.updateView();
 	}
 	
 	public void addFreeRoad(Pnt pnt,Player p) throws Exception{
@@ -250,7 +251,6 @@ public class GameController implements IGameController {
 
 	public void addFreeRoad(SettlersEdge e,Player p) throws Exception{
 		model.addFreeRoad(p,e);
-		server.updateView();
 	}
 
 	public void addFirstRoad(Pnt pnt,Player p) throws Exception{
@@ -267,18 +267,16 @@ public class GameController implements IGameController {
 	void addFirstRoad(SettlersEdge e,Player p) throws Exception{
 		Colony c = (Colony) p.getBuilding(0);
 		model.addFreeRoadNearColony(p,e,c);
-		server.updateView();
 	}
 
 	void addSecondRoad(SettlersEdge e,Player p) throws Exception{
 		Colony c = (Colony) p.getBuilding(1);
 		model.addFreeRoadNearColony(p,e,c);
-		server.updateView();
 	}
 
 	@Override
 	public void resetRessources() {
-		for(int i = 0 ; i < numPlayer(); ++i){
+		for(int i = 0 ; i < getNumPlayer(); ++i){
 			getPlayer(i).getRessource().setToZero();
 		}
 	}
@@ -288,6 +286,32 @@ public class GameController implements IGameController {
 		for(Ressource r : Ressource.allRessources())
 			getCurrentPlayer().getRessource().add(r, 1);
 	}
+	
+	@Override
+	public void addCardsToCurrentPlayer() {
+		getCurrentPlayer().addCard(new FreeRoad());
+		getCurrentPlayer().addCard(new Monopole());
+		getCurrentPlayer().addCard(new Knight());
+		getCurrentPlayer().addCard(new VictoryPoint());
+	}
+	
+	public void addColonyAroundTile(SettlersTile tile){
+		int currentPlayer = 0;
+		for(SettlersVertex v : model.board().vertexNeighbors(tile)){
+			// we add ressource to allow construction
+			for(Ressource r : Ressource.allRessources())
+				getPlayer(currentPlayer).getRessource().add(r, 2);
+			try {
+				addFreeColony(v,getPlayer(currentPlayer));
+				DB.msg("added colony to "+getPlayer(currentPlayer));
+				currentPlayer = (currentPlayer+1)%getNumPlayer();
+			} catch (Exception e) {
+				DB.msg("cant add colony to "+getPlayer(currentPlayer));
+				continue;
+			}
+		}
+	}
+	
 
 	@Override
 	public SettlersTile locateClosestTile(Pnt p) {
@@ -319,6 +343,35 @@ public class GameController implements IGameController {
 	public boolean updateBiggestArmy() {
 		return model.updateBiggestArmy();
 	}
+
+	@Override
+	public void monopole(Ressource ressourceToMonopolize) {
+		int currentPlayer = getCurrentPlayer().getNum();
+		for(int i = 0; i< getNumPlayer();++i){
+			if(i!=currentPlayer){
+				stealAllPlayerRessource(getCurrentPlayer(),getPlayer(i),ressourceToMonopolize);
+			}
+		}		
+	}
+	
+	private void stealAllPlayerRessource(Player stealer, Player screwed, Ressource r){
+		int numRess = screwed.getRessource().getNum(r);
+		DB.msg("steal "+numRess+ " ressources of "+r);
+		screwed.getRessource().add(r, -numRess);
+		stealer.getRessource().add(r, numRess);
+	}
+
+	@Override
+	public SettlersVertex locateClosestVertex(Pnt click) {
+		return model.board().locateClosestVertex(click);
+	}
+
+	@Override
+	public SettlersEdge locateClosestEdge(Pnt click) {
+		return model.board().locateClosestEdge(click);
+	}
+
+
 
 	
 

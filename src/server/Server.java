@@ -3,17 +3,31 @@ package server;
 import controlor.DB;
 import controlor.IGameController;
 import server.state.*;
+import client.Client;
+import client.IClient;
 import client.action.ClientAction;
 
 public class Server implements IServer {
 	private ServerState currentState;
-	
+	private IClient clients[];
 	private IGameController gc;
 	
 	public Server(IGameController gc){
 		this.gc = gc;
-		currentState = new ServerStatePlayTurn(gc);
+		currentState = null ;
 	}
+	
+	@Override
+	public boolean hasClients(){
+		return currentState != null;
+	}
+	
+	@Override
+	public void init(IClient clients[]){
+		this.clients = clients;
+		currentState = new ServerStatePlayTurn(gc, clients);
+	}
+	
 	
 	@Override
 	public void receiveAction(ClientAction action) {
@@ -28,5 +42,11 @@ public class Server implements IServer {
 	public ServerState getCurrentState() {
 		return currentState;
 	}
+	
+	@Override
+	public void setState(ServerState s){
+		currentState = s;
+	}
+
 
 }

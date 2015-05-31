@@ -17,11 +17,13 @@ import client.state.ClientStateSelection;
  *
  */
 public class ServerStateSelectCard extends ServerState {
-	IClient client;
-	public ServerStateSelectCard(IGameController gc,IClient c) {
-		super(gc);
-		this.client = c ;
-		client.setCurrentState(new ClientStateSelection<Card>(getCardLists()));
+	public ServerStateSelectCard(IGameController gc,IClient c[]) {
+		super(gc,c);
+		setCurrentClientState(
+				new ClientStateSelection<Card>(
+						"Select a card to play",
+						getCardLists())
+				);
 	}
 	
 	private TreeSet<Card> getCardLists(){
@@ -47,22 +49,25 @@ public class ServerStateSelectCard extends ServerState {
 		try {
 			gc.consumeCard(c);
 		} catch (Exception e) {
+			DB.msg("try to play a card that was not present");
 			return this;
 		}
 		
 		if(c instanceof VictoryPoint){
+			DB.msg("receives card victory point");
+			client.message(getCurrentPlayer()+" plays a victory point");
 			gc.getCurrentPlayer().addPoint();
-			return this;
+			return new ServerStatePlayTurn(gc,clients);
 		}
 		if(c instanceof FreeRoad){
 			return this;
 		}
 		if(c instanceof Monopole){
-			return this;
+			return new ServerStateSelectRessourceMonopole(gc, clients);
 		}
 		if(c instanceof Knight){
 			updateLargestArmy();
-			return new ServerStateSelectBrigandPosition(gc,client);
+			return new ServerStateSelectBrigandPosition(gc,clients);
 		}
 		return this;
 		
@@ -75,7 +80,7 @@ public class ServerStateSelectCard extends ServerState {
 		gc.getCurrentPlayer().addKnight();
 		boolean armyChanged = gc.updateBiggestArmy();
 		if(armyChanged) 
-			client.message(gc.getCurrentPlayer().getName()+ " now has the biggest army.");
+			messageToAllPlayers(gc.getCurrentPlayer().getName()+ " now has the biggest army.");
 	}
 	
 	

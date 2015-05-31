@@ -1,6 +1,8 @@
 package server;
 
 import server.state.ServerState;
+import client.Client;
+import client.IClient;
 import client.action.ClientAction;
 
 /**
@@ -17,5 +19,10 @@ public interface IServer {
 	void receiveAction(ClientAction action);
 	
 	ServerState getCurrentState();
+	void setState(ServerState s);
+
+	void init(IClient[] clients);
+
+	boolean hasClients();
 	
 }

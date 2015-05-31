@@ -29,7 +29,7 @@ import player.Player;
 
 public class Knight extends Card {
 
-	Knight() {
+	public Knight() {
 		super("Knight");
 	}
 

@@ -47,5 +47,11 @@ public abstract class Card implements Comparable<Card>{
     public int compareTo(Card other){
     	return descr.compareTo(other.descr);
     }
+    
+    @Override
+    public boolean equals(Object other){
+    	return descr.equals(((Card)other).descr);
+    }
+
 
 }

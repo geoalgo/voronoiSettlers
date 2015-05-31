@@ -14,7 +14,7 @@ public interface IClient {
 	 * @param string
 	 */
 	void message(String string);
-	
+	void updateView();
 	ClientState getCurrentState();
 	void setCurrentState(ClientState cs);
 	Player getPlayer();

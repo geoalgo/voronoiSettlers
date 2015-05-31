@@ -2,7 +2,9 @@ package server.state;
 
 import player.Player;
 import model.card.Card;
+import controlor.DB;
 import controlor.IGameController;
+import client.Client;
 import client.IClient;
 import client.action.*;
 
@@ -13,17 +15,16 @@ import client.action.*;
  *
  */
 public class ServerStateSelectPlayer extends ServerState {
-	IClient client;
-	public ServerStateSelectPlayer(IGameController gc,IClient client) {
-		super(gc);
-		this.client = client;
+	public ServerStateSelectPlayer(IGameController gc,IClient clients[]) {
+		super(gc,clients);
 	}
 
 	public ServerState receivesClientSelect(ClientSelection c){
 		try {
 			Player chosenPlayer = (Player)(c.getSelection());
+			DB.msg(chosenPlayer.toString());
 			steal(chosenPlayer);
-			return new ServerStatePlayTurn(gc);
+			return new ServerStatePlayTurn(gc,clients);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return this;
@@ -32,7 +33,7 @@ public class ServerStateSelectPlayer extends ServerState {
 	
 	private void steal(Player stolen){
 		gc.steal(gc.getCurrentPlayer(), stolen);
-		client.message(gc.getCurrentPlayer()+ " stole "+stolen);
+		messageToCurrentPlayer(gc.getCurrentPlayer()+ " stole "+stolen);
 	}
 	
 

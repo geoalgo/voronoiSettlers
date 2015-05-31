@@ -8,6 +8,7 @@ import player.Player;
 import controlor.DB;
 import controlor.IGameController;
 import controlor.ui.UIChoosePlayerToSteal;
+import client.Client;
 import client.IClient;
 import client.action.*;
 import client.state.ClientStateSelection;
@@ -19,13 +20,11 @@ import delaunay.Pnt;
  *
  */
 public class ServerStateSelectBrigandPosition extends ServerState {
-	IClient client;
 	SettlersTile selectedTile = null;
 
-	public ServerStateSelectBrigandPosition(IGameController gc,	IClient client){
-		super(gc);
-		this.client = client;
-		client.message("Please choose a new position for the thief");
+	public ServerStateSelectBrigandPosition(IGameController gc,	IClient clients[]){
+		super(gc,clients);
+		messageToCurrentPlayer("Please choose a new position for the thief");
 	}
 
 	@Override
@@ -39,7 +38,7 @@ public class ServerStateSelectBrigandPosition extends ServerState {
 
 	private ServerState click(SettlersTile selectedTile,Pnt click){
 		if(selectedTile == gc.getThiefPosition()){
-			client.message("Cannot place the thief at the same position");
+			messageToCurrentPlayer("You cannot place the thief at the same position");
 			return this;
 		}
 		else{
@@ -52,10 +51,14 @@ public class ServerStateSelectBrigandPosition extends ServerState {
 	private ServerState stealEnnemies(SettlersTile selectedTile){
 		TreeSet<Player> ennemiesAroundTile = gc.getNeighborsEnnemies(selectedTile);
 		if(ennemiesAroundTile.isEmpty()) 
-			return new ServerStatePlayTurn(gc);
+			return new ServerStatePlayTurn(gc,clients);
 		else{
-			client.setCurrentState(new ClientStateSelection<Player>(ennemiesAroundTile));
-			return new ServerStateSelectPlayer(gc,client);
+			setCurrentClientState(
+					new ClientStateSelection<Player>(
+							"Select a player to steal",
+							ennemiesAroundTile)
+					);
+			return new ServerStateSelectPlayer(gc,clients);
 		}
 			
 	}

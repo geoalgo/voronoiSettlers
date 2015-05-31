@@ -43,7 +43,7 @@ public class AskFirstRoad extends GameState {
 		try {
 			gc.addFirstRoad(click, gc.getPlayer(currentPlayer));
 			int nextPlayer = currentPlayer+1;
-			if( nextPlayer < gc.numPlayer() ){
+			if( nextPlayer < gc.getNumPlayer() ){
 				gc.setState(new AskFirstColony(gc, nextPlayer));
 			}
 			else{

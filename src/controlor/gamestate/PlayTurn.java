@@ -71,7 +71,7 @@ public class PlayTurn extends GameState{
 
 	@Override
 	public void click(Pnt click) {
-		DB.msg("click "+this);
+		DB.msg("click "+this+" pos:"+click);
 		SettlersVertex closestVertex = gc.getModel().board().locateClosestVertex(click);
 		SettlersEdge closestEdge = gc.getModel().board().locateClosestEdge(click);
 		SettlersTile closestTile = gc.getModel().board().locateClosestTile(click);
