@@ -13,6 +13,12 @@ import client.action.ClientPlayerSelection;
 import client.action.ClientRessourceSelection;
 import client.action.ClientSelection;
 
+/**
+ * TODO
+ * should have list of clients (to update their views)
+ * @author david
+ *
+ */
 public abstract class ServerState {
 	IGameController gc;
 
@@ -41,7 +47,6 @@ public abstract class ServerState {
 			return receivesClientBuyCard((ClientBuyCard)action);
 		if(action instanceof ClientPlayCard)
 			return receivesClientPlayCard((ClientPlayCard)action);
-		
 		if(action instanceof ClientSelection)
 			return receivesClientSelect((ClientSelection) action);
 		throw new Exception("Unknown Client Action");

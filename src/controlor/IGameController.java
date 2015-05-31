@@ -1,6 +1,10 @@
 package controlor;
 
+import java.util.TreeSet;
+
+import delaunay.Pnt;
 import model.card.Card;
+import model.hexagonalTiling.SettlersTile;
 import player.Player;
 
 public interface IGameController {
@@ -30,5 +34,19 @@ public interface IGameController {
 	void harvest(int randomDices);
 
 	void steal(Player stealer, Player screwed);
+	
+	/**
+	 * Consumes a card (after it has been played).
+	 * Return an exception if it was not present.
+	 * @param c
+	 * @throws Exception
+	 */
+	void consumeCard(Card c) throws Exception;
 
+	
+	public SettlersTile locateClosestTile(Pnt p);
+	public SettlersTile getThiefPosition();
+	public void setThiefPosition(SettlersTile selectedTile);
+	public TreeSet<Player> getNeighborsEnnemies(SettlersTile selectedTile);
+	public boolean updateBiggestArmy();
 }

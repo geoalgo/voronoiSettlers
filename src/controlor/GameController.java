@@ -24,6 +24,7 @@ package controlor;
 
 
 import java.util.Iterator;
+import java.util.TreeSet;
 
 import model.InitialRules;
 import model.Model;
@@ -40,6 +41,7 @@ import model.card.Monopole;
 import model.card.MonopoleState;
 import model.card.VictoryPoint;
 import model.hexagonalTiling.SettlersEdge;
+import model.hexagonalTiling.SettlersTile;
 import model.hexagonalTiling.SettlersVertex;
 import model.ressources.Ressource;
 import model.ressources.Ressources;
@@ -185,6 +187,12 @@ public class GameController implements IGameController {
 		}
 	}
 	
+	@Override
+	public void consumeCard(Card c) throws Exception {
+		if(!getCurrentPlayer().removeCard(c))
+			throw new Exception("Card not present");
+	}
+	
 	/**
 	 * Give a random card to current player.
 	 */
@@ -281,5 +289,37 @@ public class GameController implements IGameController {
 			getCurrentPlayer().getRessource().add(r, 1);
 	}
 
+	@Override
+	public SettlersTile locateClosestTile(Pnt p) {
+		return model.board().locateClosestTile(p);
+	}
+
+	@Override
+	public SettlersTile getThiefPosition() {
+		return model.getThiefPosition();
+	}
+
+	@Override
+	public void setThiefPosition(SettlersTile selectedTile) {
+		model.setThiefPosition(selectedTile);
+	}
+
+	@Override
+	public TreeSet<Player> getNeighborsEnnemies(SettlersTile selectedTile) {
+		TreeSet<Player> ennemiesAroundTile = new TreeSet<Player>();
+		for(SettlersVertex v : getModel().board().vertexNeighbors(selectedTile)){
+			if(v.hasBuilding())
+				ennemiesAroundTile.add(v.getBuilding().getPlayer());
+		}
+		ennemiesAroundTile.remove(getCurrentPlayer());
+		return ennemiesAroundTile;
+	}
+
+	@Override
+	public boolean updateBiggestArmy() {
+		return model.updateBiggestArmy();
+	}
+
+	
 
 }

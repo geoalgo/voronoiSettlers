@@ -2,7 +2,9 @@ package server.state;
 
 import java.util.TreeSet;
 
-import model.card.Card;
+import org.hamcrest.core.IsInstanceOf;
+
+import model.card.*;
 import controlor.DB;
 import controlor.IGameController;
 import client.IClient;
@@ -33,7 +35,7 @@ public class ServerStateSelectCard extends ServerState {
 	public ServerState receivesClientSelect(ClientSelection c){
 		try {
 			Card card = (Card)(c.getSelection());
-			DB.msg("play card");
+			return playCard(card,c.getClient());
 			//TODO do the play card actions
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -41,6 +43,40 @@ public class ServerStateSelectCard extends ServerState {
 		return this;
 	}
 
+	private ServerState playCard(Card c, IClient client){
+		try {
+			gc.consumeCard(c);
+		} catch (Exception e) {
+			return this;
+		}
+		
+		if(c instanceof VictoryPoint){
+			gc.getCurrentPlayer().addPoint();
+			return this;
+		}
+		if(c instanceof FreeRoad){
+			return this;
+		}
+		if(c instanceof Monopole){
+			return this;
+		}
+		if(c instanceof Knight){
+			updateLargestArmy();
+			return new ServerStateSelectBrigandPosition(gc,client);
+		}
+		return this;
+		
+	}
+	
+	/**
+	 * updates the largest army holder with the new knight card of the player.
+	 */
+	private void updateLargestArmy(){
+		gc.getCurrentPlayer().addKnight();
+		boolean armyChanged = gc.updateBiggestArmy();
+		if(armyChanged) 
+			client.message(gc.getCurrentPlayer().getName()+ " now has the biggest army.");
+	}
 	
 	
 	@Override

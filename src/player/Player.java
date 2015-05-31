@@ -189,8 +189,8 @@ public class Player implements Comparable<Player>  {
 		return cards.get(i);
 	}
 	
-	public void removeCard(Card c){
-		cards.remove(c);
+	public boolean removeCard(Card c){
+		return cards.remove(c);
 	}
 
 	

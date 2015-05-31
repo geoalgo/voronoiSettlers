@@ -1,25 +1,40 @@
 package server.state;
 
+import player.Player;
+import model.card.Card;
 import controlor.IGameController;
+import client.IClient;
 import client.action.*;
 
 
 /**
- * Wait for the client to select a position for the stealer.
+ * Wait for the client to select a player to steal.
  * @author david
  *
  */
 public class ServerStateSelectPlayer extends ServerState {
-
-	public ServerStateSelectPlayer(IGameController gc) {
+	IClient client;
+	public ServerStateSelectPlayer(IGameController gc,IClient client) {
 		super(gc);
-		// TODO Auto-generated constructor stub
+		this.client = client;
 	}
 
-	@Override
-	public ServerState receivesAction(ClientAction action) {
-		return this;
+	public ServerState receivesClientSelect(ClientSelection c){
+		try {
+			Player chosenPlayer = (Player)(c.getSelection());
+			steal(chosenPlayer);
+			return new ServerStatePlayTurn(gc);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return this;
+		}
 	}
+	
+	private void steal(Player stolen){
+		gc.steal(gc.getCurrentPlayer(), stolen);
+		client.message(gc.getCurrentPlayer()+ " stole "+stolen);
+	}
+	
 
 
 
