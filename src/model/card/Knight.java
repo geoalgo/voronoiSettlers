@@ -23,8 +23,6 @@ package model.card;
 
 import controlor.GameController;
 import controlor.ISettlersServer;
-import controlor.gamestate.GameState;
-import controlor.gamestate.ThiefSelect;
 import player.Player;
 
 public class Knight extends Card {
@@ -33,18 +31,5 @@ public class Knight extends Card {
 		super("Knight");
 	}
 
-	@Override
-	public void apply(ISettlersServer gc) {
-//		//1- UI ask stealer position
-//		//2- increase knight number
-//		//3- update biggest army holder
-//		KnightSelect uiThief = new KnightSelect(gc, this,gc.getCurrentPlayerNum());
-//		
-//		p.addKnight();
-//		boolean armyChanged = gc.getModel().updateBiggestArmy();
-//		if(armyChanged)
-//			gc.appendMessage(gc.getCurrentPlayer().getName()+ " now has the biggest army.");
-//		gc.updateView();
-	}
 
 }

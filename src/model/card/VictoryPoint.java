@@ -23,7 +23,6 @@ package model.card;
 
 import controlor.GameController;
 import controlor.ISettlersServer;
-import controlor.gamestate.GameState;
 import player.Player;
 
 public class VictoryPoint extends Card {
@@ -32,9 +31,5 @@ public class VictoryPoint extends Card {
 		super("Victory point");
 	}
 
-	@Override
-	public void apply(ISettlersServer gc) {
-		p.addPoint();
-	}
 
 }

@@ -1,9 +1,10 @@
 package server;
 
+import model.Model;
 import controlor.DB;
 import controlor.IGameController;
 import server.state.*;
-import client.Client;
+import client.DummyClient;
 import client.IClient;
 import client.action.ClientAction;
 
@@ -28,7 +29,6 @@ public class Server implements IServer {
 		currentState = new ServerStatePlayTurn(gc, clients);
 	}
 	
-	
 	@Override
 	public void receiveAction(ClientAction action) {
 		try {
@@ -46,6 +46,11 @@ public class Server implements IServer {
 	@Override
 	public void setState(ServerState s){
 		currentState = s;
+	}
+
+	@Override
+	public Model getModel() {
+		return gc.getModel();
 	}
 
 

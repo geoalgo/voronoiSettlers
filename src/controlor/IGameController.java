@@ -3,6 +3,7 @@ package controlor;
 import java.util.TreeSet;
 
 import delaunay.Pnt;
+import model.Model;
 import model.card.Card;
 import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersTile;
@@ -81,4 +82,5 @@ public interface IGameController {
 	public void addRoad(SettlersEdge e, Player currentPlayer) throws Exception;
 	public SettlersVertex locateClosestVertex(Pnt click);
 	public SettlersEdge locateClosestEdge(Pnt click);
+	public Model getModel();
 }

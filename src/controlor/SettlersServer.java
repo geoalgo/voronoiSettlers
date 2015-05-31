@@ -112,7 +112,7 @@ public class SettlersServer extends javax.swing.JApplet implements Runnable,ISet
 	}
 
 	void setView(){
-		this.view = new GameView(this,600, 1000);
+//		this.view = new GameView(this,600, 1000);
 	}
 
 	public void updateView(){

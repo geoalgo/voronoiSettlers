@@ -1,5 +1,6 @@
 package client;
 
+import model.Model;
 import server.IServer;
 import server.state.ServerState;
 import client.action.ClientAction;
@@ -14,6 +15,10 @@ public class SendToServer implements ISendToServer {
 	@Override
 	public void receiveAction(ClientAction action) {
 		server.receiveAction(action);
+	}
+	@Override
+	public Model getModel() {
+		return server.getModel();
 	}
 
 }

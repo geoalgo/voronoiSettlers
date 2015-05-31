@@ -1,5 +1,6 @@
 package client;
 
+import model.Model;
 import server.IServer;
 import client.action.ClientAction;
 
@@ -10,4 +11,5 @@ import client.action.ClientAction;
  */
 public interface ISendToServer{
 	public void receiveAction(ClientAction action);
+	public Model getModel();
 }

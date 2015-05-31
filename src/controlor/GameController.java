@@ -46,9 +46,6 @@ import model.hexagonalTiling.SettlersVertex;
 import model.ressources.Ressource;
 import model.ressources.Ressources;
 import player.Player;
-import controlor.gamestate.AskFirstColony;
-import controlor.gamestate.GameState;
-import controlor.gamestate.PlayTurn;
 import controlor.ui.UIControlor;
 import delaunay.Pnt;
 
@@ -61,9 +58,6 @@ import delaunay.Pnt;
 public class GameController implements IGameController {
 	Model model;
 	int currentPlayer;
-	GameState gs;
-	UIControlor uicontroller; //todo remove
-	ISettlersServer server;
 
 	public GameController(InitialRules rules) {
 		model = new Model(rules);	
@@ -71,38 +65,6 @@ public class GameController implements IGameController {
 
 	public Model getModel(){
 		return model;
-	}
-
-	public void setUIControlor(UIControlor uicontrolor){
-		this.uicontroller = uicontrolor;
-	}
-
-	public UIControlor getUIControlor(){
-		return uicontroller;
-	}
-
-	public void setServerControlor(ISettlersServer server){
-		this.server = server;
-	}
-
-	public ISettlersServer getServerControlor(){
-		return server;
-	}
-	
-	public void setState(GameState newState){
-		this.gs = newState;
-	}
-
-	public GameState getState(){
-		return gs;
-	}
-
-	/**
-	 * method to be called to start the game.
-	 */
-	void playLevel(){
-		DB.msg("set gs to AskFirstColony");
-		gs = new AskFirstColony(this,0);
 	}
 
 	public void nextPlayer(){

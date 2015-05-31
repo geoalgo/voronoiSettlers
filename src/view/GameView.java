@@ -10,10 +10,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import client.IClient;
 import player.Player;
-
 import model.Model;
-
 import controlor.DB;
 import controlor.IWindowController;
 import controlor.ISettlersServer;
@@ -23,9 +22,8 @@ import delaunay.Pnt;
 
 public class GameView implements IWindowController{
 	private JFrame frame;
-	ISettlersServer settlersServer;
+	IClient client;
 	UIViewControlor uiViewControlor;
-	private Model model;
 	private BoardView boardView;
 	private InfoPanel infoPanel = new InfoPanel();
 	private JPanel playerPanelLeft;
@@ -33,13 +31,9 @@ public class GameView implements IWindowController{
 	private PlayerPanel[] playerPanel;
 	private ControlPanel buildPanel;
 
-	public GameView(ISettlersServer sserver,int width,int height){
-		this.settlersServer = sserver;
-		this.model = sserver.getModel();
-
-		uiViewControlor = new UIViewControlor(sserver,this);
-
-		this.boardView = new BoardView(model);
+	public GameView(IClient client,int width,int height){
+		this.client = client;
+		this.boardView = new BoardView(client);
 		
 		boardView.addMouseListener(this);
 		
@@ -74,11 +68,11 @@ public class GameView implements IWindowController{
 		frame.add(playerPanelRight,"East");
 		playerPanelRight.setLayout(new GridLayout(2,1));
 
-		int numPlayers = model.numPlayers();
+		int numPlayers = client.getModel().numPlayers();
 		playerPanel = new PlayerPanel[numPlayers];
 
 		for(int i = 0; i<numPlayers; ++i){
-			Player p = model.getPlayer(i);
+			Player p = client.getModel().getPlayer(i);
 			playerPanel[i] = new PlayerPanel(p);
 			if(i<2)
 				playerPanelLeft.add(playerPanel[i]);
@@ -92,18 +86,11 @@ public class GameView implements IWindowController{
 	 */
 	public void mousePressed(MouseEvent e) {
 		Pnt pnt = convertToCatanCoord(new Pnt(e.getX(), e.getY()));
-
-//		if(uiViewControlor.isIncardState()){
-//			uiViewControlor.click(pnt);
-//		}
-//		else{
 			if(!buildPanel.isButton(e.getSource()))
-				settlersServer.mouseClicked(pnt,0);
-			else{
+				client.mouseClicked(pnt);
+			else
 				handleButton(e.getSource());
-			}
 			boardView.repaint();
-//		}
 	}
 
 	@Override
@@ -124,7 +111,7 @@ public class GameView implements IWindowController{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		settlersServer.keyPressed(arg0);
+		client.keyPressed(arg0);
 	}
 
 	@Override
@@ -185,7 +172,7 @@ public class GameView implements IWindowController{
 	private void handleButton(Object button){
 		DB.msg("button pressed");
 		if(buildPanel.isNextTurnButton(button)){
-			settlersServer.nextTurnPressed();		
+			client.nextTurnPressed();		
 			return;
 		}
 		if(buildPanel.isTradeButton(button)){
@@ -194,8 +181,7 @@ public class GameView implements IWindowController{
 		}
 		if(buildPanel.isBuyCardButton(button)){
 			try {
-				settlersServer.buyCard();
-				updateView();
+				client.buyCard();
 			} catch (Exception e) {
 				appendMessage("Not enough ressources to buy a card.");
 			}		

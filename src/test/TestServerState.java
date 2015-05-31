@@ -13,7 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import player.Player;
-import client.Client;
+import client.DummyClient;
 import client.IClient;
 import client.SendToServer;
 import client.action.*;
@@ -45,7 +45,7 @@ public class TestServerState {
 		server = new Server(gc);
 		clients = new IClient[numPlayers];
 		for(int i=0; i < numPlayers; ++i){
-			clients[i] = new Client(new SendToServer(server),gc.getPlayer(i));
+			clients[i] = new DummyClient(new SendToServer(server),gc.getPlayer(i));
 		}
 		server.init(clients);
 	}

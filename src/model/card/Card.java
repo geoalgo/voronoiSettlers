@@ -33,8 +33,6 @@ public abstract class Card implements Comparable<Card>{
 		this.descr = descr;
 	}
 	
-	public abstract void apply(ISettlersServer gc);
-
 	void setPlayer(Player p){
 		this.p = p;
 	}

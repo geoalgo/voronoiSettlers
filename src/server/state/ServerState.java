@@ -4,7 +4,7 @@ import player.Player;
 import controlor.DB;
 import controlor.IGameController;
 import controlor.gamestate.LooseRessource;
-import client.Client;
+import client.DummyClient;
 import client.IClient;
 import client.action.*;
 import client.state.ClientState;

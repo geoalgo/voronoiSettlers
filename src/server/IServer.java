@@ -1,7 +1,8 @@
 package server;
 
+import model.Model;
 import server.state.ServerState;
-import client.Client;
+import client.DummyClient;
 import client.IClient;
 import client.action.ClientAction;
 
@@ -24,5 +25,7 @@ public interface IServer {
 	void init(IClient[] clients);
 
 	boolean hasClients();
+
+	Model getModel();
 	
 }

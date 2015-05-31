@@ -4,7 +4,7 @@ import model.card.Card;
 import model.ressources.Ressources;
 import controlor.DB;
 import controlor.IGameController;
-import client.Client;
+import client.DummyClient;
 import client.IClient;
 import client.action.*;
 

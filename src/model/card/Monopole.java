@@ -23,7 +23,6 @@ package model.card;
 
 import controlor.GameController;
 import controlor.ISettlersServer;
-import controlor.gamestate.GameState;
 import player.Player;
 
 public class Monopole extends Card {
@@ -32,10 +31,5 @@ public class Monopole extends Card {
 		super("Monopole");
 	}
 
-	@Override
-	public void apply(ISettlersServer gc) {
-		//1- ask ressource to steal
-		//2- steal this ressource to other players
-	}
 
 }

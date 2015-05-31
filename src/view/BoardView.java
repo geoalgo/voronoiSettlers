@@ -41,8 +41,8 @@ import java.util.Vector;
 
 import javax.swing.JPanel;
 
+import client.IClient;
 import player.Player;
-
 import model.Model;
 import model.hexagonalTiling.BoardTiles;
 import model.hexagonalTiling.SettlersEdge;
@@ -65,7 +65,7 @@ public class BoardView extends JPanel{
 	public static Color delaunayColor = Color.green;
 	public static int pointRadius = 2;
 
-	private Model model;
+	private IClient client;
 
 	private Map<Object, Color> colorTable;      // Remembers colors for display
 	private Graphics g;                         // Stored graphics context
@@ -79,12 +79,12 @@ public class BoardView extends JPanel{
 	/**
 	 * Create and initialize the DT.
 	 */
-	//todo should take a server instead
-	public BoardView(Model model) {
-		this.model = model;
+	public BoardView(IClient client) {
+		this.client = client;
 		selectedPoint = null ;
 	}
 
+	
 	public void setSelectedPoint(Pnt point){
 		selectedPoint = convertPntToFrameCoord(point);
 	}
@@ -191,7 +191,7 @@ public class BoardView extends JPanel{
 	}
 
 	private void drawTiles(){
-		Iterator<SettlersTile> tilesIt = model.board().tiles();
+		Iterator<SettlersTile> tilesIt = client.getModel().board().tiles();
 		while(tilesIt.hasNext()){
 			SettlersTile tile = tilesIt.next();
 			drawTileRessource(tile);
@@ -221,7 +221,7 @@ public class BoardView extends JPanel{
 
 	Pnt[] getTilesPolygonPts(SettlersTile tile){
 		List<Pnt> pointsAround = new LinkedList<Pnt>();
-		for(SettlersVertex v : model.board().vertexNeighbors(tile))
+		for(SettlersVertex v : client.getModel().board().vertexNeighbors(tile))
 			pointsAround.add(v.getPosition());
 		List<Pnt> points = 
 				convertPntToFrameCoord(
@@ -240,7 +240,7 @@ public class BoardView extends JPanel{
 			String res = "";
 			res = res +  tile.diceNumber();
 
-			Pnt centerTile = convertPntToFrameCoord(model.board().getPosition(tile)); 
+			Pnt centerTile = convertPntToFrameCoord(client.getModel().board().getPosition(tile)); 
 			draw(centerTile,20,Color.white);
 			setFont(tile);
 			g.drawString(res,
@@ -291,7 +291,7 @@ public class BoardView extends JPanel{
 	}
 
 	private void drawThief(){
-		Pnt thiefPoint =convertPntToFrameCoord(model.board().getPosition(model.getThiefPosition())); 
+		Pnt thiefPoint =convertPntToFrameCoord(client.getModel().board().getPosition(client.getModel().getThiefPosition())); 
 		drawThief(thiefPoint,40.);
 	}
 
@@ -321,13 +321,13 @@ public class BoardView extends JPanel{
 
 
 	private void drawEdges(){
-		Iterator<SettlersEdge> edges = model.board().edges();
+		Iterator<SettlersEdge> edges = client.getModel().board().edges();
 		while (edges.hasNext()) {
 			SettlersEdge edge = edges.next();
 			drawRoad(edge, 1., Color.black);
 		}
 
-		edges = model.board().borderEdges();
+		edges = client.getModel().board().borderEdges();
 		while (edges.hasNext()) {
 			SettlersEdge edge = edges.next();
 			if(edge.hasHarbor())
@@ -357,7 +357,7 @@ public class BoardView extends JPanel{
 	}
 
 	private void drawRoads(){
-		Iterator<SettlersEdge> edges = model.board().edges();
+		Iterator<SettlersEdge> edges = client.getModel().board().edges();
 		while (edges.hasNext()) {
 			SettlersEdge edge = edges.next();
 			if(edge.hasBuilding())
@@ -370,7 +370,7 @@ public class BoardView extends JPanel{
 	}
 
 	private void drawBuildings(){
-		Iterator<SettlersVertex> vIt = model.board().vertices();
+		Iterator<SettlersVertex> vIt = client.getModel().board().vertices();
 		while(vIt.hasNext()){
 			SettlersVertex v = vIt.next();
 			if(v.hasBuilding()){

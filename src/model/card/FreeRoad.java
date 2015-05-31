@@ -24,8 +24,6 @@ package model.card;
 import controlor.DB;
 import controlor.GameController;
 import controlor.ISettlersServer;
-import controlor.gamestate.AskFirstFreeRoad;
-import controlor.gamestate.GameState;
 
 public class FreeRoad extends Card {
 
@@ -33,8 +31,5 @@ public class FreeRoad extends Card {
 		super("Two free roads");
 	}
 
-	@Override
-	public void apply(ISettlersServer gc) {
-	}
 
 }

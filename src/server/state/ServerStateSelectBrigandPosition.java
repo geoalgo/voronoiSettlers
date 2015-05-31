@@ -8,7 +8,7 @@ import player.Player;
 import controlor.DB;
 import controlor.IGameController;
 import controlor.ui.UIChoosePlayerToSteal;
-import client.Client;
+import client.DummyClient;
 import client.IClient;
 import client.action.*;
 import client.state.ClientStateSelection;
