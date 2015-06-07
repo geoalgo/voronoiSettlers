@@ -2,23 +2,12 @@ package view;
 
 //import java.util.Collection;
 
-import model.card.Card;
-import model.card.CardState;
-import model.card.FreeRoad;
-import model.card.Knight;
-import model.card.CardKnightState;
-import model.card.Monopole;
-import model.card.MonopoleState;
-import model.card.VictoryPoint;
+import model.card.*;
 import model.ressources.Ressources;
 import player.Player;
 import controlor.DB;
 import controlor.GameController;
 import controlor.ISettlersServer;
-import controlor.gamestate.GameState;
-import controlor.gamestate.ThiefSelect;
-import controlor.ui.UIChoosePlayerToSteal;
-import controlor.ui.UISelectCard;
 import controlor.ui.UITrade;
 import delaunay.Pnt;
 

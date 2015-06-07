@@ -23,17 +23,14 @@ public class ServerStateSelectPlayer extends ServerState {
 		try {
 			Player chosenPlayer = (Player)(c.getSelection());
 			DB.msg(chosenPlayer.toString());
-			steal(chosenPlayer);
+			gc.steal(gc.getCurrentPlayer(), chosenPlayer);
+			messageToCurrentPlayer(gc.getCurrentPlayer()+ " stole "+chosenPlayer);
+			updateClientsView();
 			return new ServerStatePlayTurn(gc,clients);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return this;
 		}
-	}
-	
-	private void steal(Player stolen){
-		gc.steal(gc.getCurrentPlayer(), stolen);
-		messageToCurrentPlayer(gc.getCurrentPlayer()+ " stole "+stolen);
 	}
 	
 

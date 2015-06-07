@@ -64,14 +64,12 @@ public class TestServerState {
 		if(server.getCurrentState() != initialState)
 			fail("Stated changed by another player");
 
-		//todo not working if 7 is drawn...
 		for(int currentPlayer = 0; currentPlayer < numPlayers; ++currentPlayer){
 			gc.resetRessources();
 			DB.msg("send next turn from "+currentPlayer);
 			DB.msg("gc current "+gc.currentPlayerNum());
 			server.receiveAction(new ClientNextTurn(clients[currentPlayer]));
 			DB.msg("now gc is "+gc.currentPlayerNum());
-
 			
 			if(server.getCurrentState().getCurrentPlayer().getNum()!=(currentPlayer+1)%numPlayers)
 				if(!(server.getCurrentState() instanceof ServerStateSelectBrigandPosition))

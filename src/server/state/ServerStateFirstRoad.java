@@ -30,7 +30,8 @@ public class ServerStateFirstRoad extends ServerState{
 				return new ServerStateSecondColony(gc, clients);
 			}
 		} catch (Exception e) {
-			System.out.println("Invalid first colony placement");
+			System.out.println("Invalid first road placement");
+			messageToCurrentPlayer("You cant place your road here");
 			return this;
 		}
 	}

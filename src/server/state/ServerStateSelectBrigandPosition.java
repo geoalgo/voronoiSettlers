@@ -3,12 +3,9 @@ package server.state;
 import java.util.TreeSet;
 
 import model.hexagonalTiling.SettlersTile;
-import model.hexagonalTiling.SettlersVertex;
 import player.Player;
 import controlor.DB;
 import controlor.IGameController;
-import controlor.ui.UIChoosePlayerToSteal;
-import client.DummyClient;
 import client.IClient;
 import client.action.*;
 import client.state.ClientStateSelection;

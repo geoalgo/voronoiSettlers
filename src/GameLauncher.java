@@ -22,7 +22,7 @@ public class GameLauncher extends javax.swing.JApplet implements Runnable{
 		initServer();
 		initClients();
 		server.init(clients);
-		RegisteredGame.game1(server, clients);
+//		RegisteredGame.game1(server, clients);
 		run();
 	}
 	

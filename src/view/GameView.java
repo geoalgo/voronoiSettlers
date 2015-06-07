@@ -5,19 +5,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import client.IClient;
 import player.Player;
-import model.Model;
 import controlor.DB;
 import controlor.IWindowController;
-import controlor.ISettlersServer;
-import controlor.ui.UIControlor;
-import controlor.ui.UITrade;
 import delaunay.Pnt;
 
 public class GameView implements IWindowController{

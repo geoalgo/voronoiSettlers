@@ -26,6 +26,7 @@ public class ServerStateFirstColony extends ServerState{
 			return new ServerStateFirstRoad(gc, clients);
 		} catch (Exception e) {
 			System.out.println("Invalid first colony placement");
+			messageToCurrentPlayer("You cant place your colony here");
 			return this;
 		}
 	}

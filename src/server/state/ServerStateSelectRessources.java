@@ -23,7 +23,7 @@ public class ServerStateSelectRessources extends ServerState {
 		super(gc,clients);
 		messageToCurrentPlayer("You have more than 7 cards, select "+7+" cards to discard");
 		Player currentPlayer = gc.getPlayer(currentPlayerLoosingRessources);
-		messageToAllPlayers(currentPlayer.getName()+" has to get rid of half his ressources.");
+		messageToAllButCurrentPlayer(currentPlayer.getName()+" has to get rid of half his ressources.");
 		clients[currentPlayerLoosingRessources].setCurrentState(new ClientStateRessourcesSelection(currentPlayer));
 		this.currentPlayerLoosingRessources = currentPlayerLoosingRessources;
 	}
@@ -46,6 +46,7 @@ public class ServerStateSelectRessources extends ServerState {
 				return this;
 			}
 			gc.getPlayer(currentPlayerLoosingRessources).getRessource().remove(ressourcesToDiscard);
+			updateClientsView();
 			return nextState();
 		} catch (Exception e) {
 			e.printStackTrace();

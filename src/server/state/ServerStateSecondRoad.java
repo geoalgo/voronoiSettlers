@@ -36,12 +36,14 @@ public class ServerStateSecondRoad extends ServerState{
 				} catch (Exception e) {
 					DB.msg("pb with harvest");
 					e.printStackTrace();
+					return this;
 				}
 			}
 		} catch (Exception e) {
 			System.out.println("Invalid Second road placement");
+			messageToCurrentPlayer("You cant place your second road here");
+			return this;
 		}
-		return new ServerStatePlayTurn(gc, clients);
 	}
 
 }

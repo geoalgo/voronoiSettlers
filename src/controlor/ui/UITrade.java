@@ -48,7 +48,7 @@ import controlor.ISettlersServer;
 public class UITrade extends JFrame implements ActionListener {
 	Player p;
 	ISettlersServer server;
-	UIControlor uicontrolor; // for the call back
+//	UIControlor uicontrolor; // for the call back
 
 	JPanel panel0;
 	JPanel panel1;
@@ -120,8 +120,8 @@ public class UITrade extends JFrame implements ActionListener {
 		panel0.add(ressText);
 		
 		setRessourcesToPay();
-		if(server!=null)
-		server.updateView();
+//		if(server!=null)
+//		server.updateView();
 	}
 
 	class PossibleTrade{
@@ -198,7 +198,7 @@ public class UITrade extends JFrame implements ActionListener {
 			//do exchange
 			PossibleTrade paidRess = ((PossibleTrade)ressourceToPay.getSelectedItem());
 			Ressource aquiredRess = ((Ressource)ressourceToGet.getSelectedItem());
-			server.internalTrade(p.getNum(),paidRess.ress, -paidRess.cost,aquiredRess);
+//			server.internalTrade(p.getNum(),paidRess.ress, -paidRess.cost,aquiredRess);
 			update();
 		}
 	}

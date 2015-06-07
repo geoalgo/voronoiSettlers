@@ -5,9 +5,7 @@ import java.util.TreeSet;
 import delaunay.Pnt;
 import model.Model;
 import model.card.Card;
-import model.hexagonalTiling.SettlersEdge;
-import model.hexagonalTiling.SettlersTile;
-import model.hexagonalTiling.SettlersVertex;
+import model.hexagonalTiling.*;
 import model.ressources.Ressource;
 import player.Player;
 

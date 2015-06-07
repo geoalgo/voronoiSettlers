@@ -53,13 +53,7 @@ public class GUIClient extends DummyClient{
 	@Override
 	protected void askRessourcesSelection(ClientStateRessourcesSelection cs) {
 		DB.msg("select ressources GUI");
-		//todo show gui to select ressources
-		//for now loose random ressources
-		int numRessourcesToLoose = getPlayer().numRessources()/2;
-		Ressources selectRess = new Ressources(getPlayer().getRessource());
-		for (int i = 0; i < numRessourcesToLoose + 1; i++) 
-			selectRess.removeRandomRessource();
-		sendAction(new ClientSelection(this,selectRess));
+		new GUILooseRessource(this,getPlayer());
 	}
 
 	@Override
