@@ -1,28 +1,30 @@
 /**
-* Voronoi settlers- An implementation of the board game Settlers of 
-* Catan.
-* This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 3
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*
-* The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
-**/
+ * Voronoi settlers- An implementation of the board game Settlers of 
+ * Catan.
+ * This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
+ **/
 package model.ressources;
 
 import java.util.TreeMap;
 import java.util.Map;
 import java.util.Vector;
+
+import controlor.DB;
 
 
 
@@ -35,7 +37,7 @@ public class Ressources {
 		for(Ressource r : Ressource.allRessources())
 			ressourceNumber.put(r,0);
 	}
-	
+
 	public Ressources(Ressources other) {
 		ressourceNumber = new TreeMap<Ressource,Integer>(other.ressourceNumber);
 	}
@@ -43,7 +45,7 @@ public class Ressources {
 	public void setToZero(){
 		this.remove(this);
 	}
-	
+
 	/**
 	 * add nb ressources of ressource
 	 */
@@ -51,7 +53,7 @@ public class Ressources {
 		assert(num(ressource)+nb>=0);
 		ressourceNumber.put(ressource,num(ressource)+nb);
 	}
-	
+
 	public void addWood(int nbToAdd){
 		add(new Wood(),nbToAdd);
 	}
@@ -71,7 +73,7 @@ public class Ressources {
 	public void addBrick(int nbToAdd){
 		add(new Brick(),nbToAdd);
 	}
-	
+
 	public int getNum(Ressource ress){
 		return ressourceNumber.get(ress);
 	}
@@ -88,30 +90,44 @@ public class Ressources {
 		addBrick(-other.numBrick());
 	}
 
-	
+
 	public Ressource getRandomRessource(){
 		int randomRessource = (int)(Math.random()*num());
 		return getIthRessource(randomRessource);
 	}
-	
+
+	public Ressource removeRandomRessource(){
+		Ressource res = getRandomRessource();
+		if(res!=null)
+			remove(getRandomRessource());
+		return res;
+	}
+
+	public void remove(Ressource r){
+		add(r,-1);
+	}
+
 	private Ressource getIthRessource(int i){
+		if(num()<=i) return null;
+
 		int current = 0;
 		if( i <numWood()) return new Wood();
 		current+=numWood();
-		
-		if(current<=i&&i <current+numSheep()) return new Sheep();
-		current+= numSheep();
-	
-		if(current<=i&&i <current+numStone()) return new Stone();
-		current+= numStone();
-		
-		if(current<=i&&i <current+numCrop()) return new Crop();
-		current+= numCrop();
-		
-//		if(current<=i&&i <current+numBrick()) 
+		if(current<=i&&i <current+numSheep()) 
 			return new Sheep();
+		current+= numSheep();
+
+		if(current<=i&&i <current+numStone()) 
+			return new Stone();
+		current+= numStone();
+
+		if(current<=i&&i <current+numCrop()) 
+			return new Crop();
+		current+= numCrop();
+
+		return new Brick();
 	}
-	
+
 	/**
 	 * @param ressource
 	 * @return the current number of ressource
@@ -119,7 +135,7 @@ public class Ressources {
 	public int num(Ressource ressource){
 		return 	ressourceNumber.get(ressource);
 	}
-	
+
 	public int numWood(){return num(new Wood());}
 	public int numSheep(){return num(new Sheep());}
 	public int numStone(){return num(new Stone());}
@@ -146,8 +162,8 @@ public class Ressources {
 				numStone() == o.numStone()&&
 				numCrop() == o.numCrop()&&
 				numBrick() == o.numBrick();
-				
-		
+
+
 	}
 
 	public String toString(){
@@ -160,7 +176,7 @@ public class Ressources {
 				+"/"+num(new Brick());
 		return res;
 	}
-	
+
 	public String toNiceString(){
 		String res = "";
 		boolean first = true;
@@ -189,12 +205,24 @@ public class Ressources {
 		Ressources ressources2 = new Ressources(ressources);
 		ressources2.add(new Brick(),2);
 		System.out.println("Ressources2:"+ressources2);
-		
+
 		ressources2.remove(ressources);
 		System.out.println("Ressources2:"+ressources2);
 
 		ressources2.setToZero();
 		System.out.println("Ressources2:"+ressources2);
+
+		ressources2.addBrick(2);
+		ressources2.addWood(2);
+		for (int i = 0; i < ressources2.num(); i++) {
+			System.out.println("Ressources2["+i+"]:"+ressources2.getIthRessource(i));
+		}
+
+		System.out.println("Ressources2:"+ressources2);
+
+		ressources2.removeRandomRessource();
+		System.out.println("Ressources2:"+ressources2);
+
 	}
 
 }

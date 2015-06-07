@@ -1,9 +1,9 @@
 package server.state;
 
+import model.ressources.Ressource;
 import player.Player;
 import controlor.DB;
 import controlor.IGameController;
-import controlor.gamestate.LooseRessource;
 import client.DummyClient;
 import client.IClient;
 import client.action.*;
@@ -31,22 +31,27 @@ public abstract class ServerState {
 	public void messageToCurrentPlayer(String msg){
 		clients[gc.getCurrentPlayer().getNum()].message(msg);
 	}
-	
+
 	public void messageToAllPlayers(String msg){
 		for (int i = 0; i < clients.length; i++) 
 			clients[i].message(msg);
 	}
-	
+
 	public void messageToAllButCurrentPlayer(String msg){
 		for (int i = 0; i < clients.length; i++) 
 			if(i!=gc.getCurrentPlayer().getNum())
 				clients[i].message(msg);
 	}
 
+	protected void updateClientsView(){
+		for (int i = 0; i < clients.length; i++) 
+			clients[i].updateView();
+	}
+
 	protected void setCurrentClientState(ClientState cs){
 		clients[gc.getCurrentPlayer().getNum()].setCurrentState(cs);
 	}
-	
+
 	/**
 	 * Receives an action and updates model/clients if it is valid.
 	 * @param action
@@ -66,6 +71,9 @@ public abstract class ServerState {
 			return receivesClientBuyCard((ClientBuyCard)action);
 		if(action instanceof ClientPlayCard)
 			return receivesClientPlayCard((ClientPlayCard)action);
+		if(action instanceof ClientActionKey)
+			return receivesClientKey((ClientActionKey)action);
+
 		throw new Exception("Unknown Client Action");
 	}
 	public ServerState receivesClientClick(ClientActionClick c){
@@ -83,8 +91,14 @@ public abstract class ServerState {
 	public ServerState receivesClientSelect(ClientSelection c){
 		return this;
 	}
-
-	
-
+	public ServerState receivesClientKey(ClientActionKey c){
+		if(c.getKey().getKeyChar()=='c'){
+			DB.msg("cheat mode add ressources");
+			for(Ressource ress : Ressource.allRessources())
+				gc.getCurrentPlayer().getRessource().add(ress, 3);
+			updateClientsView();
+		}
+		return this;
+	}
 
 }

@@ -32,21 +32,13 @@ import model.NotEnoughRessourceException;
 import model.Construction.City;
 import model.Construction.Colony;
 import model.Construction.VertexBuilding;
-import model.card.Card;
-import model.card.CardState;
-import model.card.FreeRoad;
-import model.card.Knight;
-import model.card.CardKnightState;
-import model.card.Monopole;
-import model.card.MonopoleState;
-import model.card.VictoryPoint;
+import model.card.*;
 import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersTile;
 import model.hexagonalTiling.SettlersVertex;
 import model.ressources.Ressource;
 import model.ressources.Ressources;
 import player.Player;
-import controlor.ui.UIControlor;
 import delaunay.Pnt;
 
 

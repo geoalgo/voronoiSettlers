@@ -8,7 +8,7 @@ import client.IClient;
  * @author david
  *
  */
-public interface ISendClient extends IClient{
+public interface ISendClient {
 	
 
 }

@@ -7,30 +7,45 @@ import model.card.Card;
 import model.ressources.Ressource;
 import client.action.ClientAction;
 import client.state.ClientState;
+import client.state.ClientStateRessourcesSelection;
+import client.state.ClientStateSelection;
 import delaunay.Pnt;
 import player.Player;
 import server.IServer;
 
-public interface IClient {
+public abstract class IClient {
 	/**
 	 * Sends message to the client.
 	 * @param string
 	 */
-	void message(String string);
-	void updateView();
-	ClientState getCurrentState();
-	void setCurrentState(ClientState cs);
-	Player getPlayer();
+	public abstract void message(String string);
+	public abstract void updateView();
+	public abstract ClientState getCurrentState();
+
+	public void setCurrentState(ClientState cs) {
+		if(cs instanceof ClientStateSelection)
+			askSelection((ClientStateSelection)cs);
+		if(cs instanceof ClientStateRessourcesSelection)
+			askRessourcesSelection((ClientStateRessourcesSelection)cs);
+	}
+
+	abstract protected void askRessourcesSelection(ClientStateRessourcesSelection cs);
+	abstract protected void askSelection(ClientStateSelection cs);
+	
+	public abstract Player getPlayer();
 
 	//called by gui
-	void mouseClicked(Pnt pnt);
-	void keyPressed(KeyEvent arg0);
-	void nextTurnPressed();
-	void buyCard();
-	
+	public abstract void mouseClicked(Pnt pnt);
+	public abstract void keyPressed(KeyEvent arg0);
+	public abstract void nextTurnPressed();
+	public abstract void buyCard();
+	public abstract void playCard();
+	public abstract void tradePressed();
 	
 	//to server
-	void sendAction(ClientAction a);
-	Model getModel();
-	void updateModel(Model newModel);
+	public abstract void sendAction(ClientAction a);
+	public abstract Model getModel();
+	abstract void updateModel(Model newModel);
+		// TODO Auto-generated method stub
+		
 }

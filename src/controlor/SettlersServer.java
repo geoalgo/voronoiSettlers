@@ -21,7 +21,7 @@
 
 package controlor;
 
-import java.awt.*;
+//import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -62,221 +62,221 @@ import delaunay.Pnt;
  * 
  */
 @SuppressWarnings("serial")
-public class SettlersServer extends javax.swing.JApplet implements Runnable,ISettlersServer{
-	Model model;
-	GameView view;
-	UIControlor uicontrolor;
-	GameController gc;
-
-	public SettlersServer(){
-		setModel(3);
-		setView();
-		run();
-	}
-
-	@Override
-	public void init() {
-		try {
-			SwingUtilities.invokeAndWait(this);
-		} catch (Exception e) {
-			System.err.println("Initialization failure");
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void run() {
-		gc.playLevel();
-	}
-
-	public GameState getSet(){
-		return gc.getState();
-	}
-	
-	void setNormalState(){
-		gc.setState(new PlayTurn(gc, getCurrentPlayerNum()));
-	}
-	
-	
-	@Override
-	public void setSet(GameState state){
-		gc.setState(state);
-	}
-	
-	void setModel(int numPlayers) {
-		gc = new GameController(new InitialRules(numPlayers, 10));
-		uicontrolor = new UIWindow(this,gc);
-		gc.setUIControlor(uicontrolor);
-		gc.setServerControlor(this);
-		this.model = gc.getModel();
-	}
-
-	void setView(){
-//		this.view = new GameView(this,600, 1000);
-	}
-
-	public void updateView(){
-		view.updateView();
-	}
-
-	public void setMessage(String txt) {
-		view.setMessage(txt);
-	}
-
-	public void appendMessage(String txt) {
-		view.appendMessage(txt);
-	}
-
-	@Override
-	public Model getModel() {
-		return model;
-	}
-
-	@Override
-	public void mouseClicked(Pnt p,int playerId) {
-		gc.getState().click(p);
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if(e.getKeyChar()=='c'){
-			DB.msg("cheat mode add ressources");
-			for(Ressource ress : Ressource.allRessources())
-				gc.getCurrentPlayer().getRessource().add(ress, 3);
-			updateView();
-		}
-		if(e.getKeyChar()=='d'){
-			DB.msg("current state"+gc.getState());
-		}
-	}
-
-	@Override
-	public void nextTurnPressed() {
-		DB.msg("next turn pressed");
-		DB.msg("current state"+gc.getState());
-		view.setInactive(gc.currentPlayerNum());
-		gc.nextPlayer();
-		view.setActive(gc.currentPlayerNum());
-	}
-
-	@Override
-	public void internalTrade(int player,Ressource tradedRessource,
-			int numTradedRessource,Ressource obtainedRessource){
-		Player p = gc.getPlayer(player);
-		p.getRessource().add(tradedRessource,numTradedRessource);
-		p.getRessource().add(obtainedRessource,1);
-	}
-
-	@Override
-	public Card buyCard() throws Exception {
-		return gc.buyCard();
-	}
-
-	@Override
-	public void playCard(Card card) {
-		if(card instanceof VictoryPoint) 
-			card.apply(null); //todo ugly case, refactor
-		else
-			gc.setState(CardState.makeCardState(gc, card));
-		getCurrentPlayer().removeCard(card);
-		view.updateView();
-	}
-
-	public void applyCardEffect(Card card,Object selection){
-		DB.msg("apply card effect");
-		gc.getState().apply(selection); // the game state is necessarily a card state
-		getCurrentPlayer().removeCard(card);
-		setNormalState();
-		view.updateView();
-	}
-
-	@Override
-	public int getNumPlayer(){
-		return gc.getNumPlayer();
-	}
-	
-	@Override
-	public int getCurrentPlayerNum() {
-		return gc.getCurrentPlayer().getNum();
-	}
-
-	@Override
-	public Player getPlayer(int num) {
-		return gc.getPlayer(num);
-	}
-
-	@Override
-	public Player getCurrentPlayer() {
-		return getPlayer(getCurrentPlayerNum());
-	}
-	
-
-	@Override
-	public void setMessage(String txt, int player) {
-		view.setMessage(txt);
-	}
-
-	@Override
-	public void appendMessage(String txt, int player) {
-		view.appendMessage(txt);		
-	}
-
-	@Override
-	public void setActivePlayer(int player){
-		for(int i = 0 ; i < gc.getNumPlayer(); ++i)
-			if(i==player) view.setActive(i);
-			else view.setInactive(i);
-	}
-
-	@Override
-	public void looseRessources(int playerLoosingRess, Ressources ress) {
-		DB.msg("num pl:"+playerLoosingRess);
-		gc.getPlayer(playerLoosingRess).getRessource().remove(ress);
-		view.appendMessage(getPlayer(playerLoosingRess).getName()+" looses half his ressources.");
-	}
-
-	@Override
-	public void monopole(Ressource ress) {
-		int currentPlayer = getCurrentPlayerNum();
-		for(int i = 0; i< getNumPlayer();++i){
-			if(i!=currentPlayer){
-				stealAllPlayerRessource(getCurrentPlayer(),gc.getPlayer(i),ress);
-			}
-		}		
-		view.appendMessage(getCurrentPlayer().getName()+" plays a monopole on "+ress);
-		setNormalState();
-	}
-
-	private void stealAllPlayerRessource(Player stealer, Player screwed, Ressource r){
-		int numRess = screwed.getRessource().getNum(r);
-		DB.msg("steal "+numRess+ " ressources of "+r);
-		screwed.getRessource().add(r, -numRess);
-		stealer.getRessource().add(r, numRess);
-		view.updateView();
-	}
-
-	@Override
-	public void stealRandomEnnemyRessource(int playerToSteal) {
-		gc.steal(getCurrentPlayer(),getPlayer(playerToSteal));
-		setNormalState();
-	}
-	
-	@Override
-	public void selectTwoFreeRoads(SettlersEdge road1, SettlersEdge road2) {
-		// TODO Auto-generated method stub
-		setNormalState();
-	}	
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SettlersServer window = new SettlersServer();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+public abstract class SettlersServer extends javax.swing.JApplet implements Runnable,ISettlersServer{
+//	Model model;
+//	GameView view;
+//	UIControlor uicontrolor;
+//	GameController gc;
+//
+//	public SettlersServer(){
+//		setModel(3);
+//		setView();
+//		run();
+//	}
+//
+//	@Override
+//	public void init() {
+//		try {
+//			SwingUtilities.invokeAndWait(this);
+//		} catch (Exception e) {
+//			System.err.println("Initialization failure");
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	@Override
+//	public void run() {
+//		gc.playLevel();
+//	}
+//
+//	public GameState getSet(){
+//		return gc.getState();
+//	}
+//	
+//	void setNormalState(){
+//		gc.setState(new PlayTurn(gc, getCurrentPlayerNum()));
+//	}
+//	
+//	
+//	@Override
+//	public void setSet(GameState state){
+//		gc.setState(state);
+//	}
+//	
+//	void setModel(int numPlayers) {
+//		gc = new GameController(new InitialRules(numPlayers, 10));
+//		uicontrolor = new UIWindow(this,gc);
+//		gc.setUIControlor(uicontrolor);
+//		gc.setServerControlor(this);
+//		this.model = gc.getModel();
+//	}
+//
+//	void setView(){
+////		this.view = new GameView(this,600, 1000);
+//	}
+//
+//	public void updateView(){
+//		view.updateView();
+//	}
+//
+//	public void setMessage(String txt) {
+//		view.setMessage(txt);
+//	}
+//
+//	public void appendMessage(String txt) {
+//		view.appendMessage(txt);
+//	}
+//
+//	@Override
+//	public Model getModel() {
+//		return model;
+//	}
+//
+//	@Override
+//	public void mouseClicked(Pnt p,int playerId) {
+//		gc.getState().click(p);
+//	}
+//
+//	@Override
+//	public void keyPressed(KeyEvent e) {
+//		if(e.getKeyChar()=='c'){
+//			DB.msg("cheat mode add ressources");
+//			for(Ressource ress : Ressource.allRessources())
+//				gc.getCurrentPlayer().getRessource().add(ress, 3);
+//			updateView();
+//		}
+//		if(e.getKeyChar()=='d'){
+//			DB.msg("current state"+gc.getState());
+//		}
+//	}
+//
+//	@Override
+//	public void nextTurnPressed() {
+//		DB.msg("next turn pressed");
+//		DB.msg("current state"+gc.getState());
+//		view.setInactive(gc.currentPlayerNum());
+//		gc.nextPlayer();
+//		view.setActive(gc.currentPlayerNum());
+//	}
+//
+//	@Override
+//	public void internalTrade(int player,Ressource tradedRessource,
+//			int numTradedRessource,Ressource obtainedRessource){
+//		Player p = gc.getPlayer(player);
+//		p.getRessource().add(tradedRessource,numTradedRessource);
+//		p.getRessource().add(obtainedRessource,1);
+//	}
+//
+//	@Override
+//	public Card buyCard() throws Exception {
+//		return gc.buyCard();
+//	}
+//
+//	@Override
+//	public void playCard(Card card) {
+//		if(card instanceof VictoryPoint) 
+//			card.apply(null); //todo ugly case, refactor
+//		else
+//			gc.setState(CardState.makeCardState(gc, card));
+//		getCurrentPlayer().removeCard(card);
+//		view.updateView();
+//	}
+//
+//	public void applyCardEffect(Card card,Object selection){
+//		DB.msg("apply card effect");
+//		gc.getState().apply(selection); // the game state is necessarily a card state
+//		getCurrentPlayer().removeCard(card);
+//		setNormalState();
+//		view.updateView();
+//	}
+//
+//	@Override
+//	public int getNumPlayer(){
+//		return gc.getNumPlayer();
+//	}
+//	
+//	@Override
+//	public int getCurrentPlayerNum() {
+//		return gc.getCurrentPlayer().getNum();
+//	}
+//
+//	@Override
+//	public Player getPlayer(int num) {
+//		return gc.getPlayer(num);
+//	}
+//
+//	@Override
+//	public Player getCurrentPlayer() {
+//		return getPlayer(getCurrentPlayerNum());
+//	}
+//	
+//
+//	@Override
+//	public void setMessage(String txt, int player) {
+//		view.setMessage(txt);
+//	}
+//
+//	@Override
+//	public void appendMessage(String txt, int player) {
+//		view.appendMessage(txt);		
+//	}
+//
+//	@Override
+//	public void setActivePlayer(int player){
+//		for(int i = 0 ; i < gc.getNumPlayer(); ++i)
+//			if(i==player) view.setActive(i);
+//			else view.setInactive(i);
+//	}
+//
+//	@Override
+//	public void looseRessources(int playerLoosingRess, Ressources ress) {
+//		DB.msg("num pl:"+playerLoosingRess);
+//		gc.getPlayer(playerLoosingRess).getRessource().remove(ress);
+//		view.appendMessage(getPlayer(playerLoosingRess).getName()+" looses half his ressources.");
+//	}
+//
+//	@Override
+//	public void monopole(Ressource ress) {
+//		int currentPlayer = getCurrentPlayerNum();
+//		for(int i = 0; i< getNumPlayer();++i){
+//			if(i!=currentPlayer){
+//				stealAllPlayerRessource(getCurrentPlayer(),gc.getPlayer(i),ress);
+//			}
+//		}		
+//		view.appendMessage(getCurrentPlayer().getName()+" plays a monopole on "+ress);
+//		setNormalState();
+//	}
+//
+//	private void stealAllPlayerRessource(Player stealer, Player screwed, Ressource r){
+//		int numRess = screwed.getRessource().getNum(r);
+//		DB.msg("steal "+numRess+ " ressources of "+r);
+//		screwed.getRessource().add(r, -numRess);
+//		stealer.getRessource().add(r, numRess);
+//		view.updateView();
+//	}
+//
+//	@Override
+//	public void stealRandomEnnemyRessource(int playerToSteal) {
+//		gc.steal(getCurrentPlayer(),getPlayer(playerToSteal));
+//		setNormalState();
+//	}
+//	
+//	@Override
+//	public void selectTwoFreeRoads(SettlersEdge road1, SettlersEdge road2) {
+//		// TODO Auto-generated method stub
+//		setNormalState();
+//	}	
+//
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					SettlersServer window = new SettlersServer();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 }

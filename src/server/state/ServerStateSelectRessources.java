@@ -1,5 +1,6 @@
 package server.state;
 
+import player.Player;
 import model.card.Card;
 import model.ressources.Ressources;
 import controlor.DB;
@@ -7,6 +8,8 @@ import controlor.IGameController;
 import client.DummyClient;
 import client.IClient;
 import client.action.*;
+import client.state.ClientStateRessourcesSelection;
+import client.state.ClientStateSelection;
 
 /**
  * State when waiting for the client to loose ressources.
@@ -18,9 +21,12 @@ public class ServerStateSelectRessources extends ServerState {
 
 	public ServerStateSelectRessources(IGameController gc,IClient clients[],int currentPlayerLoosingRessources) {
 		super(gc,clients);
+		messageToCurrentPlayer("You have more than 7 cards, select "+7+" cards to discard");
+		Player currentPlayer = gc.getPlayer(currentPlayerLoosingRessources);
+		messageToAllPlayers(currentPlayer.getName()+" has to get rid of half his ressources.");
+		clients[currentPlayerLoosingRessources].setCurrentState(new ClientStateRessourcesSelection(currentPlayer));
 		this.currentPlayerLoosingRessources = currentPlayerLoosingRessources;
 	}
-	
 	
 	public ServerState receivesClientSelect(ClientSelection c){
 		try {
@@ -47,7 +53,7 @@ public class ServerStateSelectRessources extends ServerState {
 	public static ServerState firstPlayerLoosingRessources(IGameController gc,IClient clients[]){
 		int player = gc.getCurrentPlayer().getNum();
 		do{
-			if(isLoosingRessources(gc,player)) 
+			if(isLoosingRessources(gc,player))
 				return new ServerStateSelectRessources(gc, clients, player);
 			player = (player+1)%gc.getNumPlayer();
 
@@ -61,7 +67,7 @@ public class ServerStateSelectRessources extends ServerState {
 			if(isLoosingRessources(gc,currentPlayerLoosingRessources)) 
 				return new ServerStateSelectRessources(gc, clients, currentPlayerLoosingRessources+1);
 		}
-		return new ServerStatePlayTurn(gc, clients);
+		return new ServerStateSelectBrigandPosition(gc, clients);
 	}
 
 	private static boolean isLoosingRessources(IGameController gc,int currentPlayerLoosingRessources){

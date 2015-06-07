@@ -7,8 +7,6 @@ import delaunay.*;
 import controlor.DB;
 import controlor.GameController;
 import controlor.IGameController;
-import controlor.gamestate.AskSecondColony;
-import controlor.gamestate.PlayTurn;
 import client.IClient;
 import client.action.*;
 
@@ -23,18 +21,21 @@ public class ServerStateSecondRoad extends ServerState{
 		try {
 			Pnt click = c.getPoint();
 			gc.addSecondRoad(click, gc.getCurrentPlayer());
-
+			updateClientsView();
 			int nextPlayer = gc.currentPlayerNum()-1;
 			if( nextPlayer >= 0 ){
 				gc.previousPlayer();
-				return new ServerStateSelondColony(gc, clients);
+				return new ServerStateSecondColony(gc, clients);
 			}
 			else{
 				try {
+					DB.msg("initial harvest");
 					gc.initialHarvest();
+					updateClientsView();
 					return ServerStateDrawDices.drawRandomDices(gc, clients);
 				} catch (Exception e) {
 					DB.msg("pb with harvest");
+					e.printStackTrace();
 				}
 			}
 		} catch (Exception e) {

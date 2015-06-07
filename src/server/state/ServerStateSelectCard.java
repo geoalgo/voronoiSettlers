@@ -19,6 +19,7 @@ import client.state.ClientStateSelection;
 public class ServerStateSelectCard extends ServerState {
 	public ServerStateSelectCard(IGameController gc,IClient c[]) {
 		super(gc,c);
+		messageToCurrentPlayer("Select a card to play");
 		setCurrentClientState(
 				new ClientStateSelection<Card>(
 						"Select a card to play",
@@ -55,17 +56,21 @@ public class ServerStateSelectCard extends ServerState {
 		
 		if(c instanceof VictoryPoint){
 			DB.msg("receives card victory point");
-			client.message(getCurrentPlayer()+" plays a victory point");
+			messageToAllPlayers(getCurrentPlayer()+" plays a victory point");
 			gc.getCurrentPlayer().addPoint();
+			updateClientsView();
 			return new ServerStatePlayTurn(gc,clients);
 		}
 		if(c instanceof FreeRoad){
+			messageToAllPlayers(getCurrentPlayer()+" plays a two free road card");
 			return this;
 		}
 		if(c instanceof Monopole){
+			messageToAllPlayers(getCurrentPlayer()+" plays a monopole card");
 			return new ServerStateSelectRessourceMonopole(gc, clients);
 		}
 		if(c instanceof Knight){
+			messageToAllPlayers(getCurrentPlayer()+" plays a knight");
 			updateLargestArmy();
 			return new ServerStateSelectBrigandPosition(gc,clients);
 		}

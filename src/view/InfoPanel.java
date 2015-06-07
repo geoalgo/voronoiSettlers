@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.text.DefaultCaret;
 
 import controlor.DB;
 
@@ -38,6 +39,10 @@ public class InfoPanel extends JPanel {
 	public InfoPanel() {
 		text = new JTextArea(5,40);
 		text.setEditable(false);
+		
+		DefaultCaret caret = (DefaultCaret)text.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		
 		this.add(text);
 		
 	    scroll = new JScrollPane(text);

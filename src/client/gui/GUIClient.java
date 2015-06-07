@@ -1,13 +1,24 @@
 package client.gui;
 
+import java.awt.event.KeyEvent;
+
+import org.hamcrest.core.IsInstanceOf;
+
 import model.Model;
+import model.ressources.Ressources;
 import player.Player;
 import view.GameView;
 import client.DummyClient;
 import client.IClient;
 import client.ISendToServer;
 import client.action.ClientAction;
+import client.action.ClientActionClick;
+import client.action.ClientActionKey;
+import client.action.ClientRessourcesSelection;
 import client.state.ClientState;
+import client.state.ClientStatePositionSelection;
+import client.state.ClientStateRessourcesSelection;
+import client.state.ClientStateSelection;
 
 public class GUIClient extends DummyClient{
 	private ISendToServer server;
@@ -18,7 +29,7 @@ public class GUIClient extends DummyClient{
 	
 	public GUIClient(ISendToServer server,Player p){
 		super(server, p);
-		view = new GameView(this, 600,1000);
+		view = new GameView(this,p.getName(),600,1000);
 	}
 
 	@Override
@@ -31,4 +42,33 @@ public class GUIClient extends DummyClient{
 		view.updateView();
 	}
 
+	@Override
+	public void message(String msg) {
+		System.out.println("Client: "+msg);
+		view.appendMessage(msg);
+	}
+
+	@Override
+	protected void askRessourcesSelection(ClientStateRessourcesSelection cs) {
+		//todo show gui to select ressources
+		//for now loose random ressources
+		int numRessourcesToLoose = getPlayer().numRessources()/2;
+		Ressources selectRess = new Ressources(getPlayer().getRessource());
+		for (int i = 0; i < numRessourcesToLoose + 1; i++) 
+			selectRess.removeRandomRessource();
+		sendAction(new ClientRessourcesSelection(this, selectRess));
+	}
+
+	@Override
+	protected void askSelection(ClientStateSelection cs) {
+		new GUISelection(cs,this);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		sendAction(new ClientActionKey(this, e));
+	}
+
+
+	
 }

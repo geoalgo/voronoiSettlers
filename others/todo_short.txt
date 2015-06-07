@@ -1,4 +1,19 @@
-o test state transition (4/5)
+
+o free road card, check all cards
+o internal trade
+o clean state transition code (3/5)
+
+o count longest road (2/5) need a test
+
+o reject configs where 6/8 are adjacent (1/5)
+
+o currently, the ressources and tokens are fixed by DelaunayBoard but it should be done by the model (1/5)
+
+x separate window controlor et applet main (2/5)
+
+x clean old classes after new state transition model
+
+x test state transition (4/5)
 several client-actions can be considered 
 select a:
 -vertex (colony, city)
@@ -12,20 +27,6 @@ According to the current game state, the client sends a selection request to the
 
 The test can be done by saving a config a try different client action and checking model/gamestate obtained.
 
-o free road card
-o internal trade
-
-o clean old classes after new state transition model
-
-o clean state transition code (3/5)
-
-o separate window controlor et applet main (2/5)
-
-o count longest road (2/5) need a test
-
-o reject configs where 6/8 are adjacent (1/5)
-
-o currently, the ressources and tokens are fixed by DelaunayBoard but it should be done by the model (1/5)
 
 x cheat code to add ressource for first player (1/5)
 x restrict number of roads/city/...

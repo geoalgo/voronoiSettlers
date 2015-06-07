@@ -1,5 +1,7 @@
 bugs
 
+o bug when player select a wrong first|second road
+
 o bug when 7 with knight state
 
 

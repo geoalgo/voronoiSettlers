@@ -1,7 +1,10 @@
 package server;
 
+import player.Player;
+import model.InitialRules;
 import model.Model;
 import controlor.DB;
+import controlor.GameController;
 import controlor.IGameController;
 import server.state.*;
 import client.DummyClient;
@@ -15,8 +18,13 @@ public class Server implements IServer {
 	
 	public Server(IGameController gc){
 		this.gc = gc;
-		currentState = null ;
 	}
+	
+	public Server(InitialRules rules){
+		this.gc = new GameController(rules);
+	}
+	
+
 	
 	@Override
 	public boolean hasClients(){
@@ -26,7 +34,7 @@ public class Server implements IServer {
 	@Override
 	public void init(IClient clients[]){
 		this.clients = clients;
-		currentState = new ServerStatePlayTurn(gc, clients);
+		currentState = new ServerStateFirstColony(gc, clients);
 	}
 	
 	@Override
@@ -53,5 +61,13 @@ public class Server implements IServer {
 		return gc.getModel();
 	}
 
+	@Override
+	public Player getPlayer(int i) {
+		return gc.getPlayer(i);
+	}
 
+	@Override
+	public int getCurrentPlayer(){
+		return gc.getCurrentPlayer().getNum();
+	}
 }

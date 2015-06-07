@@ -12,7 +12,7 @@ import delaunay.Pnt;
  *
  */
 public abstract class ClientState{
-	protected Player player;
+	
 	/**
 	 * What happens when one clicks one the board.
 	 * @param p

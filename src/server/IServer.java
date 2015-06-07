@@ -1,5 +1,6 @@
 package server;
 
+import player.Player;
 import model.Model;
 import server.state.ServerState;
 import client.DummyClient;
@@ -25,7 +26,8 @@ public interface IServer {
 	void init(IClient[] clients);
 
 	boolean hasClients();
-
 	Model getModel();
-	
+
+	Player getPlayer(int i);
+	int getCurrentPlayer();
 }

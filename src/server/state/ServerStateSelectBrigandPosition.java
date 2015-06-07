@@ -44,6 +44,7 @@ public class ServerStateSelectBrigandPosition extends ServerState {
 		else{
 			this.selectedTile = selectedTile;
 			gc.setThiefPosition(selectedTile);
+			updateClientsView();
 			return stealEnnemies(selectedTile);
 		}
 	}
@@ -53,9 +54,10 @@ public class ServerStateSelectBrigandPosition extends ServerState {
 		if(ennemiesAroundTile.isEmpty()) 
 			return new ServerStatePlayTurn(gc,clients);
 		else{
+			messageToCurrentPlayer("Select an ennemy to steal");
 			setCurrentClientState(
 					new ClientStateSelection<Player>(
-							"Select a player to steal",
+							"Select ennemy to steal",
 							ennemiesAroundTile)
 					);
 			return new ServerStateSelectPlayer(gc,clients);

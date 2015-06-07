@@ -6,8 +6,6 @@ import player.*;
 import delaunay.*;
 import controlor.DB;
 import controlor.IGameController;
-import controlor.gamestate.AskFirstColony;
-import controlor.gamestate.AskSecondColony;
 import client.IClient;
 import client.action.*;
 
@@ -22,6 +20,7 @@ public class ServerStateFirstRoad extends ServerState{
 		try {
 			Pnt click = c.getPoint();
 			gc.addFirstRoad(click, gc.getCurrentPlayer());
+			updateClientsView();
 			int nextPlayer = gc.getCurrentPlayer().getNum()+1;
 			if( nextPlayer < gc.getNumPlayer() ){
 				gc.nextPlayer();

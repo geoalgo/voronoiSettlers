@@ -23,7 +23,6 @@ import delaunay.Pnt;
 public class GameView implements IWindowController{
 	private JFrame frame;
 	IClient client;
-	UIViewControlor uiViewControlor;
 	private BoardView boardView;
 	private InfoPanel infoPanel = new InfoPanel();
 	private JPanel playerPanelLeft;
@@ -31,13 +30,13 @@ public class GameView implements IWindowController{
 	private PlayerPanel[] playerPanel;
 	private ControlPanel buildPanel;
 
-	public GameView(IClient client,int width,int height){
+	public GameView(IClient client,String name,int width,int height){
 		this.client = client;
 		this.boardView = new BoardView(client);
 		
 		boardView.addMouseListener(this);
 		
-		setView(width,height);
+		setView(name,width,height);
 		
 		frame.addKeyListener(this);
 		frame.setFocusable(true);
@@ -46,8 +45,8 @@ public class GameView implements IWindowController{
 		infoPanel.setFocusable(false);
 	}
 	
-	private void setView(int width,int height){
-		frame = new JFrame("Voronoi Settlers");
+	private void setView(String name,int width,int height){
+		frame = new JFrame("Voronoi Settlers, player "+name);
 		frame.setLayout(new BorderLayout());
 		frame.setSize(width, height);
 		frame.add(infoPanel, "North");
@@ -144,7 +143,7 @@ public class GameView implements IWindowController{
 	@Override
 	public void setInactive(int player) {
 		playerPanel[player].endTurn();
-		uiViewControlor.closePlayerWindows();
+//		uiViewControlor.closePlayerWindows();
 	}
 
 	@Override
@@ -176,7 +175,7 @@ public class GameView implements IWindowController{
 			return;
 		}
 		if(buildPanel.isTradeButton(button)){
-			uiViewControlor.tradePressed();
+			client.tradePressed();
 			return;
 		}
 		if(buildPanel.isBuyCardButton(button)){
@@ -188,7 +187,8 @@ public class GameView implements IWindowController{
 			return;
 		}
 		if(buildPanel.isPlayCardButton(button)){
-			uiViewControlor.playCardPressed();
+			DB.msg("play card");
+			client.playCard();
 			return;
 		}
 	}

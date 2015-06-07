@@ -9,9 +9,7 @@ import model.hexagonalTiling.SettlersVertex;
 import player.*;
 import delaunay.*;
 import controlor.DB;
-import controlor.GameController;
 import controlor.IGameController;
-import controlor.gamestate.LooseRessource;
 import client.IClient;
 import client.action.*;
 
@@ -32,7 +30,8 @@ public class ServerStatePlayTurn extends ServerState{
 	
 
 	public void click(Pnt click) {
-		DB.msg("click "+this+" pos:"+click);
+		DB.msg("\nclick "+this+" pos:\n"+click+"\n");
+		messageToCurrentPlayer(click.toString());
 		SettlersVertex closestVertex = gc.locateClosestVertex(click);
 		SettlersEdge closestEdge = gc.locateClosestEdge(click);
 //		SettlersTile closestTile = gc.locateClosestTile(click);
@@ -69,6 +68,7 @@ public class ServerStatePlayTurn extends ServerState{
 		try {
 			gc.addColony(click, gc.getCurrentPlayer());
 			messageToAllPlayers(gc.getCurrentPlayer()+" build a colony ");
+			updateClientsView();
 		} 
 		catch (BuildException e){
 			messageToCurrentPlayer(e.getMsg());
@@ -82,6 +82,7 @@ public class ServerStatePlayTurn extends ServerState{
 		try {
 			gc.addCity(click, gc.getCurrentPlayer());
 			messageToAllPlayers(gc.getCurrentPlayer()+" build a city");
+			updateClientsView();
 		} 
 		catch (BuildException e){
 			messageToCurrentPlayer(e.getMsg());
@@ -94,6 +95,7 @@ public class ServerStatePlayTurn extends ServerState{
 	private void click(SettlersEdge e,Pnt click){
 		try {
 			gc.addRoad(e, gc.getCurrentPlayer());
+			updateClientsView();
 			messageToAllPlayers(getCurrentPlayer()+" build a road ");
 		}
 		catch (BuildException ex){
@@ -114,8 +116,10 @@ public class ServerStatePlayTurn extends ServerState{
 	@Override
 	public ServerState receivesClientBuyCard(ClientBuyCard c){
 		try {
+			DB.msg("receives a buy card action");
 			messageToCurrentPlayer("You bought a "+gc.buyCard());
 			messageToAllButCurrentPlayer(gc.getCurrentPlayer()+" bought a card");
+			updateClientsView();
 			return this;
 		} catch (Exception e) {
 			c.getClient().message("You dont have enough ressources to buy a card!");

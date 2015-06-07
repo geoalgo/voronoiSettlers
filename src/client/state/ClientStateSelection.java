@@ -12,12 +12,14 @@ import player.Player;
  *
  */
 public class ClientStateSelection<E> extends ClientState {
+	public String msg;
+	public Collection<E> selection;
 	/**
-	 * @param msg to be displayed to the client ("ex choose a player to steal")
 	 * @param selection elements to select
 	 */
 	public ClientStateSelection(String msg,Collection<E> selection){
-		
+		this.msg = msg;
+		this.selection = selection;
 	}
 
 }

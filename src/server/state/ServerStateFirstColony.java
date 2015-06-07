@@ -7,7 +7,6 @@ import delaunay.*;
 import controlor.DB;
 import controlor.GameController;
 import controlor.IGameController;
-import controlor.gamestate.AskFirstRoad;
 import client.IClient;
 import client.action.*;
 
@@ -23,6 +22,7 @@ public class ServerStateFirstColony extends ServerState{
 		try {
 			Pnt click = c.getPoint();
 			gc.addFreeColony(click, gc.getCurrentPlayer());
+			updateClientsView();
 			return new ServerStateFirstRoad(gc, clients);
 		} catch (Exception e) {
 			System.out.println("Invalid first colony placement");

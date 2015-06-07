@@ -52,6 +52,7 @@ public class TestServerState {
 
 	@Test
 	public void testServerPlayTurn() {
+		server.setState(new ServerStatePlayTurn(gc, clients));
 		ServerState initialState = server.getCurrentState();
 		if(!(initialState instanceof ServerStatePlayTurn))
 			fail("First state should be ServerStatePlayTurn");
@@ -108,6 +109,7 @@ public class TestServerState {
 
 	@Test
 	public void testServerPlayTurnBuyCard() {
+		server.setState(new ServerStatePlayTurn(gc, clients));
 		ServerState initialState = server.getCurrentState();
 		if(server.getCurrentState().getCurrentPlayer().getNum()!=0)
 			fail("Does not start with 1st player");
@@ -123,8 +125,9 @@ public class TestServerState {
 		server.receiveAction(new ClientBuyCard(clients[0]));
 		if(server.getCurrentState() != initialState)
 			fail("Stated should not have changed");
-		if(gc.getCurrentPlayer().numCards()!=1)
-			fail("Card should have been bought");
+		if(gc.getCurrentPlayer().numCards()!=1){
+			fail("Card should have been bought player has "+gc.getCurrentPlayer().numCards()+" cards instead of 1.");
+		}
 
 		server.receiveAction(new ClientBuyCard(clients[0]));
 		if(server.getCurrentState() != initialState)
@@ -135,6 +138,7 @@ public class TestServerState {
 
 	@Test
 	public void testServerPlayCard() {
+		server.setState(new ServerStatePlayTurn(gc, clients));
 		gc.addRessourcesToCurrentPlayer();
 		server.receiveAction(new ClientBuyCard(clients[0]));
 		if(gc.getCurrentPlayer().numCards()!=1)
@@ -153,6 +157,7 @@ public class TestServerState {
 
 	@Test
 	public void testServerVictoryPointCard() {
+		server.setState(new ServerStatePlayTurn(gc, clients));
 		gc.addCardsToCurrentPlayer();
 		server.receiveAction(new ClientPlayCard(clients[0]));
 		server.receiveAction(new ClientSelection(clients[0],new VictoryPoint()));
@@ -164,8 +169,8 @@ public class TestServerState {
 
 	@Test
 	public void testServerMonopole() {
+		server.setState(new ServerStatePlayTurn(gc, clients));
 		gc.addCardsToCurrentPlayer();
-
 		gc.getPlayer(1).getRessource().addWood(2);
 
 		server.receiveAction(new ClientPlayCard(clients[0]));
@@ -185,6 +190,7 @@ public class TestServerState {
 
 	@Test
 	public void testServerKnightCard() {
+		server.setState(new ServerStatePlayTurn(gc, clients));
 		gc.addCardsToCurrentPlayer();
 		server.receiveAction(new ClientPlayCard(clients[0]));
 		server.receiveAction(new ClientSelection(clients[0],new Knight()));

@@ -3,7 +3,6 @@ package server.state;
 import client.IClient;
 import controlor.DB;
 import controlor.IGameController;
-import controlor.gamestate.LooseRessource;
 
 public class ServerStateDrawDices {
 	public static ServerState drawRandomDices(IGameController gc,IClient clients[]){
@@ -16,16 +15,18 @@ public class ServerStateDrawDices {
 	
 	private static ServerState dealDices(IGameController gc,IClient clients[],int dices){
 		ServerState res;
+		dices=7;
 		if(dices!=7){
 			gc.harvest(dices);
 			res = new ServerStatePlayTurn(gc, clients);
+			res.updateClientsView();
 		}
 		else{
 			ServerState statePlayerLoosingRessources = ServerStateSelectRessources.firstPlayerLoosingRessources(gc, clients);
 			if(statePlayerLoosingRessources!=null) 
 				res = statePlayerLoosingRessources;
 			else 
-				res = new ServerStatePlayTurn(gc, clients);
+				res = new ServerStateSelectBrigandPosition(gc, clients);
 		}
 		res.messageToAllPlayers(gc.getCurrentPlayer()+" draws "+dices);
 		return res;

@@ -332,6 +332,7 @@ public class Model {
 	public void harvest(VertexBuilding building){
 		SettlersVertex position = building.getPosition();
 		for(SettlersTile tile : board().tilesNeighbors(position)){
+			DB.msg(tile.ressource().toString());
 			harvestBuilding(building,tile.ressource());
 		}
 	}
@@ -345,7 +346,8 @@ public class Model {
 
 	private void harvestBuilding(Building building,Ressource ressource){
 		int numHarvest = building.numHarvest();
-		building.getPlayer().getRessource().add(ressource,numHarvest);
+		if(!ressource.isDesert())
+			building.getPlayer().getRessource().add(ressource,numHarvest);
 	}
 
 	/**
