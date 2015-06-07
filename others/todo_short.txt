@@ -1,4 +1,4 @@
-
+o better city/harbor display
 o free road card, check all cards
 o internal trade
 o clean state transition code (3/5)
