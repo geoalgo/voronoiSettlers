@@ -374,7 +374,7 @@ public class BoardView extends JPanel{
 		while (edges.hasNext()) {
 			SettlersEdge edge = edges.next();
 			if(edge.hasBuilding())
-				drawRoad(edge, 10., 
+				drawRoad(edge, 7, 
 						edge.getBuilding().getPlayer().getCouleur());
 		}
 	}
@@ -390,9 +390,9 @@ public class BoardView extends JPanel{
 				Pnt buildingPt = convertPntToFrameCoord(v.getPosition());
 				Color buildingColor = v.getBuilding().getPlayer().getCouleur();
 				if(v.getBuilding().isColony())
-					drawColony(buildingPt,7.,buildingColor);
+					drawColony(buildingPt,8.,buildingColor);
 				else
-					drawCity(buildingPt,7.,buildingColor);
+					drawCity(buildingPt,8.,buildingColor);
 			}
 
 		}

@@ -30,11 +30,9 @@ public class ServerStatePlayTurn extends ServerState{
 	
 
 	public void click(Pnt click) {
-		DB.msg("\nclick "+this+" pos:\n"+click+"\n");
 		messageToCurrentPlayer(click.toString());
 		SettlersVertex closestVertex = gc.locateClosestVertex(click);
 		SettlersEdge closestEdge = gc.locateClosestEdge(click);
-//		SettlersTile closestTile = gc.locateClosestTile(click);
 		double distVertex = closestVertex.getPosition().dist(click);
 		double distEdge = click.dist(closestEdge.p1(),closestEdge.p2());
 
@@ -45,9 +43,6 @@ public class ServerStatePlayTurn extends ServerState{
 		else{
 			if(distEdge < minDist)
 				click(closestEdge,click);
-//			else
-//				if(closestTile!=null) ;
-//					click(closestTile,click);
 		}
 		DB.msg("dist v:"+distVertex);
 		DB.msg("dist e:"+distEdge);
