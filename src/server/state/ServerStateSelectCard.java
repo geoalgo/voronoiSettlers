@@ -68,7 +68,7 @@ public class ServerStateSelectCard extends ServerState {
 		}
 		if(c instanceof FreeRoad){
 			messageToAllPlayers(getCurrentPlayer()+" plays a two free road card");
-			return this;
+			return new ServerStateTwoFreeRoad(gc, clients);
 		}
 		if(c instanceof Monopole){
 			return new ServerStateSelectRessourceMonopole(gc, clients);

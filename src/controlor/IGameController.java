@@ -74,6 +74,7 @@ public interface IGameController {
 	public boolean updateBiggestArmy();
 	public void addFreeColony(Pnt click, Player currentPlayer) throws Exception;
 	public void addFirstRoad(Pnt click, Player currentPlayer) throws Exception;
+	public void addFreeRoad(Pnt click, Player currentPlayer) throws Exception;
 	public void addSecondRoad(Pnt click, Player currentPlayer) throws Exception;
 	public void addColony(Pnt click, Player currentPlayer) throws Exception;
 	public void addCity(Pnt click, Player currentPlayer) throws Exception;

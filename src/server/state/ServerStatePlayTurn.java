@@ -30,7 +30,6 @@ public class ServerStatePlayTurn extends ServerState{
 	
 
 	public void click(Pnt click) {
-		messageToCurrentPlayer(click.toString());
 		SettlersVertex closestVertex = gc.locateClosestVertex(click);
 		SettlersEdge closestEdge = gc.locateClosestEdge(click);
 		double distVertex = closestVertex.getPosition().dist(click);
