@@ -22,13 +22,15 @@ public abstract class IClient {
 	public abstract void updateView();
 	public abstract ClientState getCurrentState();
 
+	
+	// called by server
 	public void setCurrentState(ClientState cs) {
 		if(cs instanceof ClientStateSelection)
 			askSelection((ClientStateSelection)cs);
 		if(cs instanceof ClientStateRessourcesSelection)
 			askRessourcesSelection((ClientStateRessourcesSelection)cs);
 	}
-
+	
 	abstract protected void askRessourcesSelection(ClientStateRessourcesSelection cs);
 	abstract protected void askSelection(ClientStateSelection cs);
 	
@@ -47,5 +49,6 @@ public abstract class IClient {
 	public abstract Model getModel();
 	abstract void updateModel(Model newModel);
 		// TODO Auto-generated method stub
+	protected abstract void askTradeSelection();
 		
 }

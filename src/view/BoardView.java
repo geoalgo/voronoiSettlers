@@ -299,32 +299,45 @@ public class BoardView extends JPanel{
 	private void drawCity(Pnt pnt,double size,Color color){
 		double x = pnt.getX();
 		double y = pnt.getY();
-		double roofElevation=1.8;
-		double buildingTowerHeight = 1.5 ;
+
+		double s = 1.6*size;
+		double h= 1.*size;
+		double l = 1.2*size;
+		
 		Pnt[] ar = {
-				new Pnt(x+size,y+buildingTowerHeight*size),
-				new Pnt(x-size,y+buildingTowerHeight*size),
-				new Pnt(x-size,y-buildingTowerHeight*size),
-				new Pnt(x,y-size*buildingTowerHeight*roofElevation),
-				new Pnt(x+size,y-buildingTowerHeight*size),
+				new Pnt(x+s,y+h),
+				new Pnt(x-s,y+h),
+				new Pnt(x-s,y-h),
+				new Pnt(x+s-l,y-h),
+				new Pnt(x+s-l,y-2*h),
+				new Pnt(x+s-l/2,y-2.5*h),
+				new Pnt(x+s,y-2*h)
 		};
 		draw(ar,color);
 	}
 
 	private void drawRoad(SettlersEdge edge,double size,Color color){
+		drawEdge(edge,size,color,0.5);
+	}
+	
+	//ratio is the proportion of the segment that is drawn
+	private void drawEdge(SettlersEdge edge,double size,Color color,double ratio){
+		Pnt p1 = edge.p1();
+		Pnt p2 = edge.p2();
+		Pnt m = p1.middle(p2);
+		Pnt ext1 = m.add((p2.subtract(m)).scale(ratio));
+		Pnt ext2 = m.subtract((p2.subtract(m)).scale(ratio));
 		draw(
-				convertPntToFrameCoord(edge.p1()),
-				convertPntToFrameCoord(edge.p2()),
+				convertPntToFrameCoord(ext1),
+				convertPntToFrameCoord(ext2),
 				size, color);
 	}
-
-
 
 	private void drawEdges(){
 		Iterator<SettlersEdge> edges = client.getModel().board().edges();
 		while (edges.hasNext()) {
 			SettlersEdge edge = edges.next();
-			drawRoad(edge, 1., Color.black);
+			drawEdge(edge, .8, Color.black,1);
 		}
 
 		edges = client.getModel().board().borderEdges();
@@ -348,9 +361,9 @@ public class BoardView extends JPanel{
 			g.drawRect((int)(middle.getX()-offset),
 					(int)(middle.getY()-offset/2),
 					40, 10);
-			g.setColor(Color.black);
+			g.setColor(edge.harbor().getColor());
 			g.drawString(edge.harbor().toString(),
-					(int)middle.getX()-15,
+					(int)middle.getX()-offset,
 					(int)middle.getY()
 					);
 		}
@@ -377,9 +390,9 @@ public class BoardView extends JPanel{
 				Pnt buildingPt = convertPntToFrameCoord(v.getPosition());
 				Color buildingColor = v.getBuilding().getPlayer().getCouleur();
 				if(v.getBuilding().isColony())
-					drawColony(buildingPt,10.,buildingColor);
+					drawColony(buildingPt,7.,buildingColor);
 				else
-					drawCity(buildingPt,10.,buildingColor);
+					drawCity(buildingPt,7.,buildingColor);
 			}
 
 		}
@@ -437,3 +450,4 @@ public class BoardView extends JPanel{
 		drawThief();
 	}
 }
+

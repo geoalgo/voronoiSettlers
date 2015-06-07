@@ -74,9 +74,19 @@ public abstract class ServerState {
 			return receivesClientPlayCard((ClientPlayCard)action);
 		if(action instanceof ClientActionKey)
 			return receivesClientKey((ClientActionKey)action);
+		
+		if(action instanceof ClientActionUndo)
+			return receivesClientUndo((ClientActionUndo)action);
+
 
 		throw new Exception("Unknown Client Action");
 	}
+	
+	
+	public ServerState receivesClientUndo(ClientActionUndo action) {
+		return this;
+	}
+
 	public ServerState receivesClientClick(ClientActionClick c){
 		return this;
 	}

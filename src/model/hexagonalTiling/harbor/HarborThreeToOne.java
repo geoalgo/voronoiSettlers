@@ -24,7 +24,7 @@ import java.awt.Color;
 
 public class HarborThreeToOne extends Harbor {
 	public HarborThreeToOne(){
-		super("3:1");
-		c = Color.white;
+		super("  3:1");
+		c = Color.gray;
 	}
 }

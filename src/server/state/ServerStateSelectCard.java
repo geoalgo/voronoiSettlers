@@ -16,6 +16,11 @@ import client.state.ClientStateSelection;
  * @author david
  *
  */
+//todo change this and put this code in PlayTurn in order to allow a player 
+//to not play a card eventually
+//1-client click on play card
+//2-server sends back list of cards and activates gui chooser
+//3-client can send selection that is catched to a card and checked if the card is valid
 public class ServerStateSelectCard extends ServerState {
 	public ServerStateSelectCard(IGameController gc,IClient c[]) {
 		super(gc,c);
@@ -23,7 +28,7 @@ public class ServerStateSelectCard extends ServerState {
 		setCurrentClientState(
 				new ClientStateSelection<Card>(
 						"Select a card to play",
-						getCardLists())
+						getCardLists(),true)
 				);
 	}
 	
@@ -74,8 +79,13 @@ public class ServerStateSelectCard extends ServerState {
 			return new ServerStateSelectBrigandPosition(gc,clients);
 		}
 		return this;
-		
 	}
+	
+	@Override
+	public ServerState receivesClientUndo(ClientActionUndo action) {
+		return new ServerStatePlayTurn(gc,clients);
+	}
+
 	
 	/**
 	 * updates the largest army holder with the new knight card of the player.

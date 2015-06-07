@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 import client.IClient;
+import client.action.ClientActionUndo;
 import client.action.ClientSelection;
 import client.state.ClientStateSelection;
 import player.Player;
@@ -18,10 +19,23 @@ import controlor.GameController;
 import delaunay.Pnt;
 public class GUISelection<E> implements ActionListener {
 		JFrame chooseMenu;
+		JButton cancel;
 		JButton ok;
 		JComboBox<E> choiceBox;
 		IClient client;
+		boolean canBeCanceled;
+		
 		public GUISelection(ClientStateSelection<E>  cs,IClient client){
+			this.canBeCanceled = false;
+			init(cs,client);
+		}
+		
+		public GUISelection(ClientStateSelection<E>  cs,IClient client,boolean canBeCanceled){
+			this.canBeCanceled = canBeCanceled;
+			init(cs,client);
+		}
+		
+		private void init(ClientStateSelection<E>  cs,IClient client){
 			this.client = client;
 			chooseMenu = new JFrame(cs.msg);
 			chooseMenu.setLayout(new FlowLayout());
@@ -31,9 +45,16 @@ public class GUISelection<E> implements ActionListener {
 				choiceBox.addItem(choice);
 			chooseMenu.add(choiceBox);
 			
+			if(canBeCanceled){
+				cancel = new JButton("Cancel");
+				cancel.addActionListener(this);
+				chooseMenu.add(cancel);
+			}
+			
 			ok = new JButton("Ok");
 			ok.addActionListener(this);
 			chooseMenu.add(ok);
+			
 
 			chooseMenu.setPreferredSize(new Dimension(300, 75));
 			
@@ -48,6 +69,11 @@ public class GUISelection<E> implements ActionListener {
 				chooseMenu.setVisible(false);
 				chooseMenu.dispose();
 				client.sendAction(new ClientSelection<E>(client, selected));
+			}
+			if(e.getSource() == cancel){
+				chooseMenu.setVisible(false);
+				chooseMenu.dispose();
+				client.sendAction(new ClientActionUndo(client));
 			}
 		}
 

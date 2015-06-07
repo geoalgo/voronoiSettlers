@@ -28,6 +28,7 @@ public class GUIClient extends DummyClient{
 	ClientState currentState;
 	GameView view;
 	
+	GUIInternalTrade guiInternalTrade;
 	
 	public GUIClient(ISendToServer server,Player p){
 		super(server, p);
@@ -50,6 +51,12 @@ public class GUIClient extends DummyClient{
 		view.appendMessage(msg);
 	}
 
+	
+	@Override
+	protected void askTradeSelection() {
+		guiInternalTrade = new GUIInternalTrade(this);
+	}
+	
 	@Override
 	protected void askRessourcesSelection(ClientStateRessourcesSelection cs) {
 		DB.msg("select ressources GUI");
@@ -58,7 +65,7 @@ public class GUIClient extends DummyClient{
 
 	@Override
 	protected void askSelection(ClientStateSelection cs) {
-		new GUISelection(cs,this);
+		new GUISelection(cs,this,cs.canBeCanceled);
 	}
 
 	@Override

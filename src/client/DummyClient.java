@@ -106,5 +106,11 @@ public class DummyClient extends IClient {
 		
 	}
 
+	@Override
+	protected void askTradeSelection() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

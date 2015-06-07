@@ -14,12 +14,22 @@ import player.Player;
 public class ClientStateSelection<E> extends ClientState {
 	public String msg;
 	public Collection<E> selection;
-	/**
-	 * @param selection elements to select
-	 */
+	public boolean canBeCanceled;
+	
 	public ClientStateSelection(String msg,Collection<E> selection){
 		this.msg = msg;
 		this.selection = selection;
+		this.canBeCanceled = false;
+	}
+	
+	/**
+	 * @param selection elements to select
+	 * canBeCanceled indicates if the client can just close the window and return to normal state
+	 */
+	public ClientStateSelection(String msg,Collection<E> selection,boolean canBeCanceled){
+		this.msg = msg;
+		this.selection = selection;
+		this.canBeCanceled = canBeCanceled;
 	}
 
 }
