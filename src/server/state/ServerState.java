@@ -1,5 +1,6 @@
 package server.state;
 
+import model.card.Monopole;
 import model.ressources.Ressource;
 import player.Player;
 import controlor.DB;
@@ -96,6 +97,7 @@ public abstract class ServerState {
 			DB.msg("cheat mode add ressources");
 			for(Ressource ress : Ressource.allRessources())
 				gc.getCurrentPlayer().getRessource().add(ress, 3);
+			gc.getCurrentPlayer().addCard(new Monopole());
 			updateClientsView();
 		}
 		return this;

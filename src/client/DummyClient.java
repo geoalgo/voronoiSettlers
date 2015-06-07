@@ -2,6 +2,7 @@ package client;
 
 import java.awt.event.KeyEvent;
 
+import controlor.DB;
 import model.Model;
 import client.action.ClientAction;
 import client.action.ClientActionClick;
@@ -85,8 +86,7 @@ public class DummyClient extends IClient {
 
 	@Override
 	protected void askRessourcesSelection(ClientStateRessourcesSelection cs) {
-		// TODO Auto-generated method stub
-		
+		DB.msg("select ressources");
 	}
 
 	@Override

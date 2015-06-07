@@ -64,17 +64,28 @@ public class TestServerState {
 		if(server.getCurrentState() != initialState)
 			fail("Stated changed by another player");
 
+		//todo not working if 7 is drawn...
 		for(int currentPlayer = 0; currentPlayer < numPlayers; ++currentPlayer){
 			gc.resetRessources();
+			DB.msg("send next turn from "+currentPlayer);
+			DB.msg("gc current "+gc.currentPlayerNum());
 			server.receiveAction(new ClientNextTurn(clients[currentPlayer]));
+			DB.msg("now gc is "+gc.currentPlayerNum());
+
+			
 			if(server.getCurrentState().getCurrentPlayer().getNum()!=(currentPlayer+1)%numPlayers)
-				fail("Active players should have changed after next turn");	
+				if(!(server.getCurrentState() instanceof ServerStateSelectBrigandPosition))
+				fail("Either active players should have changed after next turn or should be a brigand selection (after a 7)"
+						+",server current player:"+server.getCurrentState().getCurrentPlayer().getNum()
+						+",should be "+(currentPlayer+1)%numPlayers
+						);	
 		}
 	}
 
 	@Test
 	public void testDrawSeven() {
-		//add 10 ressources to 2 players
+		//add 10 ressources to players 1 and 2
+		// first player has 0 ressources
 		gc.nextPlayer();
 		gc.addRessourcesToCurrentPlayer();
 		gc.addRessourcesToCurrentPlayer();
@@ -87,24 +98,36 @@ public class TestServerState {
 		gc.previousPlayer();
 
 		server.setState(ServerStateDrawDices.drawDices(gc, clients, 7));
-
+		
 		if(!(server.getCurrentState() instanceof ServerStateSelectRessources))
 			fail("Server should be in select ressources (one player has 10 ressources");
 
 		int curPlayer = gc.getCurrentPlayer().getNum();
 		int numPlayer = gc.getNumPlayer();
 		ServerStateSelectRessources s = (ServerStateSelectRessources) server.getCurrentState();
-		if(s.getCurrentPlayerLoosingRessources()!= (curPlayer+1)%numPlayer)
-			fail("Wrong player that have to select loosing ressources");
+		if(s.getCurrentPlayerLoosingRessources()!= 1)
+			fail("Wrong player that have to select loosing ressources, current is "+s.getCurrentPlayerLoosingRessources()
+					+", expected:"+1);
 		
 		Ressources r=new Ressources();
 		for(Ressource ress : Ressource.allRessources())
 			r.add(ress, 1);
 		server.receiveAction(new ClientSelection(clients[1],r));
 
-		if(s.getCurrentPlayerLoosingRessources()!= (curPlayer+2)%numPlayer)
-			fail("Wrong player that have to select loosing ressources");
+		//player 2 should now be the one selecting his ressources to dispose
+		if(!(server.getCurrentState() instanceof ServerStateSelectRessources))
+			fail("Server should be in select ressources (one player has 10 ressources");
+
+		s = (ServerStateSelectRessources) server.getCurrentState();
+		if(s.getCurrentPlayerLoosingRessources()!= 2)
+			fail("Wrong player that have to select loosing ressources, current is "+s.getCurrentPlayerLoosingRessources()
+					+", expected:"+2);
 		
+		server.receiveAction(new ClientSelection(clients[2],r));
+
+		if(!(server.getCurrentState() instanceof ServerStateSelectBrigandPosition))
+			fail("After ressource disposal, state should be PlayTurn");
+
 	}
 
 	@Test
@@ -150,9 +173,6 @@ public class TestServerState {
 
 		if(!(server.getCurrentState() instanceof ServerStateSelectCard))
 			fail("Server should be in select card state");
-
-		if(!((clients[0].getCurrentState()) instanceof ClientStateSelection<?>))
-			fail("Client should be in select card state");
 	}
 
 	@Test

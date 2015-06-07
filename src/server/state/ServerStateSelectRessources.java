@@ -28,10 +28,16 @@ public class ServerStateSelectRessources extends ServerState {
 		this.currentPlayerLoosingRessources = currentPlayerLoosingRessources;
 	}
 	
+	@Override
 	public ServerState receivesClientSelect(ClientSelection c){
 		try {
+			DB.msg("receivesClientSelect");
 			Ressources ressourcesToDiscard = (Ressources)(c.getSelection());
-			if(ressourcesToDiscard.greaterThan(gc.getPlayer(currentPlayerLoosingRessources).getRessource())){
+			
+			DB.msg("choose:"+ressourcesToDiscard);
+			DB.msg("player ressources:"+gc.getPlayer(currentPlayerLoosingRessources).getRessource());
+			DB.msg("currentPlayerLoosingRessources:"+currentPlayerLoosingRessources);
+			if(!gc.getPlayer(currentPlayerLoosingRessources).getRessource().greaterThan(ressourcesToDiscard)){
 				System.err.println("player discards more ressource than what he had");
 				return this;
 			}
@@ -51,7 +57,7 @@ public class ServerStateSelectRessources extends ServerState {
 	 * @return the first player loosing ressources or null if none
 	 */
 	public static ServerState firstPlayerLoosingRessources(IGameController gc,IClient clients[]){
-		int player = gc.getCurrentPlayer().getNum();
+		int player = gc.currentPlayerNum();
 		do{
 			if(isLoosingRessources(gc,player))
 				return new ServerStateSelectRessources(gc, clients, player);
@@ -62,16 +68,18 @@ public class ServerStateSelectRessources extends ServerState {
 	}
 	
 	private ServerState nextState(){
+		DB.msg("init: currentPlayerLoosingRessources:"+currentPlayerLoosingRessources);
 		while(!isLastPlayer(gc,currentPlayerLoosingRessources)){
 			currentPlayerLoosingRessources = (currentPlayerLoosingRessources+1)%gc.getNumPlayer();
+			DB.msg("loop:"+currentPlayerLoosingRessources);
 			if(isLoosingRessources(gc,currentPlayerLoosingRessources)) 
-				return new ServerStateSelectRessources(gc, clients, currentPlayerLoosingRessources+1);
+				return new ServerStateSelectRessources(gc, clients, currentPlayerLoosingRessources);
 		}
 		return new ServerStateSelectBrigandPosition(gc, clients);
 	}
 
 	private static boolean isLoosingRessources(IGameController gc,int currentPlayerLoosingRessources){
-		return 7<gc.getPlayer(currentPlayerLoosingRessources).getRessource().num();
+		return gc.getPlayer(currentPlayerLoosingRessources).getRessource().num() > 7;
 	}
 
 	

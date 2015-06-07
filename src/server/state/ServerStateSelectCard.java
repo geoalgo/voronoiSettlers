@@ -66,7 +66,6 @@ public class ServerStateSelectCard extends ServerState {
 			return this;
 		}
 		if(c instanceof Monopole){
-			messageToAllPlayers(getCurrentPlayer()+" plays a monopole card");
 			return new ServerStateSelectRessourceMonopole(gc, clients);
 		}
 		if(c instanceof Knight){

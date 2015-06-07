@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 
 import org.hamcrest.core.IsInstanceOf;
 
+import controlor.DB;
 import model.Model;
 import model.ressources.Ressources;
 import player.Player;
@@ -15,6 +16,7 @@ import client.action.ClientAction;
 import client.action.ClientActionClick;
 import client.action.ClientActionKey;
 import client.action.ClientRessourcesSelection;
+import client.action.ClientSelection;
 import client.state.ClientState;
 import client.state.ClientStatePositionSelection;
 import client.state.ClientStateRessourcesSelection;
@@ -50,13 +52,14 @@ public class GUIClient extends DummyClient{
 
 	@Override
 	protected void askRessourcesSelection(ClientStateRessourcesSelection cs) {
+		DB.msg("select ressources GUI");
 		//todo show gui to select ressources
 		//for now loose random ressources
 		int numRessourcesToLoose = getPlayer().numRessources()/2;
 		Ressources selectRess = new Ressources(getPlayer().getRessource());
 		for (int i = 0; i < numRessourcesToLoose + 1; i++) 
 			selectRess.removeRandomRessource();
-		sendAction(new ClientRessourcesSelection(this, selectRess));
+		sendAction(new ClientSelection(this,selectRess));
 	}
 
 	@Override
