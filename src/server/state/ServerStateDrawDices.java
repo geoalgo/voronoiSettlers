@@ -15,7 +15,6 @@ public class ServerStateDrawDices {
 	
 	private static ServerState dealDices(IGameController gc,IClient clients[],int dices){
 		ServerState res;
-		dices=7;
 		if(dices!=7){
 			gc.harvest(dices);
 			res = new ServerStatePlayTurn(gc, clients);
