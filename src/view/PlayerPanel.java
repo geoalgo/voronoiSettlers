@@ -1,23 +1,23 @@
 /**
-* Voronoi settlers- An implementation of the board game Settlers of 
-* Catan.
-* This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 3
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*
-* The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
-**/
+ * Voronoi settlers- An implementation of the board game Settlers of 
+ * Catan.
+ * This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
+ **/
 package view;
 
 import java.awt.BorderLayout;
@@ -40,19 +40,21 @@ public class PlayerPanel extends JPanel {
 	JTextArea textNamePlayer;
 	JTextArea text;
 	Player p;
+	boolean pub = true;
 
 	final static Color colorSelected = new Color(200,200,220);
-	
+
 	/**
 	 * Create the panel.
 	 */
-	public PlayerPanel(Player p) {
+	public PlayerPanel(Player p,boolean pub) {
 		this.p = p;
+		this.pub = pub;
 		setLayout(new BorderLayout());
 		textNamePlayer = new JTextArea(p.getName());
-		
+
 		this.add(textNamePlayer,"North");      // Spacing
-		
+
 		text = new JTextArea();
 		text.setEditable(false);
 		this.add(text,"Center");
@@ -60,7 +62,7 @@ public class PlayerPanel extends JPanel {
 		endTurn();
 		update();
 	}
-	
+
 	/**
 	 * put in bold to show whose turn it is
 	 */
@@ -70,34 +72,39 @@ public class PlayerPanel extends JPanel {
 		textNamePlayer.setFont(new Font(font.getFontName(),1,font.getSize()));
 		textNamePlayer.setBackground(colorSelected);
 	}
-	
+
 	public void endTurn(){
 		DB.msg("end turn");
 		Font font = textNamePlayer.getFont();
 		textNamePlayer.setFont(new Font(font.getFontName(),0,font.getSize()));
 		textNamePlayer.setBackground(Color.white);
-//		this.repaint();
+		//		this.repaint();
 	}
 
 	public void update(){
 		text.setText(playerDescr());
 	}
-	
+
 	public String playerDescr(){
 		String res="";
-//		res+=p.getName()+"\n\n";
+		//		res+=p.getName()+"\n\n";
 		res+="\nPoints:"+ p.getScore()+"\n\n";
-		res+="Ressources:\n";		
-		res += p.getRessource().numWood()+" woods\n";
-		res += p.getRessource().numBrick()+" brick\n";
-		res += p.getRessource().numCrop()+" crop\n";
-		res += p.getRessource().numSheep()+" sheep\n";
-		res += p.getRessource().numStone()+" stone\n";
+
+		if(pub){
+			res+="Ressources:\n";		
+			res += p.getRessource().numWood()+" woods\n";
+			res += p.getRessource().numBrick()+" brick\n";
+			res += p.getRessource().numCrop()+" crop\n";
+			res += p.getRessource().numSheep()+" sheep\n";
+			res += p.getRessource().numStone()+" stone\n";
+		}
+		else 
+			res+= p.getRessource().num()+" ressources\n";
 		res += "\n"+ p.numCards()+ " cards";
 		res += "\n"+ p.numKnight()+ " knights played\n";
-		
+
 		return res;
 	}
-	
+
 }
 

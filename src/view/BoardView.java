@@ -356,6 +356,10 @@ public class BoardView extends JPanel{
 			Pnt middle = convertPntToFrameCoord(edge.p1().middle(edge.p2()));
 			int offset = 15;
 
+			g.setColor(Color.gray);
+			g.drawRect((int)(middle.getX()-offset)-1,
+					(int)(middle.getY()-offset/2)-1,
+					40+2, 10+2);
 			g.setColor(Color.white);
 			g.drawRect((int)(middle.getX()-offset),
 					(int)(middle.getY()-offset/2),

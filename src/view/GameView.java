@@ -66,7 +66,7 @@ public class GameView implements IWindowController{
 
 		for(int i = 0; i<numPlayers; ++i){
 			Player p = client.getModel().getPlayer(i);
-			playerPanel[i] = new PlayerPanel(p);
+			playerPanel[i] = new PlayerPanel(p,p.equals(client.getPlayer()));
 			if(i<2)
 				playerPanelLeft.add(playerPanel[i]);
 			else 
