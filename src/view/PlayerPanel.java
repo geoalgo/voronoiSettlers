@@ -93,7 +93,8 @@ public class PlayerPanel extends JPanel {
 		res += p.getRessource().numCrop()+" crop\n";
 		res += p.getRessource().numSheep()+" sheep\n";
 		res += p.getRessource().numStone()+" stone\n";
-		res += "\n"+ p.numCards()+ " cards\n";
+		res += "\n"+ p.numCards()+ " cards";
+		res += "\n"+ p.numKnight()+ " knights played\n";
 		
 		return res;
 	}

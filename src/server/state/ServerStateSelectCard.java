@@ -1,6 +1,8 @@
 package server.state;
 
+import java.util.Collection;
 import java.util.TreeSet;
+import java.util.Vector;
 
 import org.hamcrest.core.IsInstanceOf;
 
@@ -32,8 +34,8 @@ public class ServerStateSelectCard extends ServerState {
 				);
 	}
 	
-	private TreeSet<Card> getCardLists(){
-		TreeSet<Card> res = new TreeSet<Card>();
+	private Collection<Card> getCardLists(){
+		Collection<Card> res = new Vector<Card>();
 		for(int i=0; i < gc.getCurrentPlayer().numCards(); ++i)
 			res.add(gc.getCurrentPlayer().getCard(i));
 		return res;

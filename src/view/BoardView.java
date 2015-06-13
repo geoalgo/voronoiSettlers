@@ -50,7 +50,6 @@ import model.hexagonalTiling.SettlersTile;
 import model.hexagonalTiling.SettlersVertex;
 import model.ressources.*;
 import controlor.DB;
-import controlor.SettlersServer;
 import delaunay.Pnt;
 import delaunay.Triangle;
 

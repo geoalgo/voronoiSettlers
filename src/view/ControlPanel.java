@@ -25,7 +25,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controlor.IWindowController;
-import controlor.SettlersServer;
 
 @SuppressWarnings("serial")
 public class ControlPanel extends JPanel{
