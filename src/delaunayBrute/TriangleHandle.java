@@ -29,8 +29,7 @@ import java.util.List;
 
 import delaunay.ArraySet;
 
-public class TriangleHandle extends ArraySet<Integer> implements Comparable<TriangleHandle>{
-
+public class TriangleHandle extends ArraySet<Integer> implements Comparable<TriangleHandle>, java.io.Serializable{
 	
 	public TriangleHandle(int a,int b,int c){
 		add(a);
@@ -62,31 +61,6 @@ public class TriangleHandle extends ArraySet<Integer> implements Comparable<Tria
 		return res;
 	}
 	
-//    /**
-//     * Get the item at the specified index.
-//     * @param index where the item is located in the ListSet
-//     * @return the item at the specified index
-//     * @throws IndexOutOfBoundsException if the index is out of bounds
-//     */
-//    public int get (int index) throws IndexOutOfBoundsException {
-//        return vertices.get(index);
-//    }
-
-//    /**
-//     * True iff any member of the collection is also in the ArraySet.
-//     * @param collection the Collection to check
-//     * @return true iff any member of collection appears in this ArraySet
-//     */
-//    public boolean containsAny (Collection<?> collection) {
-//        for (Object item: collection)
-//            if (vertices.contains(item)) return true;
-//        return false;
-//    }
-//
-//    public Iterator<Integer> iterator() {
-//        return vertices.iterator();
-//    }
-
     public String toString(){
     	String res ="";
     	res+="("+get(0)+","+get(1)+","+get(2)+")";

@@ -24,7 +24,7 @@ package model.Construction;
 import player.Player;
 import model.ressources.Ressources;
 
-public abstract class Building {
+public abstract class Building implements java.io.Serializable{
 	
 	public Ressources cost;
 	private Player player;

@@ -30,7 +30,7 @@ import model.InitialRules;
 
 import delaunayBrute.*;
 
-public interface BoardTiles {
+public interface BoardTiles extends java.io.Serializable {
 
 
 	/**

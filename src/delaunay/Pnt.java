@@ -36,7 +36,7 @@ import java.util.List;
  *
  * Modified Novemeber 2007.  Minor clean up.
  */
-public class Pnt  implements Comparable<Pnt> {
+public class Pnt  implements Comparable<Pnt>, java.io.Serializable{
 
 	private double[] coordinates;          // The point's coordinates
 

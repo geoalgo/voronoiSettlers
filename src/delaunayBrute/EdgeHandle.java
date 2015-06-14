@@ -23,7 +23,7 @@
 package delaunayBrute;
 
 
-public class EdgeHandle implements Comparable<EdgeHandle>{
+public class EdgeHandle implements Comparable<EdgeHandle>,java.io.Serializable{
 
 	private int a;
 	private int b;

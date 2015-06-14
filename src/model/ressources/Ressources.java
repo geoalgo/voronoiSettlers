@@ -28,7 +28,7 @@ import controlor.DB;
 
 
 
-public class Ressources {
+public class Ressources implements java.io.Serializable {
 
 	Map<Ressource,Integer> ressourceNumber;
 

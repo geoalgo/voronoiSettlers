@@ -1,27 +1,31 @@
 /**
-* Voronoi settlers- An implementation of the board game Settlers of 
-* Catan.
-* This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 3
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*
-* The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
-**/
+ * Voronoi settlers- An implementation of the board game Settlers of 
+ * Catan.
+ * This file Copyright (C) 2013-2014 David Salinas <catan.100.sisisoyo@spamgourmet.com>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * The maintainer of this program can be reached at catan.100.sisisoyo@spamgourmet.com
+ **/
 package test;
 
 import static org.junit.Assert.*;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,6 +36,7 @@ import model.Construction.City;
 import model.Construction.Colony;
 import model.Construction.Road;
 import model.Construction.VertexBuilding;
+import model.hexagonalTiling.BoardTiles;
 import model.hexagonalTiling.SettlersEdge;
 import model.hexagonalTiling.SettlersTile;
 import model.hexagonalTiling.SettlersVertex;
@@ -51,6 +56,64 @@ public class TestModel {
 		return new Model(new InitialRules(2, 10,1));
 	}
 
+	@Test(timeout=2000)
+	public void testSerialization() {
+		Model model = makeModel();
+		saveObject(model.board(),"board.ser");
+		BoardTiles readBoard = (BoardTiles)loadObject("board.ser");
+		if(readBoard==null)
+			fail("Couldnt read/write board");
+		if(model.board().numEdges()!=readBoard.numEdges())
+			fail("problem while writing/reading board");
+
+		saveObject(model,"model.ser");
+		Model readModel= (Model)loadObject("model.ser");
+		if(readBoard==null)
+			fail("Couldnt read/write model");
+		else
+			if(!readModel.getPlayer(0).equals(model.getPlayer(0)))
+				fail("first player differs while writing/reading model");
+	}
+
+
+	private Object loadObject(String filename){
+		ObjectInputStream ois = null;
+		Object res = null;
+		try {
+			final FileInputStream fichier = new FileInputStream(filename);
+			ois = new ObjectInputStream(fichier);
+			res = ois.readObject();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			try{
+				if(ois!=null) ois.close();
+			} catch(final Exception e){
+				e.printStackTrace();
+			}
+		}
+		return res;
+	}
+
+	private void saveObject(Object model,String filename){
+		ObjectOutputStream oos = null;
+		try {
+			final FileOutputStream file = new FileOutputStream(filename);
+			oos = new ObjectOutputStream(file);
+			oos.writeObject(model);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			try {
+				if(oos != null){
+					oos.flush();
+					oos.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
 
 	@Test(timeout=200)
 	public void testInitialization() {
@@ -81,7 +144,7 @@ public class TestModel {
 			if(v.hasBuilding()) fail("start with a building");
 		}
 	}
-	
+
 	@Test(timeout=2000)
 	public void testBoardAroundVertex() {
 		Model model = makeModel();
@@ -92,11 +155,11 @@ public class TestModel {
 			DB.msg("p:"+v.getPosition());
 		}
 	}
-	
+
 	@Test(timeout=2000)
 	public void testArmy() {
 		Model model = makeModel();
-		
+
 		Player p0 = model.getPlayer(0);
 		Player p1 = model.getPlayer(1);
 
@@ -110,22 +173,22 @@ public class TestModel {
 			fail("Player should have an army");
 		if(p0.getScore()!=2 || p1.getScore()!=0)
 			fail("Wrong score");
-		
+
 		for(int i = 0;i<3;++i){
 			p1.addKnight();
 			if(model.updateBiggestArmy()) 
 				fail("No player should have an army");
 		}
-		
+
 		p1.addKnight();
 		if(!model.updateBiggestArmy()) 
 			fail("Player should have an army");
 		if(p0.getScore()!=0 || p1.getScore()!=2)
 			fail("Wrong score");
 	}
-	
-	
-	
+
+
+
 	@Test(timeout=2000)
 	public void testBoardBorder() {
 		Model model = makeModel();
@@ -137,7 +200,7 @@ public class TestModel {
 		}
 		if(numBorderEdges!=30)
 			fail("Wrong number of border edges, got:"+numBorderEdges+" expected 30");
-		
+
 		numBorderEdges = 0;
 		eIt = model.board().borderEdges();
 		while(eIt.hasNext()){
@@ -146,9 +209,9 @@ public class TestModel {
 		}
 		if(numBorderEdges!=30)
 			fail("Wrong number of border edges, got:"+numBorderEdges+" expected 30");
-		
+
 	}
-	
+
 	@Test(timeout=1000)
 	public void testAddBuilding1() {
 		Model model = makeModel();
@@ -192,7 +255,7 @@ public class TestModel {
 			return false;
 		}
 	}
-	
+
 	private boolean addFirstColony(Model model,SettlersVertex v,Player p){
 		try {
 			model.addFreeColony(new Colony(v, p),v);

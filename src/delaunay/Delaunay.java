@@ -38,7 +38,7 @@ import delaunayBrute.TriangleHandle;
  * @param <E> Class of edges
  * @param <F> Class of faces (triangles)
  */
-public interface Delaunay<V,E,F> {
+public interface Delaunay<V,E,F> extends java.io.Serializable {
 	Iterator<V> vertices();
 	Iterator<E> edges();
 	Iterator<F> faces();

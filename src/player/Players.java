@@ -26,16 +26,12 @@ import java.util.Vector;
 
 import player.Player;
 
-public class Players {
+public class Players implements java.io.Serializable  {
 	Vector<Player> players;
-	
-	Iterator<Player> currentPlayer;
-	
 	int currentPlayerIndex;
 	
 	public Players(){
 		players = new Vector<Player>();
-		currentPlayer = players.iterator();
 		currentPlayerIndex = 0;
 	}
 	

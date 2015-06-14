@@ -35,10 +35,10 @@ import java.util.Vector;
  * given a Vector<E> it allows to pick elements in a 
  * random way with the pick method. 
  */
-public class RandomPickCollection <E>{
+public class RandomPickCollection <E> implements java.io.Serializable{
 	Vector<EltAndBoolean> elements;
     Random generator ;
-	class EltAndBoolean{
+	class EltAndBoolean implements java.io.Serializable{
 		public boolean taken;
 		public E elt;
 		public EltAndBoolean(E elt){

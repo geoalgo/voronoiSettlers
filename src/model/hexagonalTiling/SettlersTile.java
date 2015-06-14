@@ -36,7 +36,7 @@ import model.ressources.Ressource;
  * @author David Salinas
  *
  */
-public class SettlersTile{
+public class SettlersTile implements java.io.Serializable {
 
 	/**
 	 * Sum of two dices, should be into the range 2-12
@@ -47,7 +47,6 @@ public class SettlersTile{
 	 * ressource present on the tile
 	 */
 	Ressource ressource;
-	
 	int center;
 
 	
@@ -80,18 +79,5 @@ public class SettlersTile{
 		String res = "Tile "+center+" of "+ressource+" dice:"+diceNumber;
 		return res;
 	}
-//	/**
-//	 * @param building to set on the tile
-//	 * @param player that owns it
-//	 * @return true if nothing was already there
-//	 */
-//	public boolean setBuilding(Building building,Player player){
-//		if(building!=null || player != null ) return false;
-//		else{
-//			this.building = building ;
-//			this.player = player ;
-//			return true;
-//		}
-//	}
 
 }

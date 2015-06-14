@@ -50,10 +50,9 @@ import model.ressources.Ressources;
 import player.Player;
 import player.Players;
 
-public class Model {
-
+public class Model implements java.io.Serializable{
 	InitialRules rules;
-	Players players;
+	Players players; //serialization pb
 	Iterator<Player> currentPlayer;
 	BoardTiles board;
 	Cards cards;

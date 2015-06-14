@@ -30,7 +30,7 @@ import model.InitialRules;
 
 import player.Player;
 
-public class Cards {
+public class Cards implements java.io.Serializable {
 
 	private ArrayList<Card> cards;
 	private int currentCard = 0;

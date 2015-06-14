@@ -26,7 +26,7 @@ import delaunayBrute.TriangleHandle;
 import model.Construction.Building;
 import player.Player;
 
-public class SettlersVertex {
+public class SettlersVertex implements java.io.Serializable  {
 	/**
 	 * (Eventual) building on the tile. 
 	 */

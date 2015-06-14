@@ -29,7 +29,7 @@ import model.hexagonalTiling.harbor.Harbor;
 import player.Player;
 
 
-public class SettlersEdge {
+public class SettlersEdge implements java.io.Serializable {
 	/**
 	 * (Eventual) building on the tile and (eventual) player who owns it. 
 	 */

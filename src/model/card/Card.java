@@ -24,7 +24,7 @@ package model.card;
 import controlor.ISettlersServer;
 import player.Player;
 
-public abstract class Card implements Comparable<Card>{
+public abstract class Card implements Comparable<Card>, java.io.Serializable {
 
 	String descr;
 	Player p;

@@ -25,7 +25,7 @@ import java.awt.Color;
 
 import model.ressources.Ressource;
 
-public abstract class Harbor {
+public abstract class Harbor implements java.io.Serializable {
 	Color c;
 	String type;
 	

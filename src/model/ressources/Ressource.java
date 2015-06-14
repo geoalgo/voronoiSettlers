@@ -29,7 +29,7 @@ import java.util.Vector;
  *
  */
 //todo remove ressources cstor everywhere
-public class Ressource implements java.lang.Comparable<Ressource>{
+public class Ressource implements java.lang.Comparable<Ressource>, java.io.Serializable {
 	String description;
 	Color color;
 	

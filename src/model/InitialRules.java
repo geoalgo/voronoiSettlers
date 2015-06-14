@@ -47,7 +47,7 @@ import player.Players;
  * @author David Salinas
  *
  */
-public class InitialRules {
+public class InitialRules implements java.io.Serializable {
 	int numPlayers;
 	int scoreMax;
 	/*

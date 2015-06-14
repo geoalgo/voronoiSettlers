@@ -39,7 +39,7 @@ import model.hexagonalTiling.harbor.Harbor;
 import model.ressources.Ressources;
 import model.Construction.Road;
 
-public class Player implements Comparable<Player>  {
+public class Player implements Comparable<Player>, java.io.Serializable  {
 	Color color;
 	private String name;
 	private int num;
