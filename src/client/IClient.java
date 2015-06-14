@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 
 import model.Model;
 import model.card.Card;
+import model.hexagonalTiling.BoardTiles;
 import model.ressources.Ressource;
 import client.action.ClientAction;
 import client.state.ClientState;
@@ -46,9 +47,15 @@ public abstract class IClient {
 	
 	//to server
 	public abstract void sendAction(ClientAction a);
-	public abstract Model getModel();
+	
+	public abstract GameClientState getModel();
+	public abstract BoardTiles getBoard();
+	
+	
 	abstract void updateModel(Model newModel);
 		// TODO Auto-generated method stub
 	protected abstract void askTradeSelection();
+	public abstract int numPlayers();
+	public abstract Player getPlayer(int i); 
 		
 }

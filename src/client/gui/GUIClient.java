@@ -36,11 +36,6 @@ public class GUIClient extends DummyClient{
 	}
 
 	@Override
-	public void updateModel(Model newModel){
-		model = newModel;
-	}
-	
-	@Override
 	public void updateView() {
 		view.updateView();
 	}

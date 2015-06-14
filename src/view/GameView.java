@@ -61,11 +61,11 @@ public class GameView implements IWindowController{
 		frame.add(playerPanelRight,"East");
 		playerPanelRight.setLayout(new GridLayout(2,1));
 
-		int numPlayers = client.getModel().numPlayers();
+		int numPlayers = client.numPlayers();
 		playerPanel = new PlayerPanel[numPlayers];
 
 		for(int i = 0; i<numPlayers; ++i){
-			Player p = client.getModel().getPlayer(i);
+			Player p = client.getPlayer(i);
 			playerPanel[i] = new PlayerPanel(p,p.equals(client.getPlayer()));
 			if(i<2)
 				playerPanelLeft.add(playerPanel[i]);

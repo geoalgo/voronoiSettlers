@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 
 import controlor.DB;
 import model.Model;
+import model.hexagonalTiling.BoardTiles;
 import client.action.ClientAction;
 import client.action.ClientActionClick;
 import client.action.ClientBuyCard;
@@ -19,12 +20,13 @@ import server.IServer;
 public class DummyClient extends IClient {
 	private ISendToServer server;
 	private Player player;
-	protected Model model;
+	GameClientState model;
 	ClientState currentState;
 
 	public DummyClient(ISendToServer server,Player p){
 		this.player = p;
 		this.server = server;
+		updateModel(server.getModel());
 	}
 
 	@Override
@@ -52,15 +54,21 @@ public class DummyClient extends IClient {
 	}
 
 	@Override
-	public Model getModel() {
-		return server.getModel();
+	public GameClientState getModel() {
+		return model;
 	}
+	
+	@Override
+	public BoardTiles getBoard() {
+		return server.getModel().board();
+	}
+
 
 	// maybe just updates incrementally if too slow
 	// because of bandwith
 	@Override
 	public void updateModel(Model newModel){
-		model = newModel;
+		model = new GameClientState(newModel.board(),newModel.getPlayers());
 	}
 
 	@Override
@@ -110,6 +118,18 @@ public class DummyClient extends IClient {
 	protected void askTradeSelection() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int numPlayers() {
+		// TODO Auto-generated method stub
+		return model.players.getNumAlive();
+	}
+
+	@Override
+	public Player getPlayer(int i) {
+		// TODO Auto-generated method stub
+		return model.players.getPlayer(i);
 	}
 
 

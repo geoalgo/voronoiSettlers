@@ -33,7 +33,6 @@ import java.util.TreeSet;
 import java.util.Vector;
 
 import controlor.DB;
-
 import model.InitialRules;
 import model.hexagonalTiling.harbor.Harbor;
 import model.ressources.Desert;
@@ -55,6 +54,8 @@ public class DelaunayBoardTiles implements BoardTiles{
 	Map<Integer,SettlersTile> vertexToTile;
 	Map<EdgeHandle,SettlersEdge> edgeToEdgeTile;
 	Map<TriangleHandle,SettlersVertex> triangleToTileVertex;
+	
+	SettlersTile thiefPosition;
 
 
 	public DelaunayBoardTiles(InitialRules rules) {
@@ -535,6 +536,17 @@ public class DelaunayBoardTiles implements BoardTiles{
 		return triangleToTileVertex.get(adjTriangles.next());
 	}
 
+	@Override
+	public
+	SettlersTile getThiefPosition(){
+		return thiefPosition;
+	}
+	
+	@Override
+	public
+	void setThiefPosition(SettlersTile newPosition){
+		thiefPosition = newPosition;
+	}
 
 
 }

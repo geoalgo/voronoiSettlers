@@ -72,10 +72,10 @@ public class Model implements java.io.Serializable{
 	}
 
 	void setBoard(){
-		setThiefPosition();
+		setThiefPositionToDesert();
 	}
 
-	private void setThiefPosition(){
+	private void setThiefPositionToDesert(){
 		Iterator<SettlersTile> tilesIt = board.tiles();
 		while(tilesIt.hasNext()){
 			SettlersTile tile = tilesIt.next();
@@ -88,11 +88,11 @@ public class Model implements java.io.Serializable{
 	}
 
 	public SettlersTile getThiefPosition(){
-		return thiefPosition;
+		return board.getThiefPosition();
 	}
 
 	public void setThiefPosition(SettlersTile newPosition){
-		thiefPosition = newPosition ; 
+		board.setThiefPosition(newPosition);
 	}
 
 	private Player playerFromNumber(int i){
@@ -111,6 +111,11 @@ public class Model implements java.io.Serializable{
 	public Player getPlayer(int i){
 		return players.getPlayer(i);
 	}
+	
+	public Players getPlayers(){
+		return players;
+	}
+
 
 	public Iterator<Player> getPlayerIterator(){
 		return players.iterator();
@@ -138,7 +143,7 @@ public class Model implements java.io.Serializable{
 
 
 	public int numPlayers(){
-		return players.size();
+		return players.getNumPlayers();
 	}
 
 	/**

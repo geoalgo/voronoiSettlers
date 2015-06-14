@@ -190,7 +190,7 @@ public class BoardView extends JPanel{
 	}
 
 	private void drawTiles(){
-		Iterator<SettlersTile> tilesIt = client.getModel().board().tiles();
+		Iterator<SettlersTile> tilesIt = client.getBoard().tiles();
 		while(tilesIt.hasNext()){
 			SettlersTile tile = tilesIt.next();
 			drawTileRessource(tile);
@@ -220,7 +220,7 @@ public class BoardView extends JPanel{
 
 	Pnt[] getTilesPolygonPts(SettlersTile tile){
 		List<Pnt> pointsAround = new LinkedList<Pnt>();
-		for(SettlersVertex v : client.getModel().board().vertexNeighbors(tile))
+		for(SettlersVertex v : client.getBoard().vertexNeighbors(tile))
 			pointsAround.add(v.getPosition());
 		List<Pnt> points = 
 				convertPntToFrameCoord(
@@ -239,7 +239,7 @@ public class BoardView extends JPanel{
 			String res = "";
 			res = res +  tile.diceNumber();
 
-			Pnt centerTile = convertPntToFrameCoord(client.getModel().board().getPosition(tile)); 
+			Pnt centerTile = convertPntToFrameCoord(client.getBoard().getPosition(tile)); 
 			draw(centerTile,20,Color.white);
 			setFont(tile);
 			g.drawString(res,
@@ -290,7 +290,7 @@ public class BoardView extends JPanel{
 	}
 
 	private void drawThief(){
-		Pnt thiefPoint =convertPntToFrameCoord(client.getModel().board().getPosition(client.getModel().getThiefPosition())); 
+		Pnt thiefPoint =convertPntToFrameCoord(client.getBoard().getPosition(client.getBoard().getThiefPosition())); 
 		drawThief(thiefPoint,40.);
 	}
 
@@ -333,13 +333,13 @@ public class BoardView extends JPanel{
 	}
 
 	private void drawEdges(){
-		Iterator<SettlersEdge> edges = client.getModel().board().edges();
+		Iterator<SettlersEdge> edges = client.getBoard().edges();
 		while (edges.hasNext()) {
 			SettlersEdge edge = edges.next();
 			drawEdge(edge, .8, Color.black,1);
 		}
 
-		edges = client.getModel().board().borderEdges();
+		edges = client.getBoard().borderEdges();
 		while (edges.hasNext()) {
 			SettlersEdge edge = edges.next();
 			if(edge.hasHarbor())
@@ -373,7 +373,7 @@ public class BoardView extends JPanel{
 	}
 
 	private void drawRoads(){
-		Iterator<SettlersEdge> edges = client.getModel().board().edges();
+		Iterator<SettlersEdge> edges = client.getBoard().edges();
 		while (edges.hasNext()) {
 			SettlersEdge edge = edges.next();
 			if(edge.hasBuilding())
@@ -386,7 +386,7 @@ public class BoardView extends JPanel{
 	}
 
 	private void drawBuildings(){
-		Iterator<SettlersVertex> vIt = client.getModel().board().vertices();
+		Iterator<SettlersVertex> vIt = client.getBoard().vertices();
 		while(vIt.hasNext()){
 			SettlersVertex v = vIt.next();
 			if(v.hasBuilding()){

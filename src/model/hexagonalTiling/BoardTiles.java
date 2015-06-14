@@ -27,7 +27,6 @@ import java.util.TreeSet;
 
 import delaunay.Pnt;
 import model.InitialRules;
-
 import delaunayBrute.*;
 
 public interface BoardTiles extends java.io.Serializable {
@@ -83,6 +82,8 @@ public interface BoardTiles extends java.io.Serializable {
 	SettlersEdge getEdge(EdgeHandle eh);
 	SettlersTile getTile(int v);
 
-	
-	
+	SettlersTile getThiefPosition();
+	void setThiefPosition(SettlersTile newPosition);
+
+
 }

@@ -74,21 +74,21 @@ public class Players implements java.io.Serializable  {
 	}
 	
 	/**
-	 * returns the number of players that are alive
+	 * returns the number of players 
 	 */
-	public int numberAlive(){
-		int res=0;
-		for (Player j:this.players)
-			if (j.isAlive()) res++;
-		return res;
+	public int getNumPlayers(){
+		return players.size();
 	}
-	
+
 	
 	/**
 	 * returns the number of players that are alive
 	 */
-	public int size(){
-		return players.size();
+	public int getNumAlive(){
+		int res=0;
+		for (Player j:this.players)
+			if (j.isAlive()) res++;
+		return res;
 	}
 	
 	public boolean isOneAlive(){
