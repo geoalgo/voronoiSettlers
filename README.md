@@ -7,6 +7,6 @@ Main class is SettlersServer.
 
 Some rules are still missing but most of them are implemented and the game is already playable.
 
-![alt tag](http://davidsalinas.org/programming/settlers.png)
+![alt tag](https://github.com/geoalgo/voronoiSettlers/blob/master/settlers.png)
 
 
